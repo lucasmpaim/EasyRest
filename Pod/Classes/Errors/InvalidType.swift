@@ -8,4 +8,4 @@
 
 import Foundation
 
-class InvalidType: ErrorType { }
+public class InvalidType: ErrorType { }

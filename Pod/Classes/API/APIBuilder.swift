@@ -11,7 +11,7 @@ import Genome
 import PureJsonSerializer
 import Alamofire
 
-class APIBuilder <T: MappableBase> {
+public class APIBuilder <T: MappableBase> {
     
     var path: String
     var queryParams: [String: String]?
@@ -20,6 +20,7 @@ class APIBuilder <T: MappableBase> {
     var headers: [String: String]?
     var method: Alamofire.Method?
     
+    var logger: Logger?
     
     var interceptors: [Interceptor] = []
     
@@ -28,33 +29,33 @@ class APIBuilder <T: MappableBase> {
         LoggerInterceptor.self
     ]
     
-    init(basePath: String) {
+    public init(basePath: String) {
         self.path = basePath
     }
     
-    init() {
+    public init() {
         self.path = "" //Constante
     }
     
-    func resource(resourcePath: String, method: Alamofire.Method) -> Self {
+    public func resource(resourcePath: String, method: Alamofire.Method) -> Self {
         self.path.appendContentsOf(resourcePath)
         self.method = method
         return self
     }
     
-    func addInsterceptor(interceptor: Interceptor) -> Self{
+    public func addInsterceptor(interceptor: Interceptor) -> Self{
         interceptors.append(interceptor)
         return self
     }
     
-    func addInterceptors(interceptors: [Interceptor]) -> Self{
+    public func addInterceptors(interceptors: [Interceptor]) -> Self{
         for interceptor in interceptors {
             self.interceptors.append(interceptor)
         }
         return self
     }
     
-    func addQueryParams(queryParams : [String: String]) ->  Self {
+    public func addQueryParams(queryParams : [String: String]) ->  Self {
         if self.queryParams == nil{
             self.queryParams = queryParams
             return self
@@ -67,7 +68,7 @@ class APIBuilder <T: MappableBase> {
         return self
     }
     
-    func addHeaders(headers: [String: String]) -> Self{
+    public func addHeaders(headers: [String: String]) -> Self{
         if self.headers == nil{
             self.headers = headers
             return self
@@ -79,7 +80,7 @@ class APIBuilder <T: MappableBase> {
         return self
     }
     
-    func addParameteres(parameters: [ParametersType : AnyObject]) throws {
+    public func addParameteres(parameters: [ParametersType : AnyObject]) throws {
         
         for (type, obj) in parameters {
             
@@ -99,12 +100,12 @@ class APIBuilder <T: MappableBase> {
         }
     }
     
-    func addBodyParameters(bodyParam bodyParam: MappableBase) throws -> Self {
+    public func addBodyParameters(bodyParam bodyParam: MappableBase) throws -> Self {
         bodyParams = try bodyParam.jsonRepresentation().foundationDictionary
         return self
     }
     
-    func addBodyParameters(bodyParams : [String: AnyObject]) ->  Self {
+    public func addBodyParameters(bodyParams : [String: AnyObject]) ->  Self {
         if self.bodyParams == nil{
             self.bodyParams = bodyParams
             return self
@@ -116,7 +117,7 @@ class APIBuilder <T: MappableBase> {
         return self
     }
     
-    func build() -> API<T> {
+    public func build() -> API<T> {
         
         assert(method != nil, "method not can be empty")
         
@@ -131,10 +132,12 @@ class APIBuilder <T: MappableBase> {
             self.interceptors.insert(interceptorType.init(), atIndex: 0)
         }
         
-        return API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors)
+        let api = API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors)
+        api.logger = self.logger
+        return api
     }
     
-    func convertParameters(obj: AnyObject) throws -> [String: AnyObject]{
+    public func convertParameters(obj: AnyObject) throws -> [String: AnyObject]{
         if let _obj = obj as? [String: AnyObject] {
             return _obj
         }else if let _obj = obj as? MappableBase {

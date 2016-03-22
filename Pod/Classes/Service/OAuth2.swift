@@ -9,7 +9,7 @@
 import Foundation
 import Genome
 
-protocol OAuth2 : Authentication {
+public protocol OAuth2 : Authentication {
     
     func getRefreshToken() -> String?
     func getExpireDate() -> NSDate?
@@ -25,7 +25,7 @@ protocol OAuth2 : Authentication {
 
 extension OAuth2 {
     
-    func loginWithPassword(username: String, password: String, onSucess: () -> Void, onError: (error: ErrorType?) -> Void, always: () -> Void) {
+    public func loginWithPassword(username: String, password: String, onSucess: () -> Void, onError: (error: ErrorType?) -> Void, always: () -> Void) {
         
         let parameters = [
             "username": username,
@@ -56,7 +56,7 @@ extension OAuth2 {
             })
     }
     
-    func refreshToken() {
+    public func refreshToken() {
         
         let parameters = [
             "client_secret": self.clientSecret,

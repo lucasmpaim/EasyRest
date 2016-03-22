@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ParametersType {
+public enum ParametersType {
     case Query
     case Path
     case Body

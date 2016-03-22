@@ -21,7 +21,7 @@ extension String {
         return self.substringToIndex(self.endIndex.predecessor())
     }
     
-    func replaceLabels(dictionary : Dictionary<String, String>) -> String {
+    public func replaceLabels(dictionary : Dictionary<String, String>) -> String {
         var replacedString = self
         
         dictionary.keys.forEach { (key) -> () in

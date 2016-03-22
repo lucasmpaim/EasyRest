@@ -38,36 +38,36 @@ class LoggerInterceptor : Interceptor {
     }
 
     func logSucess<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>){
-        api.logger.info("==============================================================================")
-        api.logger.info("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
-        api.logger.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
+        api.logger?.info("==============================================================================")
+        api.logger?.info("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
+        api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         
         if let bodyParams = self.bodyParams {
-            api.logger.info("request body:\n\(bodyParams)")
+            api.logger?.info("request body:\n\(bodyParams)")
         }
         
-        api.logger.info("==============================================================================")
-        api.logger.info("response status code: \(response.response!.statusCode)")
-        api.logger.info("response headers:\n\(response.response!.allHeaderFields)")
+        api.logger?.info("==============================================================================")
+        api.logger?.info("response status code: \(response.response!.statusCode)")
+        api.logger?.info("response headers:\n\(response.response!.allHeaderFields)")
         if let value = response.result.value {
-            api.logger.info("response body:\n\(value)")
+            api.logger?.info("response body:\n\(value)")
         }
-        api.logger.info("==============================================================================")
+        api.logger?.info("==============================================================================")
     }
     
     func logError<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        api.logger.error("==============================================================================")
-        api.logger.error("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
-        api.logger.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
+        api.logger?.error("==============================================================================")
+        api.logger?.error("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
+        api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         if let bodyParams = self.bodyParams {
-            api.logger.info("request body:\n\(bodyParams)")
+            api.logger?.info("request body:\n\(bodyParams)")
         }
-        api.logger.error("==============================================================================")
-        api.logger.error("response status code: \(response.response!.statusCode)")
-        api.logger.error("response headers:\n\(response.response!.allHeaderFields)")
+        api.logger?.error("==============================================================================")
+        api.logger?.error("response status code: \(response.response!.statusCode)")
+        api.logger?.error("response headers:\n\(response.response!.allHeaderFields)")
         if let value = response.result.value {
-            api.logger.error("response body:\n\(value)")
+            api.logger?.error("response body:\n\(value)")
         }
-        api.logger.error("==============================================================================")
+        api.logger?.error("==============================================================================")
     }
 }

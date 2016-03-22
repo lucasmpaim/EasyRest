@@ -9,4 +9,4 @@
 import Foundation
 
 
-class AuthenticationRequired: ErrorType { }
+public class AuthenticationRequired: ErrorType { }

@@ -9,13 +9,13 @@
 import Foundation
 import Alamofire
 
-class Rule {
+public class Rule {
     let isAuthenticable: Bool
     let path: String
     let method: Alamofire.Method
     let parameters: [ParametersType:  AnyObject]
     
-    init(method: Alamofire.Method, path: String, isAuthenticable: Bool, parameters: [ParametersType:  AnyObject]){
+    public init(method: Alamofire.Method, path: String, isAuthenticable: Bool, parameters: [ParametersType:  AnyObject]){
         self.isAuthenticable = isAuthenticable
         self.path = path
         self.method = method

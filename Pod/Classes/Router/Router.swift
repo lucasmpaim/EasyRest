@@ -11,7 +11,7 @@ import Genome
 import Alamofire
 
 
-protocol Routable {
+public protocol Routable {
     var base: String {get}
     var rule: Rule {get}
     
@@ -23,7 +23,7 @@ protocol Routable {
 
 extension Routable {
     
-    func builder<T: MappableBase>(type: T.Type) throws -> APIBuilder<T> {
+    public func builder<T: MappableBase>(type: T.Type) throws -> APIBuilder<T> {
         
         if self.rule.isAuthenticable && authenticator()?.getToken() == nil {
             throw AuthenticationRequired()

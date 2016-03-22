@@ -10,7 +10,7 @@ import Foundation
 import Genome
 import Alamofire
 
-protocol Interceptor{
+public protocol Interceptor{
     
     init()
     

@@ -9,10 +9,10 @@
 import Foundation
 
 
-struct Logger {
+public struct Logger {
     
     
-    enum LogLevel {
+    public enum LogLevel {
         case None
         case Info
         case Warning
@@ -20,7 +20,7 @@ struct Logger {
         case Verbose
     }
     
-    var logLevel: LogLevel = .Verbose
+    public var logLevel: LogLevel = .Verbose
     
     static let ESCAPE = "\u{001b}["
     
@@ -29,7 +29,7 @@ struct Logger {
     static let RESET = ESCAPE + ";"
     
     
-    func info<T>(object: T) {
+    public func info<T>(object: T) {
         
         if logLevel == .Verbose || logLevel == .Info {
             print("\(Logger.ESCAPE)fg102,102,102;\(object)\(Logger.RESET)")
@@ -37,7 +37,7 @@ struct Logger {
         
     }
     
-    func warning<T>(object: T) {
+    public func warning<T>(object: T) {
         
         if logLevel == .Warning || logLevel == .Verbose {
             print("\(Logger.ESCAPE)fg135,135,0;\(object)\(Logger.RESET)")
@@ -45,7 +45,7 @@ struct Logger {
         
     }
     
-    func error<T>(object: T) {
+    public func error<T>(object: T) {
         if logLevel == .Error || logLevel == .Verbose {
             print("\(Logger.ESCAPE)fg153,0,0;\(object)\(Logger.RESET)")
         }

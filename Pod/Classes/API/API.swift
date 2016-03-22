@@ -11,18 +11,18 @@ import Genome
 import PureJsonSerializer
 import Alamofire
 
-class API <T: MappableBase> {
+public class API <T: MappableBase> {
         
-    var path: NSURLRequest
-    var queryParams: [String: String]?
-    var bodyParams: [String: AnyObject]?
-    var method: Alamofire.Method
-    var headers: [String: String] = [:]
-    var interceptors: [Interceptor] = []
-    var logger = Logger()
-    var curl: String?
+    public var path: NSURLRequest
+    public var queryParams: [String: String]?
+    public var bodyParams: [String: AnyObject]?
+    public var method: Alamofire.Method
+    public var headers: [String: String] = [:]
+    public var interceptors: [Interceptor] = []
+    public var logger: Logger?
+    public var curl: String?
     
-    init(path: NSURL, method: Alamofire.Method, queryParams: [String: String]?, bodyParams: [String: AnyObject]?, headers: [String: String]?, interceptors: [Interceptor]?){
+    public init(path: NSURL, method: Alamofire.Method, queryParams: [String: String]?, bodyParams: [String: AnyObject]?, headers: [String: String]?, interceptors: [Interceptor]?){
         
         self.path = NSURLRequest(URL: path)
         
@@ -40,7 +40,7 @@ class API <T: MappableBase> {
     }
     
     
-    func execute( onSucess: (result: T?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+    public func execute( onSucess: (result: T?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
         
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)

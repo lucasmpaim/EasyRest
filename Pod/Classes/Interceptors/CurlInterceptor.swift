@@ -10,17 +10,17 @@ import Foundation
 import Genome
 import Alamofire
 
-class CurlInterceptor: Interceptor {
+public class CurlInterceptor: Interceptor {
     
-    required init() {}
+    required public init() {}
     
-    func requestInterceptor<T: MappableBase>(api: API<T>) {}
+    public func requestInterceptor<T: MappableBase>(api: API<T>) {}
     
-    func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    public func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         if Utils.isSucessRequest(response) {
-            api.logger.info("\(api.curl!)")
+            api.logger?.info("\(api.curl!)")
         }else{
-            api.logger.error("\(api.curl!)")
+            api.logger?.error("\(api.curl!)")
         }
     }
     
