@@ -1,0 +1,35 @@
+//
+//  AuthenticationService.swift
+//  RestClient
+//
+//  Created by Guizion Labs on 14/03/16.
+//  Copyright © 2016 Guizion Labs. All rights reserved.
+//
+
+import Foundation
+import Alamofire
+import Genome
+
+protocol Authentication : Interceptor{
+    
+    associatedtype tokenType: MappableBase
+    
+    func getToken() -> String?
+    func saveToken(obj: tokenType)
+    
+}
+
+
+extension Authentication  {
+    
+    func requestInterceptor<T: MappableBase>(api: API<T>) {
+        if let token = getToken() {
+            api.headers["Authorization"] = token
+        }
+    }
+    
+    func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+        
+    }
+
+}
