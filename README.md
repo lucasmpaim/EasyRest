@@ -1,13 +1,18 @@
-# EasyRest
-
-[![CI Status](http://img.shields.io/travis/Lucas/EasyRest.svg?style=flat)](https://travis-ci.org/Lucas/EasyRest)
-[![Version](https://img.shields.io/cocoapods/v/EasyRest.svg?style=flat)](http://cocoapods.org/pods/EasyRest)
-[![License](https://img.shields.io/cocoapods/l/EasyRest.svg?style=flat)](http://cocoapods.org/pods/EasyRest)
-[![Platform](https://img.shields.io/cocoapods/p/EasyRest.svg?style=flat)](http://cocoapods.org/pods/EasyRest)
-
 # Motivation
 After reviewing many REST clients for iOS , we realize that all are very verbose , which is unnecessary.
 This library was born from the need to simplify the communication between client and server.
+
+## Requirements
+ - Swift 2.2
+ - XCode 7.3
+ - XCode Color Plugin: https://github.com/robbiehanson/XcodeColors
+
+## Usage
+To add EasyRest to your project, add the following in your podfile
+
+```Ruby
+pod 'EasyRest', :git => 'https://github.com/lucasmpaim/EasyRest.git'
+```
 
 ## Model Example:
 ```swift
@@ -103,14 +108,14 @@ class CurlInterceptor: Interceptor {
 }
 ```
 
-#TODO
+# TODO
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Use PureJSon serializer in request
 - [ ] Improve request Syntax
 
 
-#Third party libraries and references
+# Third party libraries and references
 - Genome       https://github.com/LoganWright/Genome
 - Endpoint     https://github.com/devxoul/Endpoint
 - Reachability https://github.com/ashleymills/Reachability.swift
