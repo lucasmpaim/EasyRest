@@ -43,11 +43,11 @@ enum TestRoute: Routable{
 
     var base: String { return "http://www.xpto.com" }
 
-    var path: String {
-
+    var rule: Rule {
         switch(self) {
-            case .Me: return "GET /api/v1/users/me/"
-        }
+            case let .Me(name):
+                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.Query : ["name": name]])
+            }
     }
 
     var authenticable: Bool {
