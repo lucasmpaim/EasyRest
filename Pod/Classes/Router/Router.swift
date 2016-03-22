@@ -34,6 +34,7 @@ extension Routable {
             builder.addInsterceptor(auth)
         }
         
+        try builder.addParameteres(self.rule.parameters)
         return builder.resource(self.base + self.rule.path, method: self.rule.method)
     }
 }

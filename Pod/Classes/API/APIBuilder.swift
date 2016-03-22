@@ -15,19 +15,17 @@ class APIBuilder <T: MappableBase> {
     
     var path: String
     var queryParams: [String: String]?
+    var pathParams: [String: String]?
     var bodyParams: [String: AnyObject]?
     var headers: [String: String]?
     var method: Alamofire.Method?
+    
     
     var interceptors: [Interceptor] = []
     
     let defaultInterceptors: [Interceptor.Type] = [
         CurlInterceptor.self,
         LoggerInterceptor.self
-    ]
-    
-    let invalidBody = [
-        Alamofire.Method.GET,
     ]
     
     init(basePath: String) {
@@ -81,19 +79,28 @@ class APIBuilder <T: MappableBase> {
         return self
     }
     
-    func addParameteres(parameters: [ParametersType : [String: String]]) {
+    func addParameteres(parameters: [ParametersType : AnyObject]) throws {
         
+        for (type, obj) in parameters {
+            
+            let params: [String: AnyObject] = try convertParameters(obj)
+            
+            switch type {
+            case .Body:
+                addBodyParameters(params)
+            case .Path:
+                self.pathParams = params as? [String: String]
+            case .Query:
+                if let queryParameters = params as? [String: String] {
+                    addQueryParams(queryParameters)
+                }
+            }
+            
+        }
     }
     
-    func addBodyParameters(bodyParam bodyParam: MappableBase) -> Self{
-        
-        
-        do{
-            bodyParams = try bodyParam.jsonRepresentation().foundationDictionary
-        }catch{
-        
-        }
-        
+    func addBodyParameters(bodyParam bodyParam: MappableBase) throws -> Self {
+        bodyParams = try bodyParam.jsonRepresentation().foundationDictionary
         return self
     }
     
@@ -109,24 +116,31 @@ class APIBuilder <T: MappableBase> {
         return self
     }
     
-    func bodyParameters(bodyParameters: MappableObject) -> Self { return self }
-    
     func build() -> API<T> {
         
         assert(method != nil, "method not can be empty")
         
+        if let pathParams = self.pathParams {
+            self.path = self.path.replaceLabels(pathParams)
+        }
         
         let path = NSURL(string: self.path)
-        
         assert(path?.scheme != nil && path?.host != nil, "Invalid URL: \(self.path)")
-        
-        //assert(invalidBody.indexOf(method!) != nil && bodyParams == nil, "The method \(method!) cannot have a body")
         
         for interceptorType in defaultInterceptors.reverse() {
             self.interceptors.insert(interceptorType.init(), atIndex: 0)
         }
         
         return API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors)
+    }
+    
+    func convertParameters(obj: AnyObject) throws -> [String: AnyObject]{
+        if let _obj = obj as? [String: AnyObject] {
+            return _obj
+        }else if let _obj = obj as? MappableBase {
+            return try _obj.jsonRepresentation().foundationDictionary!
+        }
+        throw InvalidType()
     }
     
 }

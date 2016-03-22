@@ -17,7 +17,17 @@ class Utils {
 }
 
 extension String {
-    func removeLastCharacter() -> String {
+    public func removeLastCharacter() -> String {
         return self.substringToIndex(self.endIndex.predecessor())
+    }
+    
+    func replaceLabels(dictionary : Dictionary<String, String>) -> String {
+        var replacedString = self
+        
+        dictionary.keys.forEach { (key) -> () in
+            replacedString = replacedString.stringByReplacingOccurrencesOfString(key, withString: dictionary[key]!, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            
+        }
+        return replacedString
     }
 }
