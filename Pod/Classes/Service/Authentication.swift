@@ -18,7 +18,7 @@ public protocol Authentication : Interceptor {
 }
 
 
-extension Authentication  {
+public extension Authentication  {
     
     public func requestInterceptor<T: MappableBase>(api: API<T>) {
         if let token = getToken() {
