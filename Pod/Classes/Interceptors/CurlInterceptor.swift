@@ -14,9 +14,9 @@ public class CurlInterceptor: Interceptor {
     
     required public init() {}
     
-    public func requestInterceptor<T: MappableBase>(api: API<T>) {}
+    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {}
     
-    public func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         if Utils.isSucessRequest(response) {
             api.logger?.info("\(api.curl!)")
         }else{

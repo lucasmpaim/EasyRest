@@ -89,10 +89,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-EasyRest_Tests/Genome.framework"
   install_framework "Pods-EasyRest_Tests/PureJsonSerializer.framework"
   install_framework "Pods-EasyRest_Tests/ReachabilitySwift.framework"
-  install_framework "Pods-EasyRest_Tests/FBSnapshotTestCase.framework"
-  install_framework "Pods-EasyRest_Tests/Nimble.framework"
-  install_framework "Pods-EasyRest_Tests/Nimble_Snapshots.framework"
-  install_framework "Pods-EasyRest_Tests/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-EasyRest_Tests/Alamofire.framework"
@@ -100,8 +96,4 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-EasyRest_Tests/Genome.framework"
   install_framework "Pods-EasyRest_Tests/PureJsonSerializer.framework"
   install_framework "Pods-EasyRest_Tests/ReachabilitySwift.framework"
-  install_framework "Pods-EasyRest_Tests/FBSnapshotTestCase.framework"
-  install_framework "Pods-EasyRest_Tests/Nimble.framework"
-  install_framework "Pods-EasyRest_Tests/Nimble_Snapshots.framework"
-  install_framework "Pods-EasyRest_Tests/Quick.framework"
 fi

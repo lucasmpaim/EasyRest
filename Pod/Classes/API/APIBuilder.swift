@@ -11,7 +11,7 @@ import Genome
 import PureJsonSerializer
 import Alamofire
 
-public class APIBuilder <T: MappableBase> {
+public class APIBuilder <T: JsonConvertibleType> {
     
     var path: String
     var queryParams: [String: String]?
@@ -52,6 +52,11 @@ public class APIBuilder <T: MappableBase> {
         for interceptor in interceptors {
             self.interceptors.append(interceptor)
         }
+        return self
+    }
+    
+    public func logger(logger: Logger) -> Self{
+        self.logger = logger
         return self
     }
     
@@ -122,7 +127,7 @@ public class APIBuilder <T: MappableBase> {
         assert(method != nil, "method not can be empty")
         
         if let pathParams = self.pathParams {
-            self.path = self.path.replaceLabels(pathParams)
+            self.path = self.path.replacePathLabels(pathParams)
         }
         
         let path = NSURL(string: self.path)

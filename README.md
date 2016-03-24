@@ -116,6 +116,7 @@ class CurlInterceptor: Interceptor {
 
 
 # Third party libraries and references
+- Alamofire    https://github.com/Alamofire/Alamofire
 - Genome       https://github.com/LoganWright/Genome
 - Endpoint     https://github.com/devxoul/Endpoint
 - Reachability https://github.com/ashleymills/Reachability.swift

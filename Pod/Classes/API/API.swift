@@ -11,7 +11,7 @@ import Genome
 import PureJsonSerializer
 import Alamofire
 
-public class API <T: MappableBase> {
+public class API <T: JsonConvertibleType> {
         
     public var path: NSURLRequest
     public var queryParams: [String: String]?
@@ -70,4 +70,14 @@ public class API <T: MappableBase> {
         }
     }
     
+}
+
+
+extension Array: JsonConvertibleType{
+    public static func newInstance(json: Json, context: Context) throws -> Array {
+        return []
+    }
+    public func jsonRepresentation() throws -> Json {
+        fatalError("Error type!")
+    }
 }

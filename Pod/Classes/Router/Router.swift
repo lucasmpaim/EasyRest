@@ -15,7 +15,7 @@ public protocol Routable {
     var base: String {get}
     var rule: Rule {get}
     
-    func builder<T: MappableBase>(type: T.Type) throws -> APIBuilder<T>
+    func builder<T: JsonConvertibleType>(type: T.Type) throws -> APIBuilder<T>
     
     func authenticator () -> authenticatorClass?
     associatedtype authenticatorClass: Authentication
@@ -23,7 +23,7 @@ public protocol Routable {
 
 extension Routable {
     
-    public func builder<T: MappableBase>(type: T.Type) throws -> APIBuilder<T> {
+    public func builder<T: JsonConvertibleType>(type: T.Type) throws -> APIBuilder<T> {
         
         if self.rule.isAuthenticable && authenticator()?.getToken() == nil {
             throw AuthenticationRequired()
@@ -33,6 +33,8 @@ extension Routable {
         if let auth = authenticator() {
             builder.addInsterceptor(auth)
         }
+        
+        builder.logger = Logger()
         
         try builder.addParameteres(self.rule.parameters)
         return builder.resource(self.base + self.rule.path, method: self.rule.method)

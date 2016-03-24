@@ -38,6 +38,7 @@ extension OAuth2 {
         APIBuilder<tokenType>().resource(self.getTokenEndPoint(), method: .POST)
             .addInterceptors(self.interceptors)
             .addQueryParams(parameters)
+            .logger(Logger())
             .addInterceptors(interceptors)
             .build()
             .execute ({
@@ -68,6 +69,7 @@ extension OAuth2 {
         APIBuilder<tokenType>().resource(self.getTokenEndPoint(), method: .POST)
             .addInterceptors(self.interceptors)
             .addQueryParams(parameters)
+            .logger(Logger())
             .build()
             .execute ({
                 result in

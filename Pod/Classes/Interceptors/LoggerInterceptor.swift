@@ -17,11 +17,11 @@ class LoggerInterceptor : Interceptor {
     
     required init() {}
     
-    func requestInterceptor<T: MappableBase>(api: API<T>) {
+    func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
         self.bodyParams = api.bodyParams
     }
     
-    func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         
         if let _ = response.result.value {
             
@@ -37,7 +37,7 @@ class LoggerInterceptor : Interceptor {
         
     }
 
-    func logSucess<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>){
+    func logSucess<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>){
         api.logger?.info("==============================================================================")
         api.logger?.info("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
         api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
@@ -55,16 +55,21 @@ class LoggerInterceptor : Interceptor {
         api.logger?.info("==============================================================================")
     }
     
-    func logError<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func logError<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         api.logger?.error("==============================================================================")
         api.logger?.error("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
         api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         if let bodyParams = self.bodyParams {
             api.logger?.info("request body:\n\(bodyParams)")
         }
+        
         api.logger?.error("==============================================================================")
-        api.logger?.error("response status code: \(response.response!.statusCode)")
-        api.logger?.error("response headers:\n\(response.response!.allHeaderFields)")
+        if response.response != nil {
+            api.logger?.error("response status code: \(response.response!.statusCode)")
+            api.logger?.error("response headers:\n\(response.response!.allHeaderFields)")
+        }else{
+            api.logger?.error(response.result.error?.localizedDescription)
+        }
         if let value = response.result.value {
             api.logger?.error("response body:\n\(value)")
         }

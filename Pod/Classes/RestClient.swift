@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Genome
 
 public class EasyRest {
     

@@ -20,13 +20,13 @@ public protocol Authentication : Interceptor {
 
 public extension Authentication  {
     
-    public func requestInterceptor<T: MappableBase>(api: API<T>) {
+    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
         if let token = getToken() {
             api.headers["Authorization"] = token
         }
     }
     
-    public func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         
     }
 
