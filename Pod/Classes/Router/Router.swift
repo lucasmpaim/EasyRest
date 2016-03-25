@@ -12,31 +12,36 @@ import Alamofire
 
 
 public protocol Routable {
-    var base: String {get}
-    var rule: Rule {get}
-    
-    func builder<T: JsonConvertibleType>(type: T.Type) throws -> APIBuilder<T>
-    
-    func authenticator () -> authenticatorClass?
-    associatedtype authenticatorClass: Authentication
+    associatedtype Hue: Rule
+    var rule: Hue { get }
 }
 
 extension Routable {
     
-    public func builder<T: JsonConvertibleType>(type: T.Type) throws -> APIBuilder<T> {
+    public func builder<T: JsonConvertibleType>(base: String, type: T.Type) throws -> APIBuilder<T> {
+        let builder = APIBuilder<T>()
         
-        if self.rule.isAuthenticable && authenticator()?.getToken() == nil {
+        builder.logger = Logger()
+        
+        try builder.addParameteres(self.rule.parameters)
+        return builder.resource(base + self.rule.path, method: self.rule.method)
+    }
+    
+    public func builder<T: JsonConvertibleType, A: Authentication>(base: String, type: T.Type, authInterceptor: A?) throws -> APIBuilder<T> {
+        
+        if self.rule.isAuthenticable && authInterceptor?.getToken() == nil {
             throw AuthenticationRequired()
         }
         
         let builder = APIBuilder<T>()
-        if let auth = authenticator() {
-            builder.addInsterceptor(auth)
+        if let auth = authInterceptor {
+            builder.addInterceptor(auth)
         }
         
         builder.logger = Logger()
         
         try builder.addParameteres(self.rule.parameters)
-        return builder.resource(self.base + self.rule.path, method: self.rule.method)
+        return builder.resource(base + self.rule.path, method: self.rule.method)
     }
+    
 }

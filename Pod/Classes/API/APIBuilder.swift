@@ -43,7 +43,7 @@ public class APIBuilder <T: JsonConvertibleType> {
         return self
     }
     
-    public func addInsterceptor(interceptor: Interceptor) -> Self{
+    public func addInterceptor(interceptor: Interceptor) -> Self{
         interceptors.append(interceptor)
         return self
     }

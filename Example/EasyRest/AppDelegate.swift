@@ -14,99 +14,183 @@ import Genome
 
 
 
-let oauth2Service = OAuth2Authenticator()
+let oauth2Authenticator = OAuth2Authenticator()
+let BASE_URL = "http://jsonplaceholder.typicode.com"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         
-        /*oauth2Service.interceptors = [DefaultHeadersInterceptor()]
-        oauth2Service.loginWithPassword("abcd@abcd.com", password: "abcd@abcd", onSucess: {
-            
-            try! TestRoute.Me.builder(UserTest.self).build().execute({ (result) -> Void in
-                
-                }, onError: { (error) -> Void in
-                    
-                }, always: { () -> Void in
-                    
-            })
-            
-            }, onError: { error in
-            
-            }, always: {
-        })*/
+        //        oauth2Authenticator.interceptors = [DefaultHeadersInterceptor()]
+        //        oauth2Authenticator.loginWithPassword("abcd@abcd.com", password: "abcd@abcd", onSucess: {
+        //            try! TestRoute.Me.builder(UserTest.self).build().execute({ (result) -> Void in
+        //
+        //                }, onError: { (error) -> Void in
+        //
+        //                }, always: { () -> Void in
+        //
+        //            })
+        //            }, onError: { error in
+        //
+        //            }, always: {
+        //        })
         
         
-        try! TestRoute.Posts.builder([Posts].self).build().execute({ (result) in
-                
+        try! Apis.Placeholder.Postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
+            
             }, onError: { (error) in
                 
             }, always: {
+        })
+        
+        let service = PlaceholderService()
+
+        try! service.call(.Me, type: UserTest.self, onSucess: { (result) in
+            result?.firstName
+            }, onError: { (error) in
                 
+            }, always: {
+        })
+        
+        service.me({ (result) in
+            result?.firstName
+            }, onError: { (error) in
+                
+            }, always: {
+        })
+        
+        let service2 = Apis.Placeholder.Service()
+        try! service2.call(.Postes, type: UserTest.self, onSucess: { (result) in
+            
+            }, onError: { (error) in
+                
+            }, always: {
         })
         
         return true
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    
 }
 
-
-
-enum TestRoute: Routable {
+class Service<R: Routable> {
+    var interceptors: [Interceptor]? { return nil }
     
-    case Me
-    
-    case Posts
-    
-    typealias authenticatorClass = OAuth2Authenticator
-    
-    var base: String { return "http://jsonplaceholder.typicode.com" }
-    
-    var rule: Rule {
-        switch(self) {
-        case .Me:
-            let parameters : [ParametersType: AnyObject] = [:]
-            return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters)
-        case .Posts:
-            let parameters : [ParametersType: AnyObject] = [:]
-            return Rule(method: .GET, path: "/posts/", isAuthenticable: false, parameters: parameters)
+    var base: String {
+        get {
+            fatalError("Override to provide baseUrl")
         }
     }
     
-    func authenticator () -> authenticatorClass? {
-        return oauth2Service
+    func call<E: MappableBase>(routes: R, type: E.Type, onSucess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+        let builder = try routes.builder(base, type: E.self)
+        
+        builder.build().execute(onSucess, onError: onError, always: always)
     }
-    
 }
 
+class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>, Authenticable {
+    var authenticator = Auth()
+    
+    override func call<E: MappableBase>(routes: R, type: E.Type, onSucess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+        
+        let builder = try routes.builder(base, type: E.self)
+        
+        if routes.rule.isAuthenticable && authenticator.getToken() == nil {
+            throw AuthenticationRequired()
+        }
+        
+        builder.addInterceptor(authenticator)
+        
+        if (interceptors != nil) {
+            builder.addInterceptors(interceptors!)
+        }
+        
+        builder.build().execute(onSucess, onError: onError, always: always)
+        //        rule.builder(base, type: rule.rule.responseType!, authInterceptor: authenticator)
+    }
+}
+
+protocol Authenticable {
+    associatedtype AuthType: Authentication
+    
+    var authenticator: AuthType { get set }
+}
+
+class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> { }
+
+final class Apis {
+    enum Placeholder: Routable {
+        case Me
+        case Postes
+        
+        var rule: Rule {
+            switch(self) {
+            case .Me:
+                let parameters : [ParametersType: AnyObject] = [:]
+                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters, responseType: UserTest.self)
+            case .Postes:
+                let parameters : [ParametersType: AnyObject] = [:]
+                return Rule(method: .GET, path: "/posts/", isAuthenticable: false, parameters: parameters, responseType: [Posts].self)
+            }
+        }
+        
+        // Alternative
+        class Service : OAuth2Service<Apis.Placeholder> {
+            override var base: String { return BASE_URL }
+            override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
+            
+            override init() {
+                super.init()
+                authenticator.token = Token()
+                authenticator.token?.accessToken = "MY TOKEN"
+            }
+        }
+    }
+}
+
+// Alternative
+class PlaceholderService : OAuth2Service<Apis.Placeholder> {
+    override var base: String { return BASE_URL }
+    override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
+    
+    override init() {
+        super.init()
+        authenticator.token = Token()
+        authenticator.token?.accessToken = "MY TOKEN"
+    }
+    
+    func me(onSucess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+        try! call(.Me, type: UserTest.self, onSucess: onSucess, onError: onError, always: always)
+    }
+}
 
 
 class Token : BaseModel {
