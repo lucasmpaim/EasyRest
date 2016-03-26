@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let service = PlaceholderService()
 
-        try! service.call(.Me, type: UserTest.self, onSucess: { (result) in
+        try! service.call(.Me, type: UserTest.self, onSuccess: { (result) in
             result?.firstName
             }, onError: { (error) in
                 
@@ -64,13 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }, always: {
         })
         
-        let service2 = Apis.Placeholder.Service()
-        try! service2.call(.Postes, type: UserTest.self, onSucess: { (result) in
-            
-            }, onError: { (error) in
-                
-            }, always: {
-        })
+//        let service2 = Apis.Placeholder.Service()
+//        try! service2.call(.Postes, type: UserTest.self, onSucess: { (result) in
+//            
+//            }, onError: { (error) in
+//                
+//            }, always: {
+//        })
         
         return true
     }
@@ -120,16 +120,16 @@ final class Apis {
         }
         
         // Alternative
-        class Service : OAuth2Service<Apis.Placeholder> {
-            override var base: String { return BASE_URL }
-            override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
-            
-            override init() {
-                super.init()
-                authenticator.token = Token()
-                authenticator.token?.accessToken = "MY TOKEN"
-            }
-        }
+//        class Service : OAuth2Service<Apis.Placeholder> {
+//            override var base: String { return BASE_URL }
+//            override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
+//            
+//            override init() {
+//                super.init()
+//                authenticator.token = Token()
+//                authenticator.token?.accessToken = "MY TOKEN"
+//            }
+//        }
     }
 }
 

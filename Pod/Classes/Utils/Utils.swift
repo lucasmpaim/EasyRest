@@ -11,9 +11,15 @@ import Alamofire
 
 
 class Utils {
-    static func isSucessRequest(response: Alamofire.Response<AnyObject, NSError>) -> Bool {
-        return response.response?.statusCode >= 200 && response.response?.statusCode <= 299
+    static func isSuccessfulRequest(response: Alamofire.Response<AnyObject, NSError>) -> Bool {
+        return 200...299 ~= response.response?.statusCode
+//        return response.response?.statusCode >= 200 && response.response?.statusCode <= 299
     }
+}
+
+@warn_unused_result
+public func ~=<I : ForwardIndexType where I : Comparable>(pattern: Range<I>, value: I?) -> Bool {
+    return value != nil && pattern ~= value!
 }
 
 extension String {

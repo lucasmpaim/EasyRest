@@ -40,7 +40,7 @@ public class API <T: JsonConvertibleType> {
     }
     
     
-    public func execute( onSucess: (result: T?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+    public func execute( onSuccess: (result: T?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
         
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)
@@ -55,13 +55,13 @@ public class API <T: JsonConvertibleType> {
                 interceptor.responseInterceptor(self, response: response)
             }
             
-            if Utils.isSucessRequest(response) {
+            if Utils.isSuccessfulRequest(response) {
                 var instance: T? = nil // For empty results
                 if let _ = response.result.value {
                     let json = try! Json.deserialize(response.data!)
                     instance = try! T.newInstance(json, context: EmptyJson)
                 }
-                onSucess(result: instance)
+                onSuccess(result: instance)
             }else{
                 onError(response.result.error) // TODO: Error Handler
             }

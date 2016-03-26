@@ -22,6 +22,6 @@ public class Rule {
         self.path = path
         self.method = method
         self.parameters = parameters
-        self.responseType = (responseType as? JsonConvertibleType.Type)
+        self.responseType = responseType
     }
 }
