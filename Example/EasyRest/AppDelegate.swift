@@ -96,55 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    
 }
 
-class Service<R: Routable> {
-    var interceptors: [Interceptor]? { return nil }
-    
-    var base: String {
-        get {
-            fatalError("Override to provide baseUrl")
-        }
-    }
-    
-    func call<E: MappableBase>(routes: R, type: E.Type, onSucess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
-        let builder = try routes.builder(base, type: E.self)
-        
-        builder.build().execute(onSucess, onError: onError, always: always)
-    }
+public class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> {
+
 }
 
-class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>, Authenticable {
-    var authenticator = Auth()
-    
-    override func call<E: MappableBase>(routes: R, type: E.Type, onSucess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
-        
-        let builder = try routes.builder(base, type: E.self)
-        
-        if routes.rule.isAuthenticable && authenticator.getToken() == nil {
-            throw AuthenticationRequired()
-        }
-        
-        builder.addInterceptor(authenticator)
-        
-        if (interceptors != nil) {
-            builder.addInterceptors(interceptors!)
-        }
-        
-        builder.build().execute(onSucess, onError: onError, always: always)
-        //        rule.builder(base, type: rule.rule.responseType!, authInterceptor: authenticator)
-    }
-}
-
-protocol Authenticable {
-    associatedtype AuthType: Authentication
-    
-    var authenticator: AuthType { get set }
-}
-
-class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> { }
 
 final class Apis {
     enum Placeholder: Routable {
@@ -181,14 +138,34 @@ class PlaceholderService : OAuth2Service<Apis.Placeholder> {
     override var base: String { return BASE_URL }
     override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
     
-    override init() {
-        super.init()
-        authenticator.token = Token()
-        authenticator.token?.accessToken = "MY TOKEN"
+    convenience init() {
+        self.init()
+        getAuthenticator().token = Token()
+        getAuthenticator().token?.accessToken = "MY TOKEN"
     }
     
-    func me(onSucess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
-        try! call(.Me, type: UserTest.self, onSucess: onSucess, onError: onError, always: always)
+    func me(onSuccess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+        try! call(.Me, type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    }
+    
+    func posts(onSuccess: (result: Posts?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+        try! call(.Postes, type: Posts.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    }
+    
+    func defaultErrorHandler(onError: (ErrorType?) -> Void) -> (ErrorType?) -> Void {
+        return { error in
+            /* Do whatever is default for all errors, like
+                switch error.cause {
+                    case .InternetConnection:
+                        // backOff()
+                    case .FailedJsonSerialization:
+                        Crashlytics.sendEvent(error....)
+                        Sentry.captureEvent(...)
+                }
+            */
+            
+            onError(error)
+        }
     }
 }
 
