@@ -17,7 +17,7 @@ public class CurlInterceptor: Interceptor {
     public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {}
     
     public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        if Utils.isSucessRequest(response) {
+        if Utils.isSuccessfulRequest(response) {
             api.logger?.info("\(api.curl!)")
         }else{
             api.logger?.error("\(api.curl!)")
