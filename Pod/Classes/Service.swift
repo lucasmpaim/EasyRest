@@ -10,7 +10,8 @@ import Foundation
 import Genome
 
 public class Service<R: Routable> {
-    public var interceptors: [Interceptor]? { return nil }
+    
+    public var interceptors: [Interceptor]? {return nil}
     
     public var base: String {
         get {
@@ -18,9 +19,11 @@ public class Service<R: Routable> {
         }
     }
     
+    public func builder<T: MappableBase>(routes: R, type: T.Type) throws -> APIBuilder<T> {
+        return try routes.builder(base, type: type)
+    }
+    
     public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
-        let builder = try routes.builder(base, type: E.self)
-        
-        builder.build().execute(onSuccess, onError: onError, always: always)
+        try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
     }
 }

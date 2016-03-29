@@ -112,10 +112,10 @@ final class Apis {
             switch(self) {
             case .Me:
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters, responseType: UserTest.self)
+                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters)
             case .Postes:
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .GET, path: "/posts/", isAuthenticable: false, parameters: parameters, responseType: [Posts].self)
+                return Rule(method: .GET, path: "/posts/", isAuthenticable: false, parameters: parameters)
             }
         }
         
@@ -213,13 +213,14 @@ class DefaultHeadersInterceptor : Interceptor {
 }
 
 
-class OAuth2Authenticator : OAuth2 {
+class OAuth2Authenticator : OAuth2, HasToken {
     
     typealias tokenType = Token
     private var token: tokenType?
-    var interceptors: [Interceptor] = []
     
     required init() { }
+    
+    var interceptor: AuthenticatorInterceptor = OAuth2Interceptor()
     
     func getToken() -> String? {
         if token?.accessToken != nil {
@@ -249,6 +250,18 @@ class OAuth2Authenticator : OAuth2 {
     
 }
 
+
+class OAuth2Interceptor: AuthenticatorInterceptor {
+    required init() { }
+    var token: HasToken { return oauth2Authenticator }
+    
+    func requestInterceptor<T : JsonConvertibleType>(api: API<T>) {
+        (self as AuthenticatorInterceptor).requestInterceptor(api)
+        api.bodyParams?["client_id"] = oauth2Authenticator.clientId
+        api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
+    }
+    
+}
 
 
 class UserTest : BaseModel {

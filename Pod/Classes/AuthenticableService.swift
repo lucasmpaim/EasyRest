@@ -17,21 +17,26 @@ public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R
         return authenticator
     }
     
-    override public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+    public override func builder<T : MappableBase>(routes: R, type: T.Type) throws -> APIBuilder<T> {
+        let builder = try super.builder(routes, type: type)
         
-        let builder = try routes.builder(base, type: E.self)
-        
-        if routes.rule.isAuthenticable && authenticator.getToken() == nil {
-            throw AuthenticationRequired()
-        }
-        
-        builder.addInterceptor(authenticator)
+        builder.addInterceptor(authenticator.interceptor)
         
         if (interceptors != nil) {
             builder.addInterceptors(interceptors!)
         }
         
+        return builder
+    }
+    
+    override public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+        
+        let builder = try self.builder(routes, type: type)
+        
+        if routes.rule.isAuthenticable && authenticator.getToken() == nil {
+            throw AuthenticationRequired()
+        }
+        
         builder.build().execute(onSuccess, onError: onError, always: always)
-        //        rule.builder(base, type: rule.rule.responseType!, authInterceptor: authenticator)
     }
 }

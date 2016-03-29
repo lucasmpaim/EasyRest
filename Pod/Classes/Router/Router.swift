@@ -12,8 +12,7 @@ import Alamofire
 
 
 public protocol Routable {
-    associatedtype Hue: Rule
-    var rule: Hue { get }
+    var rule: Rule { get }
 }
 
 extension Routable {
@@ -29,13 +28,13 @@ extension Routable {
     
     public func builder<T: JsonConvertibleType, A: Authentication>(base: String, type: T.Type, authInterceptor: A?) throws -> APIBuilder<T> {
         
-        if self.rule.isAuthenticable && authInterceptor?.getToken() == nil {
+        if self.rule.isAuthenticable && authInterceptor?.validToken() != true {
             throw AuthenticationRequired()
         }
         
         let builder = APIBuilder<T>()
         if let auth = authInterceptor {
-            builder.addInterceptor(auth)
+            builder.addInterceptor(auth.interceptor)
         }
         
         builder.logger = Logger()

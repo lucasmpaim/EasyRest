@@ -86,6 +86,7 @@
 		ED29C68FD982C7F4DCE7AEE5E9A714DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69528630F6235C82696A2AB2D59A2B1F /* Foundation.framework */; };
 		EFE92E8D3813DD26E78E93EEAF6D7E7E /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E073FB6CEFB007662D6F1544C65425A /* Request.swift */; };
 		F0D6BB0F6FB09420596055413CD3F9C7 /* Pods-EasyRest_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A94F43A7C9ADB9A20FAFCBBA7D31DD89 /* Pods-EasyRest_Tests-dummy.m */; };
+		F7D75E701CAAF298003FBBA6 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D75E6E1CAAEEBA003FBBA6 /* OAuth2Service.swift */; };
 		F7FB84AF94EFECAB4A4D712D93182701 /* Json+KeyPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55DCC1BD6D5A20F65009844A4B9A847 /* Json+KeyPaths.swift */; };
 		F82198F34DD14753A42F4328CD5E7A6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69528630F6235C82696A2AB2D59A2B1F /* Foundation.framework */; };
 		F8DF748F2A8B1FFE239969F1C758DF27 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264BF37EA1B863066D044780A8596A7 /* API.swift */; };
@@ -321,6 +322,7 @@
 		F0915CE21A34A05DED70DDBB21F9C3C4 /* Logging.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logging.swift; path = Genome/Source/Logging.swift; sourceTree = "<group>"; };
 		F0C22BE0EBDED1B840FE9ED87D43BF0D /* KeyType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyType.swift; path = Genome/Source/KeyType.swift; sourceTree = "<group>"; };
 		F2DFE96E5D78C33A4ADF95673E508C6C /* StandardOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StandardOperators.swift; path = Genome/Source/StandardOperators.swift; sourceTree = "<group>"; };
+		F7D75E6E1CAAEEBA003FBBA6 /* OAuth2Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		FBF45D0FFD5F02E4282F38CBC6CE1929 /* Pods-EasyRest_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EasyRest_Example-umbrella.h"; sourceTree = "<group>"; };
 		FD8AAC568A910EDC2F724B77334D0C57 /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
 		FF3E066150143E70B94E627B4C8E5E1D /* PureJsonSerializer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PureJsonSerializer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -770,6 +772,7 @@
 				73BA6F66B4BC6C721B2ACA8967A12696 /* Authentication.swift */,
 				1085B95EE2B8269292318DF0B6703974 /* OAuth2.swift */,
 				706062ED1CA6076F00BD8116 /* Authenticable.swift */,
+				F7D75E6E1CAAEEBA003FBBA6 /* OAuth2Service.swift */,
 			);
 			name = Auth;
 			path = Service;
@@ -1120,6 +1123,7 @@
 				088EAEEB15E6AAD107422FDB069165F2 /* APIBuilder.swift in Sources */,
 				66FA086EC0314CA59766504D309B6D4D /* Authentication.swift in Sources */,
 				2BD644E549809D57C8C36B3B20EA8DC6 /* AuthenticationErrors.swift in Sources */,
+				F7D75E701CAAF298003FBBA6 /* OAuth2Service.swift in Sources */,
 				706062F01CA6079800BD8116 /* AuthenticableService.swift in Sources */,
 				4DE571AC929E24EC2DB14EBF8299DD64 /* CurlInterceptor.swift in Sources */,
 				33773F87954048024D65FB8ED15074F9 /* EasyRest-dummy.m in Sources */,

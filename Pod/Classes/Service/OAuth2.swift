@@ -17,13 +17,11 @@ public protocol OAuth2 : Authentication {
     
     var clientId: String {get}
     var clientSecret: String {get}
-    
-    
-    var interceptors: [Interceptor] {get set}
 }
 
 
-extension OAuth2 {
+
+/*extension OAuth2 {
     
     public func loginWithPassword(username: String, password: String, onSucess: () -> Void, onError: (error: ErrorType?) -> Void, always: () -> Void) {
         
@@ -36,10 +34,8 @@ extension OAuth2 {
         ]
         
         APIBuilder<tokenType>().resource(self.getTokenEndPoint(), method: .POST)
-            .addInterceptors(self.interceptors)
             .addQueryParams(parameters)
             .logger(Logger())
-            .addInterceptors(interceptors)
             .build()
             .execute ({
                 result in
@@ -67,7 +63,6 @@ extension OAuth2 {
         ]
             
         APIBuilder<tokenType>().resource(self.getTokenEndPoint(), method: .POST)
-            .addInterceptors(self.interceptors)
             .addQueryParams(parameters)
             .logger(Logger())
             .build()
@@ -84,4 +79,4 @@ extension OAuth2 {
             })
     }
     
-}
+}*/

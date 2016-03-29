@@ -13,7 +13,6 @@ import Alamofire
 class Utils {
     static func isSuccessfulRequest(response: Alamofire.Response<AnyObject, NSError>) -> Bool {
         return 200...299 ~= response.response?.statusCode
-//        return response.response?.statusCode >= 200 && response.response?.statusCode <= 299
     }
 }
 

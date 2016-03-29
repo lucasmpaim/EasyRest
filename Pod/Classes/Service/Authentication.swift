@@ -10,15 +10,54 @@ import Foundation
 import Alamofire
 import Genome
 
-public protocol Authentication : Interceptor {
+
+
+public protocol HasToken {
+    func getToken() -> String?
+    func validToken() -> Bool
+}
+
+public extension HasToken {
+    func validToken() -> Bool {
+        return getToken() != nil
+    }
+}
+
+
+public protocol Authentication : HasToken{
     associatedtype tokenType: MappableBase
     
-    func getToken() -> String?
+    var interceptor: AuthenticatorInterceptor {get}
+    
+    init()
     func saveToken(obj: tokenType)
 }
 
 
-public extension Authentication  {
+public protocol AuthenticatorInterceptor : Interceptor{
+    var token: HasToken {get}
+}
+
+public extension AuthenticatorInterceptor{
+    
+    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
+        if let token = token.getToken() {
+            api.headers["Authorization"] = token
+        }
+    }
+    
+    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+        
+    }
+    
+}
+
+
+
+
+
+
+/*public extension Authentication  {
     
     public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
         if let token = getToken() {
@@ -30,4 +69,4 @@ public extension Authentication  {
         
     }
 
-}
+}*/
