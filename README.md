@@ -41,6 +41,16 @@ class UserTest : BaseModel {
     }
 
 }
+class Post : BaseModel {
+
+    var id: String?
+    var title: String?
+
+    override func sequence(map: Map) throws {
+        try self.id <~> map["id"]
+        try self.title <~> map["title"]
+    }
+}
 ```
 
 ## Route Example:
@@ -49,51 +59,82 @@ class UserTest : BaseModel {
 enum TestRoute: Routable{
 
     case Me
-
-    typealias authenticatorClass = OAuth2Service
-
-    var base: String { return "http://www.xpto.com" }
+    case Post
 
     var rule: Rule {
         switch(self) {
             case let .Me(name):
                 return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.Query : ["name": name]])
+            case let .Post(id):
+                let parameters : [ParametersType: AnyObject] = [:]
+                return Rule(method: .GET, path: "/api/v1/posts/\(id)/", isAuthenticable: true, parameters: parameters)
             }
-    }
-
-    var authenticable: Bool {
-        switch(self) {
-            case .Me: return true
-        }
-    }
-
-    func authenticator () -> authenticatorClass? {
-        return oauth2Service
     }
 
 }
 
 ```
 
-## Call Example:
+## Service Example
 ```swift
-oauth2Service.interceptors = [DefaultHeadersInterceptor()]
 
-oauth2Service.loginWithPassword("abcd@abcd.com", password: "abcd@1234", onSucess: {
-
-        try! TestRoute.Me.builder(UserTest.self).build().execute({ (result) -> Void in
-
-        }, onError: { (error) -> Void in
-
-        }, always: { () -> Void in
-
-        })
-
-
-    }, onError: {error in
-    }, always: {
-})
+class TestRouteService : OAuth2Service<TestRoute> {
+    override var base: String { return BASE_URL }
+    override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
+    
+    convenience init() {
+        self.init()
+    }
+    
+    func me(name: String, onSuccess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+        try! call(.Me(name), type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    }
+    
+    func post(id: Int, onSuccess: (result: Post?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+        try! call(.Post(id), type: Post.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    }
+    
+    func defaultErrorHandler(onError: (ErrorType?) -> Void) -> (ErrorType?) -> Void {
+        return { error in
+            /* Do whatever is default for all errors, like
+                switch error.cause {
+                    case .InternetConnection:
+                        // backOff()
+                    case .FailedJsonSerialization:
+                        Crashlytics.sendMessage(error....)
+                        Sentry.captureEvent(...)
+                }
+            */
+            
+            onError(error)
+        }
+    }
+}
 ```
+
+## Service Call Example:
+```swift
+
+let service = TestRouteService()
+
+let postID = 23
+service.post(postID, { (result) in
+                print(result?.title)
+            }, onError: { (error) in
+                
+            }, always: {
+            
+        })
+ // OR
+ try! service.call(.Post(postID), type: Post.self, onSuccess: { (result) in
+                print(result?.title)
+            }, onError: { (error) in
+                
+            }, always: {
+            
+        })
+```
+
 ## Interceptor Example:
 
 ```swift
@@ -104,7 +145,7 @@ class CurlInterceptor: Interceptor {
     func requestInterceptor<T: MappableBase>(api: API<T>) {}
 
     func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        if Utils.isSucessRequest(response) {
+        if Utils.isSuccessfulRequest(response) {
             api.logger.info("\(api.curl!)")
         }else{
             api.logger.error("\(api.curl!)")
@@ -112,6 +153,26 @@ class CurlInterceptor: Interceptor {
     }
 
 }
+```
+## Authentication (OAuth, etc):
+```swift
+// Under development
+```
+
+## Using without creating a Service:
+```swift
+let oauth2Authenticator = OAuth2Authenticator()
+let BASE_URL = "http://jsonplaceholder.typicode.com"
+let postID = 23
+
+try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: oauth2Authenticator)
+      .addInterceptor(DefaultHeadersInterceptor())
+      .build().execute({ (result) in
+               print(result?.title)
+            }, onError: { (error) in
+                
+            }, always: {
+        })
 ```
 
 # TODO
