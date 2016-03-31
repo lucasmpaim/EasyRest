@@ -30,8 +30,7 @@ public class OAuth2Service<T: OAuth2>: AuthenticableService<T, OAuth2Rotable> {
 
     public override func builder<T : MappableBase>(routes: OAuth2Rotable, type: T.Type) throws -> APIBuilder<T> {
         let builder = try super.builder(routes, type: type)
-        builder.addQueryParams(["client_id": authenticator.clientId,
-                                "client_secret": authenticator.clientSecret])
+        
         return builder
     }
     
