@@ -13,6 +13,8 @@ import Genome
 public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>, Authenticable {
     var authenticator = Auth()
     
+    public override init() { super.init() }
+
     public func getAuthenticator() -> Auth {
         return authenticator
     }

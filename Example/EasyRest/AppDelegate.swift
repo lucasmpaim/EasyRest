@@ -41,21 +41,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        })
         
         
-        try! Apis.Placeholder.Postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
-            
-            }, onError: { (error) in
-                
-            }, always: {
-        })
+//        try! Apis.Placeholder.Postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
+//            
+//            }, onError: { (error) in
+//                
+//            }, always: {
+//        })
         
         let service = PlaceholderService()
 
-        try! service.call(.Me, type: UserTest.self, onSuccess: { (result) in
-            result?.firstName
-            }, onError: { (error) in
-                
-            }, always: {
-        })
+//        try! service.call(.Me, type: UserTest.self, onSuccess: { (result) in
+//            result?.firstName
+//            }, onError: { (error) in
+//                
+//            }, always: {
+//        })
         
         service.me({ (result) in
             result?.firstName
@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 public class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> {
-
+    public override init() { super.init() }
 }
 
 
@@ -138,8 +138,8 @@ class PlaceholderService : OAuth2Service<Apis.Placeholder> {
     override var base: String { return BASE_URL }
     override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
     
-    convenience init() {
-        self.init()
+    override init () {
+        super.init()
         getAuthenticator().token = Token()
         getAuthenticator().token?.accessToken = "MY TOKEN"
     }
@@ -256,7 +256,6 @@ class OAuth2Interceptor: AuthenticatorInterceptor {
     var token: HasToken { return oauth2Authenticator }
     
     func requestInterceptor<T : JsonConvertibleType>(api: API<T>) {
-        (self as AuthenticatorInterceptor).requestInterceptor(api)
         api.bodyParams?["client_id"] = oauth2Authenticator.clientId
         api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
     }
