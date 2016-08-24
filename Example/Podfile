@@ -1,10 +1,10 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'EasyRest_Example', :exclusive => true do
+target 'EasyRest_Example' do
   pod 'EasyRest', :path => '../'
 end
 
-target 'EasyRest_Tests', :exclusive => true do
+target 'EasyRest_Tests' do
   pod 'EasyRest', :path => '../'
 end

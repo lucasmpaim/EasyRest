@@ -51,22 +51,3 @@ public extension AuthenticatorInterceptor{
     }
     
 }
-
-
-
-
-
-
-/*public extension Authentication  {
-    
-    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
-        if let token = getToken() {
-            api.headers["Authorization"] = token
-        }
-    }
-    
-    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        
-    }
-
-}*/

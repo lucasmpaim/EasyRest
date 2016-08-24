@@ -148,7 +148,7 @@ public class APIBuilder <T: JsonConvertibleType> {
         }else if let _obj = obj as? MappableBase {
             return try _obj.jsonRepresentation().foundationDictionary!
         }
-        throw InvalidType()
+        throw RestError(rawValue: RestErrorType.InvalidType.rawValue)
     }
     
 }

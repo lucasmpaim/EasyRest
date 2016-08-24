@@ -29,7 +29,7 @@ extension Routable {
     public func builder<T: JsonConvertibleType, A: Authentication>(base: String, type: T.Type, authInterceptor: A?) throws -> APIBuilder<T> {
         
         if self.rule.isAuthenticable && authInterceptor?.validToken() != true {
-            throw AuthenticationRequired()
+            throw RestError(rawValue: RestErrorType.AuthenticationRequired.rawValue)
         }
         
         let builder = APIBuilder<T>()

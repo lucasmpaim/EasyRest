@@ -49,7 +49,7 @@ public class API <T: JsonConvertibleType> {
         let request = Alamofire.request(method, path.URLString, parameters: bodyParams, encoding: ParameterEncoding.JSON, headers: headers)
         self.curl = request.debugDescription
         
-        request.responseJSON { (response) -> Void in
+        request.responseJSON { (response: Response<AnyObject, NSError>) -> Void in
             
             for interceptor in self.interceptors {
                 interceptor.responseInterceptor(self, response: response)
@@ -62,8 +62,11 @@ public class API <T: JsonConvertibleType> {
                     instance = try! T.newInstance(json, context: EmptyJson)
                 }
                 onSuccess(result: instance)
-            }else{
-                onError(response.result.error) // TODO: Error Handler
+            } else {
+                let error = RestError(rawValue: response.response!.statusCode,
+                        rawIsHttpCode: true,
+                        rawResponse: response.result.value)
+                onError(error)
             }
             
             always()

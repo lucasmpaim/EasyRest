@@ -36,7 +36,7 @@ public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R
         let builder = try self.builder(routes, type: type)
         
         if routes.rule.isAuthenticable && authenticator.getToken() == nil {
-            throw AuthenticationRequired()
+            throw RestError(rawValue: RestErrorType.AuthenticationRequired.rawValue)
         }
         
         builder.build().execute(onSuccess, onError: onError, always: always)

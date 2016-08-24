@@ -10,9 +10,16 @@ This library was born from the need to simplify the communication between client
 
 ## Requirements
  - Swift 2.2
+ 
+ For XCode
  - XCode 7.3
  - XCode Color Plugin: https://github.com/robbiehanson/XcodeColors
 
+ For AppCode
+ - Grep Console
+ - Add "APPCODE" compiler flag to your project
+ - Enable ANSI colors in Grep Console
+ 
 ## Usage
 To add EasyRest to your project, add the following in your podfile
 
@@ -179,8 +186,9 @@ try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: 
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Use PureJSon serializer in request
-- [ ] Improve request Syntax
-
+- [X] Improve request Syntax
+- [X] Error Handler
+- [X] Add support for coloring in AppCode
 
 # Third party libraries and references
 - Alamofire    https://github.com/Alamofire/Alamofire
