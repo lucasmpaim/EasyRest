@@ -50,6 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let service = PlaceholderService()
 
+        Logger.isAppCode = true
+
 //        try! service.call(.Me, type: UserTest.self, onSuccess: { (result) in
 //            result?.firstName
 //            }, onError: { (error) in
