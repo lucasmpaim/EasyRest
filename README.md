@@ -11,11 +11,11 @@ This library was born from the need to simplify the communication between client
 ## Requirements
  - Swift 2.2
  
- For XCode
+### For XCode
  - XCode 7.3
  - XCode Color Plugin: https://github.com/robbiehanson/XcodeColors
 
- For AppCode
+### For AppCode
  - Grep Console
  - Add "APPCODE" compiler flag to your project
  - Enable ANSI colors in Grep Console
