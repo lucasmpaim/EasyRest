@@ -10,7 +10,8 @@ import Foundation
 
 
 public struct Logger {
-    
+
+    static var isAppCode: Bool = false
     
     public enum LogLevel {
         case None
@@ -22,16 +23,12 @@ public struct Logger {
     
     public var logLevel: LogLevel = .Verbose
 
-    #if APPCODE
-
-    #else
-        static let ESCAPE = "\u{001b}[fg"
-        static let RESET = ESCAPE + ";"
-    #endif
+    static let ESCAPE = "\u{001b}[fg"
+    static let RESET = ESCAPE + ";"
 
 
-    
     public func info<T>(object: T) {
+
         if logLevel == .Verbose || logLevel == .Info {
             #if APPCODE
                 print("\\e[37m\(object)\\e[39m")
@@ -43,21 +40,21 @@ public struct Logger {
     
     public func warning<T>(object: T) {
         if logLevel == .Warning || logLevel == .Verbose {
-            #if APPCODE
+            if isAppCode {
                 print("\u{1b}[93m\(object)\u{1b}[39m")
-            #else
+            } else {
                 print("\(Logger.ESCAPE)135,135,0;\(object)\(Logger.RESET)")
-            #endif
+            }
         }
     }
     
     public func error<T>(object: T) {
         if logLevel == .Error || logLevel == .Verbose {
-            #if APPCODE
+            if isAppCode {
                 print("\u{1b}[31m\(object)\u{1b}[39m")
-            #else
+            } else {
                 print("\(Logger.ESCAPE)153,0,0;\(object)\(Logger.RESET)")
-            #endif
+            }
         }
     }
 }

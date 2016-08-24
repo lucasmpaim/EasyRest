@@ -17,8 +17,12 @@ This library was born from the need to simplify the communication between client
 
 ### For AppCode
  - Grep Console
- - Add "APPCODE" compiler flag to your project
  - Enable ANSI colors in Grep Console
+ - Add the following to your AppDelegate
+ 
+ ```swift
+ Logger.isAppCode = true
+ ```
  
 ## Usage
 To add EasyRest to your project, add the following in your podfile
