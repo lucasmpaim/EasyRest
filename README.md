@@ -69,8 +69,8 @@ class Post : BaseModel {
 
 enum TestRoute: Routable{
 
-    case Me
-    case Post
+    case Me(String)
+    case Post(String)
 
     var rule: Rule {
         switch(self) {
