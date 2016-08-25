@@ -190,6 +190,7 @@ try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: 
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Use PureJSon serializer in request
+- [ ] File Upload
 - [X] Improve request Syntax
 - [X] Error Handler
 - [X] Add support for coloring in AppCode
