@@ -28,6 +28,8 @@ public enum OAuth2Rotable: Routable {
 
 public class OAuth2Service<T: OAuth2>: AuthenticableService<T, OAuth2Rotable> {
 
+    public override init() { super.init() }
+
     public override func builder<T : MappableBase>(routes: OAuth2Rotable, type: T.Type) throws -> APIBuilder<T> {
         let builder = try super.builder(routes, type: type)
         
