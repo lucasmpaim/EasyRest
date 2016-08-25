@@ -63,7 +63,7 @@ public class API <T: JsonConvertibleType> {
                 }
                 onSuccess(result: instance)
             } else {
-                let error = RestError(rawValue: response.response!.statusCode,
+                let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.Unknow.rawValue,
                         rawIsHttpCode: true,
                         rawResponse: response.result.value)
                 onError(error)
