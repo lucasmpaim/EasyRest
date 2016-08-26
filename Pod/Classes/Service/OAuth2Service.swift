@@ -14,13 +14,28 @@ public enum OAuth2Rotable: Routable {
     
     case LoginWithPassword(username: String, password: String)
     case RefreshToken(token: String)
-    
+    case ConvertToken(token: String, backend: String)
+
     public var rule: Rule {
         switch self {
             case let .LoginWithPassword(username, password):
-                return Rule(method: .POST, path: "", isAuthenticable: false, parameters: [ParametersType.Query : ["username": username, "password": password]])
+                return Rule(method: .POST, path: "", isAuthenticable: false, parameters: [
+                        ParametersType.Query : [
+                                "username": username,
+                                "password": password,
+                                "grant_type": "password"]
+                ])
+
             case let .RefreshToken(token):
                 return Rule(method: .POST, path: "", isAuthenticable: false, parameters: [ParametersType.Query: ["token": token]])
+
+            case let .ConvertToken(token, backend):
+                return Rule(method: .POST, path: "", isAuthenticable: false, parameters: [
+                        ParametersType.Query : [
+                                "token": token,
+                                "backend": backend,
+                                "grant_type": "convert_token"]
+                ])
         }
     }
 }
@@ -28,12 +43,12 @@ public enum OAuth2Rotable: Routable {
 
 public class OAuth2Service<T: OAuth2>: AuthenticableService<T, OAuth2Rotable> {
 
-    public override init() { super.init() }
+    public override init() {
+        super.init()
+    }
 
     public override func builder<T : MappableBase>(routes: OAuth2Rotable, type: T.Type) throws -> APIBuilder<T> {
         let builder = try super.builder(routes, type: type)
-        
         return builder
     }
-    
 }
