@@ -10,9 +10,9 @@ import Foundation
 import Genome
 import PureJsonSerializer
 
-public class BaseModel : MappableBase {
+public class BaseModel : NSObject, MappableBase {
     
-    required public init() {}
+    required public override init() { super.init() }
     
     public static func newInstance(json: Json, context: Context) throws -> Self {
         let map = Map(json: json, context: context)

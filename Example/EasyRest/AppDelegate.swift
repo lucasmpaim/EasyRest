@@ -184,7 +184,7 @@ class Token : BaseModel {
         try self.expiresIn <~> map["expires_in"]
     }
     
-    var description: String {
+    override var description: String {
         return "token: \(accessToken)\nrefresh token: \(self.refreshToken)"
     }
     
