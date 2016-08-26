@@ -37,17 +37,3 @@ public protocol Authentication : HasToken{
 public protocol AuthenticatorInterceptor : Interceptor{
     var token: HasToken {get}
 }
-
-public extension AuthenticatorInterceptor{
-    
-    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
-        if let token = token.getToken() {
-            api.headers["Authorization"] = token
-        }
-    }
-    
-    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        
-    }
-    
-}

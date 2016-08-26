@@ -31,7 +31,7 @@ public struct Logger {
 
         if logLevel == .Verbose || logLevel == .Info {
             if Logger.isAppCode {
-                print("\\e[37m\(object)\\e[39m")
+                print("\u{1b}[37m\(object)\u{1b}[39m")
             } else {
                 print("\(Logger.ESCAPE)102,102,102;\(object)\(Logger.RESET)")
             }
