@@ -25,11 +25,7 @@ public class API <T: JsonConvertibleType> {
     public init(path: NSURL, method: Alamofire.Method, queryParams: [String: String]?, bodyParams: [String: AnyObject]?, headers: [String: String]?, interceptors: [Interceptor]?){
         
         self.path = NSURLRequest(URL: path)
-        
-        if queryParams != nil {
-            self.path = ParameterEncoding.URLEncodedInURL.encode(self.path, parameters: queryParams).0
-        }
-        
+
         self.queryParams = queryParams
         self.bodyParams = bodyParams
         self.method = method
@@ -44,6 +40,10 @@ public class API <T: JsonConvertibleType> {
         
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)
+        }
+
+        if queryParams != nil {
+            self.path = ParameterEncoding.URLEncodedInURL.encode(self.path, parameters: queryParams).0
         }
         
         let request = Alamofire.request(method, path.URLString, parameters: bodyParams, encoding: ParameterEncoding.JSON, headers: headers)
