@@ -40,7 +40,7 @@ public class API <T: JsonConvertibleType> {
     }
     
     
-    public func execute( onSuccess: (result: T?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+    public func execute( onSuccess: (result: T?) -> Void, onError: (RestError?) -> Void, always: () -> Void) {
         
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)

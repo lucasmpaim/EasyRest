@@ -31,7 +31,7 @@ public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R
         return builder
     }
     
-    override public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+    override public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (RestError?) -> Void, always: () -> Void) throws {
         
         let builder = try self.builder(routes, type: type)
         

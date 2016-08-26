@@ -23,7 +23,7 @@ public class Service<R: Routable> {
         return try routes.builder(base, type: type)
     }
     
-    public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) throws {
+    public func call<E: MappableBase>(routes: R, type: E.Type, onSuccess: (result: E?) -> Void, onError: (RestError?) -> Void, always: () -> Void) throws {
         try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
     }
 }
