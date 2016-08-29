@@ -41,4 +41,22 @@ public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R
         
         builder.build().execute(onSuccess, onError: onError, always: always)
     }
+
+    public func upload<E: MappableBase>(routes: R, type: E.Type,
+                                        onProgress: (progress: Float) -> Void,
+                                        onSuccess: (result: E?) -> Void,
+                                        onError: (RestError?) -> Void,
+                                        always: () -> Void) throws {
+        let builder = try builder(routes, type: type)
+
+        if routes.rule.isAuthenticable && authenticator.getToken() == nil {
+            throw RestError(rawValue: RestErrorType.AuthenticationRequired.rawValue)
+        }
+
+        builder.build().upload(
+                onProgress,
+                onSuccess: onSuccess,
+                onError: onError,
+                always: always)
+    }
 }
