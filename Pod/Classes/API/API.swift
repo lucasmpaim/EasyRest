@@ -38,11 +38,11 @@ public class API <T: JsonConvertibleType> {
     }
 
     func beforeRequest() {
-        if queryParams != nil {
-            self.path = ParameterEncoding.URLEncodedInURL.encode(self.path, parameters: queryParams).0
-        }
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)
+        }
+        if queryParams != nil {
+            self.path = ParameterEncoding.URLEncodedInURL.encode(self.path, parameters: queryParams).0
         }
     }
 
