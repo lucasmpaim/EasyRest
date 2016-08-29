@@ -18,9 +18,13 @@ public class CurlInterceptor: Interceptor {
     
     public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
         if Utils.isSuccessfulRequest(response) {
-            api.logger?.info("\(api.curl!)")
-        }else{
-            api.logger?.error("\(api.curl!)")
+            if let curl = api.curl {
+                api.logger?.info(curl)
+            }
+        } else {
+            if let curl = api.curl {
+                api.logger?.error(curl)
+            }
         }
     }
     

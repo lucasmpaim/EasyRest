@@ -145,7 +145,7 @@ public class APIBuilder <T: JsonConvertibleType> {
     public func convertParameters(obj: AnyObject) throws -> [String: AnyObject]{
         if let _obj = obj as? [String: AnyObject] {
             return _obj
-        }else if let _obj = obj as? MappableBase {
+        } else if let _obj = obj as? MappableBase {
             return try _obj.jsonRepresentation().foundationDictionary!
         }
         throw RestError(rawValue: RestErrorType.InvalidType.rawValue)
