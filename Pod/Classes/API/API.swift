@@ -74,7 +74,7 @@ public class API <T: JsonConvertibleType> {
         }
     }
 
-    public func upload(onSuccess: (result: T?) -> Void, onProgress: (progress: Float) -> Void, onError: (RestError?) -> Void, always: () -> Void) {
+    public func upload(onProgress: (progress: Float) -> Void, onSuccess: (result: T?) -> Void, onError: (RestError?) -> Void, always: () -> Void) {
 
         assert(self.method == .POST)
         assert((self.bodyParams?.count ?? 0) == 1)

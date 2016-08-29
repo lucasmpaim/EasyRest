@@ -33,12 +33,13 @@ public class Service<R: Routable> {
     }
 
     public func upload<E: MappableBase>(routes: R, type: E.Type,
-                                        onSuccess: (result: E?) -> Void,
                                         onProgress: (progress: Float) -> Void,
+                                        onSuccess: (result: E?) -> Void,
                                         onError: (RestError?) -> Void,
                                         always: () -> Void) throws {
-        try builder(routes, type: type).build().upload(onSuccess,
-                onProgress: onProgress,
+        try builder(routes, type: type).build().upload(
+                onProgress,
+                onSuccess: onSuccess,
                 onError: onError,
                 always: always)
     }
