@@ -90,8 +90,7 @@ public class API <T: JsonConvertibleType> {
                         assert(item is UIImage || item is NSData)
                         if let _item = item as? UIImage {
                             let data = UIImagePNGRepresentation(_item)!
-                            let uuid = NSUUID().UUIDString
-                            form.appendBodyPart(data: data, name: uuid, fileName: "\(uuid).png", mimeType: "image/png")
+                            form.appendBodyPart(data: data, name: key, fileName: "\(key).png", mimeType: "image/png")
                         } else {
                             let data = item as! NSData
                             form.appendBodyPart(data: data, name: key)
