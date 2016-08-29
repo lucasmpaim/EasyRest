@@ -42,7 +42,7 @@ public class AuthenticableService<Auth: Authentication, R: Routable> : Service<R
         builder.build().execute(onSuccess, onError: onError, always: always)
     }
 
-    public func upload<E: MappableBase>(routes: R, type: E.Type,
+    override public func upload<E: MappableBase>(routes: R, type: E.Type,
                                         onProgress: (progress: Float) -> Void,
                                         onSuccess: (result: E?) -> Void,
                                         onError: (RestError?) -> Void,
