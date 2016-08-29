@@ -81,19 +81,21 @@ public class API <T: JsonConvertibleType> {
         assert(self.method == .POST)
         assert((self.bodyParams?.count ?? 0) == 1)
 
+        self.beforeRequest()
 
         Alamofire.upload(self.method,
                 self.path,
                 multipartFormData: {form in
                     for (key,item) in self.bodyParams! {
                         assert(item is UIImage || item is NSData)
-                        let data: NSData
                         if let _item = item as? UIImage {
-                            data = UIImagePNGRepresentation(_item)!
+                            let data = UIImagePNGRepresentation(_item)!
+                            let uuid = NSUUID.UUIDString
+                            form.appendBodyPart(data: data, name: uuid, fileName: "\(uuid).png", mimeType: "image/png")
                         } else {
-                            data = item as! NSData
+                            let data = item as! NSData
+                            form.appendBodyPart(data: data, name: key)
                         }
-                        form.appendBodyPart(data: data, name: key)
                     }
                 },
                 encodingCompletion: { result in
