@@ -92,7 +92,7 @@ public class APIBuilder <T: JsonConvertibleType> {
             let params: [String: AnyObject] = try convertParameters(obj)
             
             switch type {
-            case .Body:
+            case .Body, .MultiPart:
                 addBodyParameters(params)
             case .Path:
                 self.pathParams = params as? [String: String]

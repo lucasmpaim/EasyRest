@@ -16,7 +16,8 @@ public enum RestErrorType: Int {
     case NoNetwork = 1
     case InvalidType = 2
     case AuthenticationRequired = 3
-    
+    case FormEncodeError = 4
+
     //MARK: Client HTTP Errors
     case BadRequest = 400
     case Unauthorized = 401

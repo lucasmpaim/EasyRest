@@ -12,4 +12,5 @@ public enum ParametersType {
     case Query
     case Path
     case Body
+    case MultiPart
 }

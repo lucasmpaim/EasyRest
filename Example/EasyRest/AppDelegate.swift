@@ -261,7 +261,10 @@ class OAuth2Interceptor: AuthenticatorInterceptor {
         api.bodyParams?["client_id"] = oauth2Authenticator.clientId
         api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
     }
-    
+
+    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+
+    }
 }
 
 
