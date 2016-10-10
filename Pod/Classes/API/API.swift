@@ -66,7 +66,8 @@ public class API <T: JsonConvertibleType> {
             } else {
                 let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.Unknow.rawValue,
                         rawIsHttpCode: true,
-                        rawResponse: response.result.value)
+                        rawResponse: response.result.value,
+                        rawResponseData: response.data)
                 onError(error)
             }
 
@@ -108,7 +109,8 @@ public class API <T: JsonConvertibleType> {
                     case .Failure(_):
                         onError(RestError(rawValue: RestErrorType.FormEncodeError.rawValue,
                                 rawIsHttpCode: false,
-                                rawResponse: nil))
+                                rawResponse: nil,
+                                rawResponseData: nil))
                         always()
                     }
                 })

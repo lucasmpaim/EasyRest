@@ -1,0 +1,36 @@
+{
+  "name": "EasyRest",
+  "version": "0.0.5",
+  "summary": "A simple RestClient for iOS.",
+  "description": "A simple rest library",
+  "homepage": "https://github.com/lucasmpaim/EasyRest",
+  "license": "MIT",
+  "authors": {
+    "Lucas": "lucasmpaim1@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/lucasmpaim/EasyRest.git",
+    "tag": "0.0.5"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "EasyRest": [
+      "Pod/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "Genome": [
+      "~> 2.0.4"
+    ],
+    "Alamofire": [
+      "~> 3.5.0"
+    ],
+    "ReachabilitySwift": [
+      "~> 2.4"
+    ]
+  }
+}
