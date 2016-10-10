@@ -15,7 +15,7 @@ public class RestError: ErrorType {
     public let rawResponse: AnyObject?
     public let rawResponseData: NSData?
     
-    public init(rawValue: Int, rawIsHttpCode: Bool = false, rawResponse: AnyObject? = nil) {
+    public init(rawValue: Int, rawIsHttpCode: Bool = false, rawResponse: AnyObject? = nil, rawResponseData: NSData? = nil) {
         if let _cause = RestErrorType(rawValue: rawValue) {
             self.cause = _cause
         } else {
@@ -24,6 +24,7 @@ public class RestError: ErrorType {
         
         self.httpResponseCode = rawIsHttpCode ? rawValue : nil
         self.rawResponse = rawResponse
+        self.rawResponseData = rawResponseData
     }
     
 }
