@@ -8,17 +8,16 @@
 
 import Foundation
 import Genome
-import PureJsonSerializer
 import Alamofire
 
-public class APIBuilder <T: JsonConvertibleType> {
+open class APIBuilder <T: MappableBase> {
     
     var path: String
     var queryParams: [String: String]?
     var pathParams: [String: String]?
-    var bodyParams: [String: AnyObject]?
+    var bodyParams: [String: Any]?
     var headers: [String: String]?
-    var method: Alamofire.Method?
+    var method: HTTPMethod?
     
     var logger: Logger?
     
@@ -37,30 +36,30 @@ public class APIBuilder <T: JsonConvertibleType> {
         self.path = "" //Constante
     }
     
-    public func resource(resourcePath: String, method: Alamofire.Method) -> Self {
-        self.path.appendContentsOf(resourcePath)
+    open func resource(_ resourcePath: String, method: HTTPMethod) -> Self {
+        self.path.append(resourcePath)
         self.method = method
         return self
     }
     
-    public func addInterceptor(interceptor: Interceptor) -> Self{
+    open func addInterceptor(_ interceptor: Interceptor) -> Self{
         interceptors.append(interceptor)
         return self
     }
     
-    public func addInterceptors(interceptors: [Interceptor]) -> Self{
+    open func addInterceptors(_ interceptors: [Interceptor]) -> Self{
         for interceptor in interceptors {
             self.interceptors.append(interceptor)
         }
         return self
     }
     
-    public func logger(logger: Logger) -> Self{
+    open func logger(_ logger: Logger) -> Self{
         self.logger = logger
         return self
     }
     
-    public func addQueryParams(queryParams : [String: String]) ->  Self {
+    open func addQueryParams(_ queryParams : [String: String]) ->  Self {
         if self.queryParams == nil{
             self.queryParams = queryParams
             return self
@@ -73,7 +72,7 @@ public class APIBuilder <T: JsonConvertibleType> {
         return self
     }
     
-    public func addHeaders(headers: [String: String]) -> Self{
+    open func addHeaders(_ headers: [String: String]) -> Self{
         if self.headers == nil{
             self.headers = headers
             return self
@@ -85,32 +84,32 @@ public class APIBuilder <T: JsonConvertibleType> {
         return self
     }
     
-    public func addParameteres(parameters: [ParametersType : AnyObject]) throws {
+    open func addParameteres(_ parameters: [ParametersType : Any]) throws {
         
         for (type, obj) in parameters {
             
-            let params: [String: AnyObject] = try convertParameters(obj)
+            let params = try convertParameters(obj)
             
             switch type {
-            case .Body, .MultiPart:
-                addBodyParameters(params)
-            case .Path:
+            case .body, .multiPart:
+                _ = addBodyParameters(params)
+            case .path:
                 self.pathParams = params as? [String: String]
-            case .Query:
+            case .query:
                 if let queryParameters = params as? [String: String] {
-                    addQueryParams(queryParameters)
+                    _ = addQueryParams(queryParameters)
                 }
             }
             
         }
     }
     
-    public func addBodyParameters(bodyParam bodyParam: MappableBase) throws -> Self {
-        bodyParams = try bodyParam.jsonRepresentation().foundationDictionary
+    open func addBodyParameters(bodyParam: MappableBase) throws -> Self {
+        bodyParams = try bodyParam.foundationDictionary()
         return self
     }
     
-    public func addBodyParameters(bodyParams : [String: AnyObject]) ->  Self {
+    open func addBodyParameters(_ bodyParams : [String: Any]) ->  Self {
         if self.bodyParams == nil{
             self.bodyParams = bodyParams
             return self
@@ -122,7 +121,7 @@ public class APIBuilder <T: JsonConvertibleType> {
         return self
     }
     
-    public func build() -> API<T> {
+    open func build() -> API<T> {
         
         assert(method != nil, "method not can be empty")
         
@@ -130,11 +129,11 @@ public class APIBuilder <T: JsonConvertibleType> {
             self.path = self.path.replacePathLabels(pathParams)
         }
         
-        let path = NSURL(string: self.path)
+        let path = URL(string: self.path)
         assert(path?.scheme != nil && path?.host != nil, "Invalid URL: \(self.path)")
         
-        for interceptorType in defaultInterceptors.reverse() {
-            self.interceptors.insert(interceptorType.init(), atIndex: 0)
+        for interceptorType in defaultInterceptors.reversed() {
+            self.interceptors.insert(interceptorType.init(), at: 0)
         }
         
         let api = API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors)
@@ -142,13 +141,13 @@ public class APIBuilder <T: JsonConvertibleType> {
         return api
     }
     
-    public func convertParameters(obj: AnyObject) throws -> [String: AnyObject]{
+    open func convertParameters(_ obj: Any) throws -> [String: Any]{
         if let _obj = obj as? [String: AnyObject] {
             return _obj
         } else if let _obj = obj as? MappableBase {
-            return try _obj.jsonRepresentation().foundationDictionary!
+            return try! _obj.foundationDictionary()!
         }
-        throw RestError(rawValue: RestErrorType.InvalidType.rawValue)
+        throw RestError(rawValue: RestErrorType.invalidType.rawValue)
     }
     
 }

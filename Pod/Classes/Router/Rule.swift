@@ -10,13 +10,13 @@ import Foundation
 import Alamofire
 import Genome
 
-public class Rule {
-    public let isAuthenticable: Bool
+open class Rule {
+    open let isAuthenticable: Bool
     let path: String
-    let method: Alamofire.Method
-    let parameters: [ParametersType:  AnyObject]
+    let method: HTTPMethod
+    let parameters: [ParametersType:  Any]
     
-    public init(method: Alamofire.Method, path: String, isAuthenticable: Bool, parameters: [ParametersType:  AnyObject]){
+    public init(method: HTTPMethod, path: String, isAuthenticable: Bool, parameters: [ParametersType:  Any]){
         self.isAuthenticable = isAuthenticable
         self.path = path
         self.method = method

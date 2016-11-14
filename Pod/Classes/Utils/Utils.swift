@@ -11,26 +11,26 @@ import Alamofire
 
 
 class Utils {
-    static func isSuccessfulRequest(response: Alamofire.Response<AnyObject, NSError>) -> Bool {
-        return 200...299 ~= response.response?.statusCode
+    static func isSuccessfulRequest(response: DataResponse<Any>) -> Bool {
+        return 200...299 ~= response.response!.statusCode
     }
 }
 
-@warn_unused_result
-public func ~=<I : ForwardIndexType where I : Comparable>(pattern: Range<I>, value: I?) -> Bool {
+
+public func ~=<I : Comparable>(pattern: Range<I>, value: I?) -> Bool where I : Comparable {
     return value != nil && pattern ~= value!
 }
 
 extension String {
     func removeLastCharacter() -> String {
-        return self.substringToIndex(self.endIndex.predecessor())
+        return self.substring(to: self.characters.index(before: self.endIndex))
     }
     
-    func replacePathLabels(dictionary : Dictionary<String, String>) -> String {
+    func replacePathLabels(_ dictionary : Dictionary<String, String>) -> String {
         var replacedString = self
         
         for (key, value) in dictionary {
-            replacedString = replacedString.stringByReplacingOccurrencesOfString("{\(key)}", withString: value, options: NSStringCompareOptions.LiteralSearch, range: nil)
+            replacedString = replacedString.replacingOccurrences(of: "{\(key)}", with: value, options: NSString.CompareOptions.literal, range: nil)
         }
         
         return replacedString

@@ -9,11 +9,13 @@ After reviewing many REST clients for iOS , we realize that all are very verbose
 This library was born from the need to simplify the communication between client and server.
 
 ## Requirements
- - Swift 2.2
+ - Swift 3
  
 ### For XCode
- - XCode 7.3
+ - XCode 8
  - XCode Color Plugin: https://github.com/robbiehanson/XcodeColors
+
+For Swift 2.2 and 2.3 check the branches.
 
 ### For AppCode
  - Grep Console

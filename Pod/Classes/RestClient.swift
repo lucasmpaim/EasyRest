@@ -9,30 +9,30 @@
 import Foundation
 import Genome
 
-public class EasyRest {
+open class EasyRest {
     
-    public static let sharedInstance = EasyRest()
-    private var kServerDefaultEndPoint: String?
+    open static let sharedInstance = EasyRest()
+    fileprivate var kServerDefaultEndPoint: String?
     
-    func setup(defaultServerEndPoint: String) {
-        
-        self.kServerDefaultEndPoint = defaultServerEndPoint
-        
-        ReachabilityCore.sharedInstance.setup()
-    
-        NSNotificationCenter.defaultCenter().addObserver(EasyRest.sharedInstance, selector: #selector(didDisconnect),
-            name: ReachabilityCore.Notifications.NoNetwork.rawValue, object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(EasyRest.sharedInstance, selector: #selector(didConnectWithWifi),
-            name: ReachabilityCore.Notifications.Wifi.rawValue, object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(EasyRest.sharedInstance, selector: #selector(didConnectWith3G),
-            name: ReachabilityCore.Notifications.Mobile.rawValue, object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(EasyRest.sharedInstance, selector: #selector(didConnect),
-            name: ReachabilityCore.Notifications.Connect.rawValue, object: nil)
-    }
-    
+//    func setup(_ defaultServerEndPoint: String) {
+//        
+//        self.kServerDefaultEndPoint = defaultServerEndPoint
+//        
+//        ReachabilityCore.sharedInstance.setup()
+//    
+//        NotificationCenter.default.addObserver(EasyRest.sharedInstance, selector: #selector(didDisconnect),
+//            name: NSNotification.Name(rawValue: ReachabilityCore.Notifications.NoNetwork.rawValue), object: nil)
+//        
+//        NotificationCenter.default.addObserver(EasyRest.sharedInstance, selector: #selector(didConnectWithWifi),
+//            name: NSNotification.Name(rawValue: ReachabilityCore.Notifications.Wifi.rawValue), object: nil)
+//        
+//        NotificationCenter.default.addObserver(EasyRest.sharedInstance, selector: #selector(didConnectWith3G),
+//            name: NSNotification.Name(rawValue: ReachabilityCore.Notifications.Mobile.rawValue), object: nil)
+//        
+//        NotificationCenter.default.addObserver(EasyRest.sharedInstance, selector: #selector(didConnect),
+//            name: NSNotification.Name(rawValue: ReachabilityCore.Notifications.Connect.rawValue), object: nil)
+//    }
+//    
     
     @objc func didConnect(){ }
     @objc func didDisconnect() { }

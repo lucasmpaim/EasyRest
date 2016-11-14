@@ -12,7 +12,7 @@ import Genome
 public protocol OAuth2 : Authentication {
     
     func getRefreshToken() -> String?
-    func getExpireDate() -> NSDate?
+    func getExpireDate() -> Date?
     func getTokenEndPoint() -> String
     
     var clientId: String {get}

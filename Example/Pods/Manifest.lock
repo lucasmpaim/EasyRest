@@ -1,13 +1,20 @@
 PODS:
-  - Alamofire (3.5.1)
-  - EasyRest (0.0.5):
-    - Alamofire (~> 3.5.0)
-    - Genome (~> 2.0.4)
-    - ReachabilitySwift (~> 2.4)
-  - Genome (2.0.4):
-    - PureJsonSerializer (~> 1.0.0)
-  - PureJsonSerializer (1.0.2)
-  - ReachabilitySwift (2.4)
+  - Alamofire (4.0.1)
+  - EasyRest (0.0.6):
+    - Alamofire (~> 4.0.1)
+    - Genome
+    - ReachabilitySwift
+  - Genome (3.0.2):
+    - Genome/Default (= 3.0.2)
+  - Genome/Core (3.0.2):
+    - Genome/Packages
+  - Genome/Default (3.0.2):
+    - Genome/Core
+    - Genome/Foundation
+  - Genome/Foundation (3.0.2):
+    - Genome/Core
+  - Genome/Packages (3.0.2)
+  - ReachabilitySwift (3)
 
 DEPENDENCIES:
   - EasyRest (from `../`)
@@ -17,12 +24,11 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
-  EasyRest: fa26b2e2a8d831950bbe06ca8f9b64bf184ece2e
-  Genome: ee22f71d87eefac0f622f77e75d1fef7f7fa12e7
-  PureJsonSerializer: 81d6bc0e21ed4b837193279aa3d29981f75f9057
-  ReachabilitySwift: dc7452dab85ff881904215e1a113326ad8d07beb
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  EasyRest: 4b118d471177ced8c6c6cd487702d298a8ff3c55
+  Genome: 44584c1e971899a5a4b20ee87faee452a5f1ac1a
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
 
-PODFILE CHECKSUM: 167b4282cab511cd7428ec9a0b639279a98aeff4
+PODFILE CHECKSUM: 0866c9adaf4ded826888018fdb01ae15417d314c
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.0.beta.1

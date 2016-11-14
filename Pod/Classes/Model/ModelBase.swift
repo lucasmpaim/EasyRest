@@ -8,18 +8,16 @@
 
 import Foundation
 import Genome
-import PureJsonSerializer
 
-public class BaseModel : NSObject, MappableBase {
+open class BaseModel : NSObject, MappableBase {
     
     required public override init() { super.init() }
     
-    public static func newInstance(json: Json, context: Context) throws -> Self {
-        let map = Map(json: json, context: context)
-        let new = self.init()
-        try new.sequence(map)
-        return new
+    public required convenience init(node: Node, in context: Context = EmptyNode) throws {
+        self.init()
+        let map = Map(node: node, in: context)
+        try self.sequence(map)
     }
     
-    public func sequence(map: Map) throws { fatalError("override me!") }
+    open func sequence(_ map: Map) throws { fatalError("override me!") }
 }

@@ -14,22 +14,22 @@ public struct Logger {
     public static var isAppCode: Bool = false
     
     public enum LogLevel {
-        case None
-        case Info
-        case Warning
-        case Error
-        case Verbose
+        case none
+        case info
+        case warning
+        case error
+        case verbose
     }
     
-    public var logLevel: LogLevel = .Verbose
+    public var logLevel: LogLevel = .verbose
 
     static let ESCAPE = "\u{001b}[fg"
     static let RESET = ESCAPE + ";"
 
 
-    public func info<T>(object: T) {
+    public func info<T>(_ object: T) {
 
-        if logLevel == .Verbose || logLevel == .Info {
+        if logLevel == .verbose || logLevel == .info {
             if Logger.isAppCode {
                 print("\u{1b}[37m\(object)\u{1b}[39m")
             } else {
@@ -38,8 +38,8 @@ public struct Logger {
         }
     }
     
-    public func warning<T>(object: T) {
-        if logLevel == .Warning || logLevel == .Verbose {
+    public func warning<T>(_ object: T) {
+        if logLevel == .warning || logLevel == .verbose {
             if Logger.isAppCode {
                 print("\u{1b}[93m\(object)\u{1b}[39m")
             } else {
@@ -48,8 +48,8 @@ public struct Logger {
         }
     }
     
-    public func error<T>(object: T) {
-        if logLevel == .Error || logLevel == .Verbose {
+    public func error<T>(_ object: T) {
+        if logLevel == .error || logLevel == .verbose {
             if Logger.isAppCode {
                 print("\u{1b}[31m\(object)\u{1b}[39m")
             } else {

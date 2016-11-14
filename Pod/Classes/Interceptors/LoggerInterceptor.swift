@@ -17,15 +17,15 @@ class LoggerInterceptor : Interceptor {
     
     required init() {}
     
-    func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
-        self.bodyParams = api.bodyParams
+    func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {
+        self.bodyParams = api.bodyParams as AnyObject?
     }
     
-    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
         
         if let _ = response.result.value {
             
-            if response.response?.statusCode >= 200 && response.response?.statusCode <= 399 {
+            if (response.response?.statusCode)! >= 200 && (response.response?.statusCode)! <= 399 {
                 self.logSucess(api, response: response)
             }else{
                 self.logError(api, response: response)
@@ -37,9 +37,9 @@ class LoggerInterceptor : Interceptor {
         
     }
 
-    func logSucess<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>){
+    func logSucess<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>){
         api.logger?.info("==============================================================================")
-        api.logger?.info("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
+        api.logger?.info("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
         api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         
         if let bodyParams = self.bodyParams {
@@ -55,9 +55,9 @@ class LoggerInterceptor : Interceptor {
         api.logger?.info("==============================================================================")
     }
     
-    func logError<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func logError<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
         api.logger?.error("==============================================================================")
-        api.logger?.error("request URI: \(response.request!.HTTPMethod!) \(response.request!.URLString)")
+        api.logger?.error("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
         api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         if let bodyParams = self.bodyParams {
             api.logger?.info("request body:\n\(bodyParams)")

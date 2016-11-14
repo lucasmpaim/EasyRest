@@ -8,18 +8,18 @@
 
 import Foundation
 
-public class RestError: ErrorType {
+open class RestError: Error {
     
-    public let cause: RestErrorType
-    public let httpResponseCode: Int?
-    public let rawResponse: AnyObject?
-    public let rawResponseData: NSData?
+    open let cause: RestErrorType
+    open let httpResponseCode: Int?
+    open let rawResponse: Any?
+    open let rawResponseData: Data?
     
-    public init(rawValue: Int, rawIsHttpCode: Bool = false, rawResponse: AnyObject? = nil, rawResponseData: NSData? = nil) {
+    public init(rawValue: Int, rawIsHttpCode: Bool = false, rawResponse: Any? = nil, rawResponseData: Data? = nil) {
         if let _cause = RestErrorType(rawValue: rawValue) {
             self.cause = _cause
         } else {
-            self.cause = .Unknow
+            self.cause = .unknow
         }
         
         self.httpResponseCode = rawIsHttpCode ? rawValue : nil

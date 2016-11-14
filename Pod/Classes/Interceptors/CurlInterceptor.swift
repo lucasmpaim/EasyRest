@@ -10,14 +10,14 @@ import Foundation
 import Genome
 import Alamofire
 
-public class CurlInterceptor: Interceptor {
+open class CurlInterceptor: Interceptor {
     
     required public init() {}
     
-    public func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {}
+    open func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {}
     
-    public func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        if Utils.isSuccessfulRequest(response) {
+    open func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+        if Utils.isSuccessfulRequest(response: response) {
             if let curl = api.curl {
                 api.logger?.info(curl)
             }

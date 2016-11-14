@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/lucasmpaim/EasyRest.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'Genome', '~> 2.0.4'
-  s.dependency 'Alamofire', '~> 3.5.0'
-  s.dependency 'ReachabilitySwift', '~> 2.4'
+  s.dependency 'Genome'
+  s.dependency 'Alamofire', '~> 4.0.1'
+  s.dependency 'ReachabilitySwift'
 end

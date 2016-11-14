@@ -30,7 +30,7 @@ public protocol Authentication : HasToken{
     var interceptor: AuthenticatorInterceptor {get}
     
     init()
-    func saveToken(obj: tokenType)
+    func saveToken(_ obj: tokenType)
 }
 
 

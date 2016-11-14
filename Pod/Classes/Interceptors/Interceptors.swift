@@ -14,6 +14,6 @@ public protocol Interceptor{
     
     init()
     
-    func requestInterceptor<T: JsonConvertibleType>(api: API<T>)
-    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>)
+    func requestInterceptor<T: NodeConvertible>(_ api: API<T>)
+    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>)
 }

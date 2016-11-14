@@ -9,8 +9,8 @@
 import Foundation
 
 public enum ParametersType {
-    case Query
-    case Path
-    case Body
-    case MultiPart
+    case query
+    case path
+    case body
+    case multiPart
 }

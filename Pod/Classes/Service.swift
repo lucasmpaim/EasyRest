@@ -9,34 +9,34 @@
 import Foundation
 import Genome
 
-public class Service<R: Routable> {
+open class Service<R: Routable> {
     
-    public var interceptors: [Interceptor]? {return nil}
+    open var interceptors: [Interceptor]? {return nil}
     
-    public var base: String {
+    open var base: String {
         get {
             fatalError("Override to provide baseUrl")
         }
     }
     
-    public func builder<T: MappableBase>(routes: R,
+    open func builder<T: MappableBase>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
         return try routes.builder(base, type: type)
     }
     
-    public func call<E: MappableBase>(routes: R,
+    open func call<E: MappableBase>(_ routes: R,
                                       type: E.Type,
-                                      onSuccess: (result: E?) -> Void,
-                                      onError: (RestError?) -> Void,
-                                      always: () -> Void) throws {
+                                      onSuccess: @escaping (E?) -> Void,
+                                      onError: @escaping (RestError?) -> Void,
+                                      always: @escaping () -> Void) throws {
         try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
     }
 
-    public func upload<E: MappableBase>(routes: R, type: E.Type,
-                                        onProgress: (progress: Float) -> Void,
-                                        onSuccess: (result: E?) -> Void,
-                                        onError: (RestError?) -> Void,
-                                        always: () -> Void) throws {
+    open func upload<E: MappableBase>(_ routes: R, type: E.Type,
+                                        onProgress: @escaping (Float) -> Void,
+                                        onSuccess: @escaping (E?) -> Void,
+                                        onError: @escaping (RestError?) -> Void,
+                                        always: @escaping () -> Void) throws {
         try builder(routes, type: type).build().upload(
                 onProgress,
                 onSuccess: onSuccess,
