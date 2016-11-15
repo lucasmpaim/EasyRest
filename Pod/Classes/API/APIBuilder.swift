@@ -10,7 +10,7 @@ import Foundation
 import Genome
 import Alamofire
 
-open class APIBuilder <T: MappableBase> {
+open class APIBuilder <T: NodeConvertible> {
     
     var path: String
     var queryParams: [String: String]?

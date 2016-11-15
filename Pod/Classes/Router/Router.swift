@@ -17,7 +17,7 @@ public protocol Routable {
 
 extension Routable {
     
-    public func builder<T: MappableBase>(_ base: String, type: T.Type) throws -> APIBuilder<T> {
+    public func builder<T: NodeConvertible>(_ base: String, type: T.Type) throws -> APIBuilder<T> {
         let builder = APIBuilder<T>()
         
         builder.logger = Logger()
@@ -26,7 +26,7 @@ extension Routable {
         return builder.resource(base + self.rule.path, method: self.rule.method)
     }
     
-    public func builder<T: MappableBase, A: Authentication>(_ base: String, type: T.Type, authInterceptor: A?) throws -> APIBuilder<T> {
+    public func builder<T: NodeConvertible, A: Authentication>(_ base: String, type: T.Type, authInterceptor: A?) throws -> APIBuilder<T> {
         
         if self.rule.isAuthenticable && authInterceptor?.validToken() != true {
             throw RestError(rawValue: RestErrorType.authenticationRequired.rawValue)

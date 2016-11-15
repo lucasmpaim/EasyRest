@@ -19,12 +19,12 @@ open class Service<R: Routable> {
         }
     }
     
-    open func builder<T: MappableBase>(_ routes: R,
+    open func builder<T: NodeConvertible>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
         return try routes.builder(base, type: type)
     }
     
-    open func call<E: MappableBase>(_ routes: R,
+    open func call<E: NodeConvertible>(_ routes: R,
                                       type: E.Type,
                                       onSuccess: @escaping (E?) -> Void,
                                       onError: @escaping (RestError?) -> Void,
@@ -32,7 +32,7 @@ open class Service<R: Routable> {
         try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
     }
 
-    open func upload<E: MappableBase>(_ routes: R, type: E.Type,
+    open func upload<E: NodeConvertible>(_ routes: R, type: E.Type,
                                         onProgress: @escaping (Float) -> Void,
                                         onSuccess: @escaping (E?) -> Void,
                                         onError: @escaping (RestError?) -> Void,

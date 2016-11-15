@@ -97,6 +97,7 @@
 		ED8D6B703D8E34090F0CC24196F986D9 /* Node+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C58257EC8B2B6654411FF3B955D8DEA /* Node+Foundation.swift */; };
 		EE3101D85C71DCD56A872FBA09CA2D03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CFC76A0910A7AC7EE5BD876D478002 /* Foundation.framework */; };
 		EFD264FC408EBF3BA2528E70B08DDD94 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0B4B4B13E3A3CC4A6A0AD42A60AFF8 /* Notifications.swift */; };
+		F27B1FD51DDB440E00C7A17C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27B1FD41DDB440E00C7A17C /* Extensions.swift */; };
 		F6970B928468229A2DCDC09281BBB5B0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C8BDC22139EC4375AF3A3A690E16B9 /* Logger.swift */; };
 		F6BECD98B97CBFEBE2C96F0E9E72A6C0 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC7F486644D91F8F82BD6FE8672A22 /* ResponseSerialization.swift */; };
 		F8B3D3092ED0417E8CDF32033F6122F5 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C1A7811BA41EA2693ADF7FEF4CC632 /* Alamofire.swift */; };
@@ -310,6 +311,7 @@
 		EEBD2BB7360D94A43DF05CC420E0DE37 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		EEE5365D5C79927828069DEB4063E599 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F037D5CB6647D1847A5E3F540DBEA8D7 /* Convertible+Init.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Convertible+Init.swift"; path = "Packages/Node-0.7.1/Sources/Node/Convertible/Convertible+Init.swift"; sourceTree = "<group>"; };
+		F27B1FD41DDB440E00C7A17C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Extensions/Extensions.swift; sourceTree = "<group>"; };
 		F5AF5D0FB61381C581D42F2241C9C1F0 /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		F949F016A6C5F9901E000B1A755285CD /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkReachabilityManager.swift; path = Source/NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		F98D5F57AD508DEAB9E40C51A4ADF5DC /* ReachabilityCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReachabilityCore.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 				72A3913C10D9D0EB4551D99D91FC5067 /* Router */,
 				5FF0F3F51A7C402E54A3BC0AC6F0D167 /* Service */,
 				613FBC861B6B082F5AA86454AA7BDD9B /* Utils */,
+				F27B1FD31DDB43E200C7A17C /* Extensions */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -762,6 +765,14 @@
 				CF3FF84A2FE1EC2A9C4956B85FD1A141 /* ReachabilitySwift */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F27B1FD31DDB43E200C7A17C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F27B1FD41DDB440E00C7A17C /* Extensions.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		FCA135E4A85C83A3AD6FCBEF0B43F9C2 /* Model */ = {
@@ -967,6 +978,9 @@
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
+					038A9022E1AB04938F5B04730F0B5D05 = {
+						LastSwiftMigration = 0810;
+					};
 					1DEE7B4A17024BDFA94BA135D37BDC07 = {
 						LastSwiftMigration = 0800;
 					};
@@ -975,6 +989,9 @@
 					};
 					D3C042831EC4F367CCFAAA1FD8736823 = {
 						LastSwiftMigration = 0800;
+					};
+					F6E43F93DA39F84BD7C823FFD138B8AE = {
+						LastSwiftMigration = 0810;
 					};
 					F8508DE38DC5883AA5638A5BFD6BD9E5 = {
 						LastSwiftMigration = 0800;
@@ -1114,6 +1131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27B1FD51DDB440E00C7A17C /* Extensions.swift in Sources */,
 				C3D7194F1C21F23DB94FEB7D07738FB7 /* API.swift in Sources */,
 				807A92182FE9AF9A465B9F6214D597B4 /* APIBuilder.swift in Sources */,
 				D06EAB5E38DDF5920CCCE0664B066F89 /* Authenticable.swift in Sources */,
@@ -1305,6 +1323,7 @@
 				PRODUCT_NAME = Pods_EasyRest_Tests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1373,6 +1392,7 @@
 				PRODUCT_NAME = Pods_EasyRest_Example;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1567,6 +1587,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1708,6 +1729,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

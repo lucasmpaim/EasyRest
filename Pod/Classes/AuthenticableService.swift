@@ -19,7 +19,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         return authenticator
     }
     
-    open override func builder<T : MappableBase>(_ routes: R, type: T.Type) throws -> APIBuilder<T> {
+    open override func builder<T : NodeConvertible>(_ routes: R, type: T.Type) throws -> APIBuilder<T> {
         let builder = try super.builder(routes, type: type)
         
         _ = builder.addInterceptor(authenticator.interceptor)
@@ -31,7 +31,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         return builder
     }
     
-    override open func call<E: MappableBase>(_ routes: R, type: E.Type, onSuccess: @escaping (E?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws {
+    override open func call<E: NodeConvertible>(_ routes: R, type: E.Type, onSuccess: @escaping (E?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws {
         
         let builder = try self.builder(routes, type: type)
         
@@ -42,7 +42,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         builder.build().execute(onSuccess, onError: onError, always: always)
     }
 
-    override open func upload<E: MappableBase>(_ routes: R, type: E.Type,
+    override open func upload<E: NodeConvertible>(_ routes: R, type: E.Type,
                                         onProgress: @escaping (Float) -> Void,
                                         onSuccess: @escaping (E?) -> Void,
                                         onError: @escaping (RestError?) -> Void,

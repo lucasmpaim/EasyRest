@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         
         //        oauth2Authenticator.interceptors = [DefaultHeadersInterceptor()]
@@ -41,14 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        })
         
         
-//        try! Apis.Placeholder.Postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
-//            
-//            }, onError: { (error) in
-//                
-//            }, always: {
-//        })
+        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
+            
+            }, onError: { (error) in
+                
+            }, always: {
+        })
         
-        let service = PlaceholderService()
+//        let service = PlaceholderService()
 
         Logger.isAppCode = true
 
@@ -59,12 +59,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }, always: {
 //        })
         
-        service.me({ (result) in
+/*        service.me({ (result) in
             result?.firstName
             }, onError: { (error) in
                 
             }, always: {
-        })
+        }) */
         
 //        let service2 = Apis.Placeholder.Service()
 //        try! service2.call(.Postes, type: UserTest.self, onSucess: { (result) in
@@ -77,47 +77,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
     
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 }
 
-public class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> {
+open class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> {
     public override init() { super.init() }
 }
 
 
 final class Apis {
     enum Placeholder: Routable {
-        case Me
-        case Postes
+        case me
+        case postes
         
         var rule: Rule {
             switch(self) {
-            case .Me:
+            case .me:
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters)
-            case .Postes:
+                return Rule(method: .get, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters)
+            case .postes:
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .GET, path: "/posts/", isAuthenticable: false, parameters: parameters)
+                return Rule(method: .get, path: "/posts/", isAuthenticable: false, parameters: parameters)
             }
         }
         
@@ -146,15 +146,15 @@ class PlaceholderService : OAuth2Service<Apis.Placeholder> {
         getAuthenticator().token?.accessToken = "MY TOKEN"
     }
     
-    func me(onSuccess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
-        try! call(.Me, type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    func me(_ onSuccess: @escaping (_ result: UserTest?) -> Void, onError: @escaping (Error?) -> Void, always: @escaping () -> Void) {
+        try! call(.me, type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
-    func posts(onSuccess: (result: Posts?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
-        try! call(.Postes, type: Posts.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+    func posts(_ onSuccess: @escaping (_ result: Posts?) -> Void, onError: @escaping (Error?) -> Void, always: @escaping () -> Void) {
+        try! call(.postes, type: Posts.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
-    func defaultErrorHandler(onError: (ErrorType?) -> Void) -> (ErrorType?) -> Void {
+    func defaultErrorHandler(_ onError: @escaping (Error?) -> Void) -> (Error?) -> Void {
         return { error in
             /* Do whatever is default for all errors, like
                 switch error.cause {
@@ -178,7 +178,7 @@ class Token : BaseModel {
     var refreshToken: String?
     var expiresIn: Int?
     
-    override func sequence(map: Map) throws {
+    override func sequence(_ map: Map) throws {
         try self.accessToken <~> map["access_token"]
         try self.refreshToken <~> map["refresh_token"]
         try self.expiresIn <~> map["expires_in"]
@@ -194,9 +194,9 @@ class DefaultHeadersInterceptor : Interceptor {
     
     required init() {}
     
-    func requestInterceptor<T: JsonConvertibleType>(api: API<T>) {
+    func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {
         
-        if api.path.URLString.rangeOfString("http://54.84.75.111/oauth/token/") != nil {
+        if api.path.url!.absoluteString.range(of: "http://54.84.75.111/oauth/token/") != nil {
             api.headers["Content-Type"] = "application/x-www-form-urlencoded"
         }else{
             api.headers["Content-Type"] = "application/json"
@@ -207,7 +207,7 @@ class DefaultHeadersInterceptor : Interceptor {
         api.headers["Accept-Language"] = "pt-br"
     }
     
-    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
         
     }
     
@@ -218,7 +218,7 @@ class DefaultHeadersInterceptor : Interceptor {
 class OAuth2Authenticator : OAuth2, HasToken {
     
     typealias tokenType = Token
-    private var token: tokenType?
+    fileprivate var token: tokenType?
     
     required init() { }
     
@@ -231,7 +231,7 @@ class OAuth2Authenticator : OAuth2, HasToken {
         return nil
     }
     
-    func saveToken(obj: tokenType) {
+    func saveToken(_ obj: tokenType) {
         self.token = obj
     }
     
@@ -239,7 +239,7 @@ class OAuth2Authenticator : OAuth2, HasToken {
         return nil
     }
     
-    func getExpireDate() -> NSDate? {
+    func getExpireDate() -> Date? {
         return nil
     }
     
@@ -257,12 +257,12 @@ class OAuth2Interceptor: AuthenticatorInterceptor {
     required init() { }
     var token: HasToken { return oauth2Authenticator }
     
-    func requestInterceptor<T : JsonConvertibleType>(api: API<T>) {
+    func requestInterceptor<T : NodeConvertible>(_ api: API<T>) {
         api.bodyParams?["client_id"] = oauth2Authenticator.clientId
         api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
     }
 
-    func responseInterceptor<T: JsonConvertibleType>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
+    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
 
     }
 }
@@ -277,7 +277,7 @@ class UserTest : BaseModel {
     var photo: String?
     var password: String?
     
-    override func sequence(map: Map) throws {
+    override func sequence(_ map: Map) throws {
         try self.id <~> map["id"]
         try self.firstName <~> map["first_name"]
         try self.lastName <~> map["last_name"]
@@ -297,7 +297,7 @@ class Posts : BaseModel {
     var title: String?
     var body: String?
     
-    override func sequence(map: Map) throws {
+    override func sequence(_ map: Map) throws {
         try self.id <~> map["id"]
         try self.userId <~> map["userId"]
         try self.title <~> map["title"]
@@ -305,3 +305,5 @@ class Posts : BaseModel {
     }
     
 }
+
+

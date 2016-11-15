@@ -11,7 +11,7 @@ import Genome
 import Alamofire
 import UIKit
 
-open class API <T: MappableBase> {
+open class API <T: NodeConvertible> {
         
     open var path: URLRequest
     open var queryParams: [String: String]?
