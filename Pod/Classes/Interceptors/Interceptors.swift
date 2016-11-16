@@ -14,6 +14,6 @@ public protocol Interceptor{
     
     init()
     
-    func requestInterceptor<T: NodeConvertible>(_ api: API<T>)
-    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>)
+    func requestInterceptor<T: NodeInitializable>(_ api: API<T>)
+    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>)
 }

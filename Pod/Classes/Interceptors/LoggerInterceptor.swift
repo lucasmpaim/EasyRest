@@ -17,11 +17,11 @@ class LoggerInterceptor : Interceptor {
     
     required init() {}
     
-    func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {
+    func requestInterceptor<T: NodeInitializable>(_ api: API<T>) {
         self.bodyParams = api.bodyParams as AnyObject?
     }
     
-    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
         
         if let _ = response.result.value {
             
@@ -37,7 +37,7 @@ class LoggerInterceptor : Interceptor {
         
     }
 
-    func logSucess<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>){
+    func logSucess<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>){
         api.logger?.info("==============================================================================")
         api.logger?.info("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
         api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
@@ -55,7 +55,7 @@ class LoggerInterceptor : Interceptor {
         api.logger?.info("==============================================================================")
     }
     
-    func logError<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+    func logError<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
         api.logger?.error("==============================================================================")
         api.logger?.error("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
         api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")

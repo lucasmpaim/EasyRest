@@ -41,8 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        })
         
         
-        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self, authInterceptor: oauth2Authenticator).build().execute({ (result) in
-            
+        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self).build().execute({ result in
+                print(result)
             }, onError: { (error) in
                 
             }, always: {
@@ -109,6 +109,7 @@ final class Apis {
     enum Placeholder: Routable {
         case me
         case postes
+        case post(id: Int)
         
         var rule: Rule {
             switch(self) {
@@ -118,6 +119,10 @@ final class Apis {
             case .postes:
                 let parameters : [ParametersType: AnyObject] = [:]
                 return Rule(method: .get, path: "/posts/", isAuthenticable: false, parameters: parameters)
+            case let .post(id):
+                let parameters : [ParametersType: AnyObject] = [:]
+                return Rule(method: .get, path: "/posts/\(id)/", isAuthenticable: false, parameters: parameters)
+
             }
         }
         
@@ -194,7 +199,7 @@ class DefaultHeadersInterceptor : Interceptor {
     
     required init() {}
     
-    func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {
+    func requestInterceptor<T: NodeInitializable>(_ api: API<T>) {
         
         if api.path.url!.absoluteString.range(of: "http://54.84.75.111/oauth/token/") != nil {
             api.headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -207,7 +212,7 @@ class DefaultHeadersInterceptor : Interceptor {
         api.headers["Accept-Language"] = "pt-br"
     }
     
-    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
         
     }
     
@@ -257,12 +262,12 @@ class OAuth2Interceptor: AuthenticatorInterceptor {
     required init() { }
     var token: HasToken { return oauth2Authenticator }
     
-    func requestInterceptor<T : NodeConvertible>(_ api: API<T>) {
+    func requestInterceptor<T : NodeInitializable>(_ api: API<T>) {
         api.bodyParams?["client_id"] = oauth2Authenticator.clientId
         api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
     }
 
-    func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
 
     }
 }
@@ -305,5 +310,4 @@ class Posts : BaseModel {
     }
     
 }
-
 

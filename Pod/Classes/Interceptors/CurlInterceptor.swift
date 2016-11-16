@@ -14,9 +14,9 @@ open class CurlInterceptor: Interceptor {
     
     required public init() {}
     
-    open func requestInterceptor<T: NodeConvertible>(_ api: API<T>) {}
+    open func requestInterceptor<T: NodeInitializable>(_ api: API<T>) {}
     
-    open func responseInterceptor<T: NodeConvertible>(_ api: API<T>, response: DataResponse<Any>) {
+    open func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
         if Utils.isSuccessfulRequest(response: response) {
             if let curl = api.curl {
                 api.logger?.info(curl)

@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.0.1)
-  - EasyRest (0.0.6):
+  - EasyRest (0.0.7):
     - Alamofire (~> 4.0.1)
     - Genome
     - ReachabilitySwift
@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
-  EasyRest: 4b118d471177ced8c6c6cd487702d298a8ff3c55
+  EasyRest: 30083dbdf926b742bad4be449cdc8a611ed9aa60
   Genome: 44584c1e971899a5a4b20ee87faee452a5f1ac1a
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
 

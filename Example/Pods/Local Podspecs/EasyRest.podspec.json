@@ -1,6 +1,6 @@
 {
   "name": "EasyRest",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "summary": "A simple RestClient for iOS.",
   "description": "A simple rest library",
   "homepage": "https://github.com/lucasmpaim/EasyRest",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/lucasmpaim/EasyRest.git",
-    "tag": "0.0.6"
+    "tag": "0.0.7"
   },
   "platforms": {
     "ios": "9.0"

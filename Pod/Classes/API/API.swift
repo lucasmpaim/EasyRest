@@ -11,8 +11,8 @@ import Genome
 import Alamofire
 import UIKit
 
-open class API <T: NodeConvertible> {
-        
+open class API <T where T: NodeInitializable> {
+    
     open var path: URLRequest
     open var queryParams: [String: String]?
     open var bodyParams: [String: Any]?
@@ -59,7 +59,7 @@ open class API <T: NodeConvertible> {
                 var instance: T? = nil // For empty results
                 if let _ = response.result.value {
                     
-                    let node = Node(any: response.data!)
+                    let node = try! response.data!.makeNode()
                     instance = try! T(node: node)
                 }
                 onSuccess(instance)
