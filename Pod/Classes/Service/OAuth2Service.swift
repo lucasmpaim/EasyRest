@@ -47,7 +47,7 @@ open class OAuth2Service<T: OAuth2>: AuthenticableService<T, OAuth2Rotable> {
         super.init()
     }
 
-    open override func builder<T : MappableBase>(_ routes: OAuth2Rotable, type: T.Type) throws -> APIBuilder<T> {
+    open override func builder<T : NodeInitializable>(_ routes: OAuth2Rotable, type: T.Type) throws -> APIBuilder<T> {
         let builder = try super.builder(routes, type: type)
         return builder
     }

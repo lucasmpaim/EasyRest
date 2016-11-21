@@ -14,7 +14,7 @@ import Genome
 
 
 
-let oauth2Authenticator = OAuth2Authenticator()
+let oauth2Authenticator = ExampleOAuth2Service()
 let BASE_URL = "http://jsonplaceholder.typicode.com"
 
 @UIApplicationMain
@@ -25,28 +25,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+                oauth2Authenticator.loginWithPassword("admin@hitgo.com", password: "abcd@1234", onSuccess: {
+                            token in
+                    
+                    print(token)
+                    
+                    }, onError: { error in
         
-        //        oauth2Authenticator.interceptors = [DefaultHeadersInterceptor()]
-        //        oauth2Authenticator.loginWithPassword("abcd@abcd.com", password: "abcd@abcd", onSucess: {
-        //            try! TestRoute.Me.builder(UserTest.self).build().execute({ (result) -> Void in
-        //
-        //                }, onError: { (error) -> Void in
-        //
-        //                }, always: { () -> Void in
-        //
-        //            })
-        //            }, onError: { error in
-        //
-        //            }, always: {
-        //        })
+                    }, always: {
+                })
         
         
-        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self).build().execute({ result in
-                print(result)
-            }, onError: { (error) in
-                
-            }, always: {
-        })
+        
+//        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self).build().execute({ result in
+//                print(result)
+//            }, onError: { (error) in
+//                
+//            }, always: {
+//        })
         
 //        let service = PlaceholderService()
 
@@ -100,10 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-open class OAuth2Service<R: Routable> : AuthenticableService<OAuth2Authenticator, R> {
-    public override init() { super.init() }
-}
-
 
 final class Apis {
     enum Placeholder: Routable {
@@ -140,48 +132,13 @@ final class Apis {
     }
 }
 
-// Alternative
-class PlaceholderService : OAuth2Service<Apis.Placeholder> {
-    override var base: String { return BASE_URL }
-    override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
-    
-    override init () {
-        super.init()
-        getAuthenticator().token = Token()
-        getAuthenticator().token?.accessToken = "MY TOKEN"
-    }
-    
-    func me(_ onSuccess: @escaping (_ result: UserTest?) -> Void, onError: @escaping (Error?) -> Void, always: @escaping () -> Void) {
-        try! call(.me, type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
-    }
-    
-    func posts(_ onSuccess: @escaping (_ result: Posts?) -> Void, onError: @escaping (Error?) -> Void, always: @escaping () -> Void) {
-        try! call(.postes, type: Posts.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
-    }
-    
-    func defaultErrorHandler(_ onError: @escaping (Error?) -> Void) -> (Error?) -> Void {
-        return { error in
-            /* Do whatever is default for all errors, like
-                switch error.cause {
-                    case .InternetConnection:
-                        // backOff()
-                    case .FailedJsonSerialization:
-                        Crashlytics.sendEvent(error....)
-                        Sentry.captureEvent(...)
-                }
-            */
-            
-            onError(error)
-        }
-    }
-}
-
 
 class Token : BaseModel {
     
     var accessToken: String?
     var refreshToken: String?
     var expiresIn: Int?
+    
     
     override func sequence(_ map: Map) throws {
         try self.accessToken <~> map["access_token"]
@@ -249,26 +206,40 @@ class OAuth2Authenticator : OAuth2, HasToken {
     }
     
     func getTokenEndPoint() -> String {
-        return "http://xpto.com/oauth/token/"
+        return "http://54.173.184.165/api/oauth/token/"
     }
     
-    var clientId: String {get{return "Wuy9rbnzO7LKxwjucS26hZIDkU41kSb5UVm9fqI9"}}
-    var clientSecret: String {get{return "SgxYobKwqhiMLdCwlk6YQ5y8FDtbUqaZEr3aUVsdkNtlxUISsy73ZO09ljAyWH7Gf3sgi3oEjpihscsMAbd6JQHSt6tNuAI1IaFRfnAhs4pjZB5R1ns4EhKOaajv2ZoC"}}
+    var clientId: String {get{return "HnLQdrUlWY67sxM7Jr4k25Zd8aFZLQeErXQu4iP3"}}
+    var clientSecret: String {get{return "L7tbawRqldwMA9GndpzoUMMhz2lQfnhPQF8v5oTRli3nraoY0rJD6rjfapgStUupszgMKMyh7nFnfqKf29LLwzpWMfzbhdLLReheDKks2c59ZCDYfhyEXT6TuwRbEFg2"}}
     
 }
 
 
-class OAuth2Interceptor: AuthenticatorInterceptor {
-    required init() { }
-    var token: HasToken { return oauth2Authenticator }
+
+class ExampleOAuth2Service: OAuth2Service<OAuth2Authenticator> {
     
-    func requestInterceptor<T : NodeInitializable>(_ api: API<T>) {
-        api.bodyParams?["client_id"] = oauth2Authenticator.clientId
-        api.bodyParams?["client_secret"] = oauth2Authenticator.clientSecret
+    override var base: String {return "http://54.173.184.165/api/oauth/token/"}
+    override var interceptors: [Interceptor]? {return [DefaultHeadersInterceptor()]}
+    
+    func loginWithPassword(_ email: String, password: String, onSuccess: @escaping (Token) -> Void, onError: @escaping  (RestError?) -> Void, always: @escaping () -> Void) {
+        
+        try! call(OAuth2Rotable.loginWithPassword(username: email, password: password), type: Token.self, onSuccess: { token in
+            self.getAuthenticator().saveToken(token!)
+            onSuccess(token!)
+        }, onError: onError, always: always)
     }
-
-    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
-
+    
+    func refreshToken(_ token: String, onSuccess: @escaping () -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
+        try! call(OAuth2Rotable.refreshToken(token: token), type: Token.self, onSuccess: {token in
+            self.getAuthenticator().saveToken(token!)
+            onSuccess()
+        }, onError: onError, always: always)
+    }
+    
+    func defaultErrorHandler(_ onError: @escaping (RestError?) -> Void) -> (RestError?) -> Void {
+        return { error in
+            onError(error)
+        }
     }
 }
 
@@ -292,6 +263,32 @@ class UserTest : BaseModel {
     }
     
 }
+
+class OAuth2Interceptor : AuthenticatorInterceptor {
+    
+    required init() {}
+    
+    var token: HasToken {
+        return OAuth2Authenticator()
+    }
+    
+    func requestInterceptor<T: NodeInitializable>(_ api: API<T>) {
+        if api.path.url!.absoluteString.range(of: OAuth2Authenticator().getTokenEndPoint()) != nil {
+            api.queryParams!["client_id"] = (token as! OAuth2Authenticator).clientId
+            api.queryParams!["client_secret"] = (token as! OAuth2Authenticator).clientSecret
+        }
+        
+        if let token = token.getToken() {
+            api.headers["Authorization"] = token
+        }
+    }
+    
+    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
+        
+    }
+    
+}
+
 
 
 

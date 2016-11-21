@@ -25,7 +25,7 @@ public extension HasToken {
 
 
 public protocol Authentication : HasToken{
-    associatedtype tokenType: MappableBase
+    associatedtype tokenType: NodeInitializable
     
     var interceptor: AuthenticatorInterceptor {get}
     

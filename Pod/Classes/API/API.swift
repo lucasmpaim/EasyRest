@@ -84,36 +84,34 @@ open class API <T where T: NodeInitializable> {
 
         self.beforeRequest()
 
-//        Alamofire.upload(self.path,
-//                method: self.method,
-//                multipartFormData: {form in
-//                    for (key,item) in self.bodyParams! {
-//                        assert(item is UIImage || item is NSData)
-//                        if let _item = item as? UIImage {
-//                            let data = UIImagePNGRepresentation(_item)!
-//                            form.appendBodyPart(data: data, name: key, fileName: "\(key).png", mimeType: "image/png")
-//                        } else {
-//                            let data = item as! NSData
-//                            form.appendBodyPart(data: data, name: key)
-//                        }
-//                    }
-//                },
-//                encodingCompletion: { result in
-//                    switch (result) {
-//                    case .Success(let upload, _, _):
-//                        upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-//                            let percent = (Float(totalBytesWritten) * 100) / Float(totalBytesExpectedToWrite)
-//                            onProgress(progress: percent)
-//                        }
-//                        upload.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
-//                    case .Failure(_):
-//                        onError(RestError(rawValue: RestErrorType.FormEncodeError.rawValue,
-//                                rawIsHttpCode: false,
-//                                rawResponse: nil,
-//                                rawResponseData: nil))
-//                        always()
-//                    }
-//                })
+        Alamofire.upload(multipartFormData: { form in
+            for (key,item) in self.bodyParams! {
+                assert(item is UIImage || item is Data)
+                if let _item = item as? UIImage {
+                    let data = UIImagePNGRepresentation(_item)!
+                    form.append(data, withName: key, mimeType: "image/png")
+                } else {
+                    let data = item as! Data
+                    form.append(data, withName: key)
+                }
+            }
+        }, with: self.path, encodingCompletion: { result in
+        
+            switch (result) {
+            case .success(let upload, _, _):
+                upload.uploadProgress(closure: { progress in
+                    onProgress(Float(progress.fractionCompleted))
+                })
+                upload.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
+            case .failure(_):
+                onError(RestError(rawValue: RestErrorType.formEncodeError.rawValue,
+                                  rawIsHttpCode: false,
+                                  rawResponse: nil,
+                                  rawResponseData: nil))
+                always()
+            }
+            
+        })
     }
     
     open func execute( _ onSuccess: @escaping (T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
