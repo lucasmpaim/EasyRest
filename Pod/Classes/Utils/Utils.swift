@@ -12,7 +12,10 @@ import Alamofire
 
 class Utils {
     static func isSuccessfulRequest(response: DataResponse<Any>) -> Bool {
-        return 200...299 ~= response.response!.statusCode
+        guard let resp = response.response else {
+            return false
+        }
+        return 200...299 ~= resp.statusCode
     }
 }
 
