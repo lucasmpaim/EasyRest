@@ -25,7 +25,7 @@ open class API <T where T: NodeInitializable> {
 
     public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?) {
         
-        self.path = URLRequest(url: path)
+        self.path = try! URLRequest(url: path, method: method)
 
         self.queryParams = queryParams
         self.bodyParams = bodyParams
@@ -83,7 +83,7 @@ open class API <T where T: NodeInitializable> {
         assert((self.bodyParams?.count ?? 0) == 1)
 
         self.beforeRequest()
-
+        
         Alamofire.upload(multipartFormData: { form in
             for (key,item) in self.bodyParams! {
                 assert(item is UIImage || item is Data)
@@ -102,6 +102,7 @@ open class API <T where T: NodeInitializable> {
                 upload.uploadProgress(closure: { progress in
                     onProgress(Float(progress.fractionCompleted))
                 })
+                
                 upload.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
             case .failure(_):
                 onError(RestError(rawValue: RestErrorType.formEncodeError.rawValue,
