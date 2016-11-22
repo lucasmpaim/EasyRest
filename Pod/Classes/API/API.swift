@@ -89,7 +89,7 @@ open class API <T where T: NodeInitializable> {
                 assert(item is UIImage || item is Data)
                 if let _item = item as? UIImage {
                     let data = UIImagePNGRepresentation(_item)!
-                    form.append(data, withName: key, mimeType: "image/png")
+                    form.append(data, withName: key, fileName: key, mimeType: "image/png")
                 } else {
                     let data = item as! Data
                     form.append(data, withName: key)
@@ -117,7 +117,7 @@ open class API <T where T: NodeInitializable> {
     
     open func execute( _ onSuccess: @escaping (T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
         self.beforeRequest()
-        let request = Alamofire.request(path.url!, method: self.method, parameters: bodyParams, encoding: URLEncoding.default, headers: headers)
+        let request = Alamofire.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
         self.curl = request.debugDescription
         request.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
     }
