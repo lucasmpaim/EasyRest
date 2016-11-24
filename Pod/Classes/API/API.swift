@@ -59,6 +59,11 @@ open class API <T where T: NodeInitializable> {
                 var instance: T? = nil // For empty results
                 if let _ = response.result.value {
                     
+                    if self.method == .delete {
+                        onSuccess(nil)
+                        return
+                    }
+                    
                     let node = try! response.data!.makeNode()
                     instance = try! T(node: node)
                 }
