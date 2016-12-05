@@ -20,13 +20,13 @@ open class API <T where T: NodeInitializable> {
     open var headers: [String: String] = [:]
     open var interceptors: [Interceptor] = []
     open var logger: Logger?
-
+    
     var curl: String?
-
+    
     public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?) {
         
         self.path = try! URLRequest(url: path, method: method)
-
+        
         self.queryParams = queryParams
         self.bodyParams = bodyParams
         self.method = method
@@ -35,7 +35,7 @@ open class API <T where T: NodeInitializable> {
         }
         if interceptors != nil {self.interceptors.append(contentsOf: interceptors!)}
     }
-
+    
     func beforeRequest() {
         for interceptor in interceptors {
             interceptor.requestInterceptor(self)
@@ -44,49 +44,60 @@ open class API <T where T: NodeInitializable> {
             self.path = try! URLEncoding.queryString.encode(self.path, with: queryParams)
         }
     }
-
-
+    
+    
     open func processJSONResponse(_ onSuccess: @escaping (_ result: T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void)
-                    -> ((_ response: DataResponse<Any>) -> Void) {
-
-        return { (response: DataResponse<Any>) -> Void in
-
-            for interceptor in self.interceptors {
-                interceptor.responseInterceptor(self, response: response)
-            }
-
-            if Utils.isSuccessfulRequest(response: response) {
-                var instance: T? = nil // For empty results
-                if let _ = response.result.value {
-                    
-                    if self.method == .delete {
-                        onSuccess(nil)
-                        return
-                    }
-                    
-                    let node = try! response.data!.makeNode()
-                    instance = try! T(node: node)
+        -> ((_ response: DataResponse<Any>) -> Void) {
+            
+            return { (response: DataResponse<Any>) -> Void in
+                
+                for interceptor in self.interceptors {
+                    interceptor.responseInterceptor(self, response: response)
                 }
-                onSuccess(instance)
-            } else {
-                let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.unknow.rawValue,
-                        rawIsHttpCode: true,
-                        rawResponse: response.result.value,
-                        rawResponseData: response.data)
-                onError(error)
+                
+                
+                switch response.result {
+                case .success:
+                    var instance: T? = nil // For empty results
+                    if let _ = response.result.value {
+                        
+                        if self.method == .delete {
+                            onSuccess(nil)
+                            return
+                        }
+                        
+                        let node = try! response.data!.makeNode()
+                        instance = try! T(node: node)
+                    }
+                    onSuccess(instance)
+                case .failure(let error):
+                    
+                    let errorType = response.response?.statusCode ?? RestErrorType.unknow.rawValue
+                    
+                    let error = RestError(rawValue: error._code == NSURLErrorTimedOut ? RestErrorType.noNetwork.rawValue : errorType,
+                                          rawIsHttpCode: true,
+                                          rawResponse: response.result.value,
+                                          rawResponseData: response.data)
+                    onError(error)
+                default:
+                    let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.unknow.rawValue,
+                                          rawIsHttpCode: true,
+                                          rawResponse: response.result.value,
+                                          rawResponseData: response.data)
+                    onError(error)
+                }
+                
+                always()
             }
-
-            always()
-        }
     }
-
+    
     open func upload(_ onProgress: @escaping (_ progress: Float) -> Void, onSuccess: @escaping (_ result: T?) -> Void,
-                       onError: @escaping (RestError?) -> Void,
-                       always: @escaping () -> Void) {
-
+                     onError: @escaping (RestError?) -> Void,
+                     always: @escaping () -> Void) {
+        
         assert(self.method == .post)
         assert((self.bodyParams?.count ?? 0) == 1)
-
+        
         self.beforeRequest()
         
         Alamofire.upload(multipartFormData: { form in
@@ -101,7 +112,7 @@ open class API <T where T: NodeInitializable> {
                 }
             }
         }, with: self.path, encodingCompletion: { result in
-        
+            
             switch (result) {
             case .success(let upload, _, _):
                 upload.uploadProgress(closure: { progress in
@@ -122,7 +133,14 @@ open class API <T where T: NodeInitializable> {
     
     open func execute( _ onSuccess: @escaping (T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
         self.beforeRequest()
-        let request = Alamofire.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 30
+        let sessionManager = Alamofire.SessionManager(configuration: configuration)
+        
+        let request = sessionManager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
+        
+        
         self.curl = request.debugDescription
         request.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
     }
