@@ -23,6 +23,9 @@ open class API <T where T: NodeInitializable> {
     
     var curl: String?
     
+    var manager : Alamofire.SessionManager
+    
+    
     public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?) {
         
         self.path = try! URLRequest(url: path, method: method)
@@ -33,6 +36,11 @@ open class API <T where T: NodeInitializable> {
         if headers != nil {
             self.headers = headers!
         }
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 30
+        manager = Alamofire.SessionManager(configuration: configuration)
+        
         if interceptors != nil {self.interceptors.append(contentsOf: interceptors!)}
     }
     
@@ -70,11 +78,11 @@ open class API <T where T: NodeInitializable> {
                         instance = try! T(node: node)
                     }
                     onSuccess(instance)
-                case .failure(let error):
+                case .failure(let _error):
                     
                     let errorType = response.response?.statusCode ?? RestErrorType.unknow.rawValue
                     
-                    let error = RestError(rawValue: error._code == NSURLErrorTimedOut ? RestErrorType.noNetwork.rawValue : errorType,
+                    let error = RestError(rawValue: _error._code == NSURLErrorTimedOut ? RestErrorType.noNetwork.rawValue : errorType,
                                           rawIsHttpCode: true,
                                           rawResponse: response.result.value,
                                           rawResponseData: response.data)
@@ -134,12 +142,7 @@ open class API <T where T: NodeInitializable> {
     open func execute( _ onSuccess: @escaping (T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
         self.beforeRequest()
         
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 30
-        let sessionManager = Alamofire.SessionManager(configuration: configuration)
-        
-        let request = sessionManager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
-        
+        let request = manager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
         
         self.curl = request.debugDescription
         request.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
