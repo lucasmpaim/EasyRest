@@ -17,11 +17,12 @@ open class CurlInterceptor: Interceptor {
     open func requestInterceptor<T: NodeInitializable>(_ api: API<T>) {}
     
     open func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
-        if Utils.isSuccessfulRequest(response: response) {
+        switch response.result {
+        case .success:
             if let curl = api.curl {
                 api.logger?.info(curl)
             }
-        } else {
+        case .failure:
             if let curl = api.curl {
                 api.logger?.error(curl)
             }
