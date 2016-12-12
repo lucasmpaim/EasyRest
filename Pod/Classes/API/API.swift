@@ -54,7 +54,7 @@ open class API <T where T: NodeInitializable> {
     }
     
     
-    open func processJSONResponse(_ onSuccess: @escaping (_ result: T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void)
+    open func processJSONResponse(_ onSuccess: @escaping (_ result: Response<T>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void)
         -> ((_ response: DataResponse<Any>) -> Void) {
             
             return { (response: DataResponse<Any>) -> Void in
@@ -77,7 +77,10 @@ open class API <T where T: NodeInitializable> {
                         let node = try! response.data!.makeNode()
                         instance = try! T(node: node)
                     }
-                    onSuccess(instance)
+                    
+                    let responseBody = Response<T>(response.response?.statusCode, body: instance)
+                    onSuccess(responseBody)
+                    
                 case .failure(let _error):
                     
                     let errorType = response.response?.statusCode ?? RestErrorType.unknow.rawValue
@@ -99,7 +102,7 @@ open class API <T where T: NodeInitializable> {
             }
     }
     
-    open func upload(_ onProgress: @escaping (_ progress: Float) -> Void, onSuccess: @escaping (_ result: T?) -> Void,
+    open func upload(_ onProgress: @escaping (_ progress: Float) -> Void, onSuccess: @escaping (_ result: Response<T>?) -> Void,
                      onError: @escaping (RestError?) -> Void,
                      always: @escaping () -> Void) {
         
@@ -139,7 +142,7 @@ open class API <T where T: NodeInitializable> {
         })
     }
     
-    open func execute( _ onSuccess: @escaping (T?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
+    open func execute( _ onSuccess: @escaping (Response<T>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
         self.beforeRequest()
         
         let request = manager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
