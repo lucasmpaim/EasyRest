@@ -99,11 +99,11 @@ class TestRouteService : OAuth2Service<TestRoute> {
         self.init()
     }
     
-    func me(name: String, onSuccess: (result: UserTest?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+    func me(name: String, onSuccess: (result: Response<UserTest>?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
         try! call(.Me(name), type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
-    func post(id: Int, onSuccess: (result: Post?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
+    func post(id: Int, onSuccess: (result: Response<Post>?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
         try! call(.Post(id), type: Post.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
@@ -132,7 +132,7 @@ let service = TestRouteService()
 
 let postID = 23
 service.post(postID, { (result) in
-                print(result?.title)
+                print(result?.body?.title)
             }, onError: { (error) in
                 
             }, always: {
@@ -140,7 +140,7 @@ service.post(postID, { (result) in
         })
  // OR
  try! service.call(.Post(postID), type: Post.self, onSuccess: { (result) in
-                print(result?.title)
+                print(result?.body?.title)
             }, onError: { (error) in
                 
             }, always: {
@@ -192,6 +192,7 @@ try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: 
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Use PureJSon serializer in request
+- [X] Add a repsonse model for send extra information like http status code
 - [X] File Upload
 - [X] Improve request Syntax
 - [X] Error Handler

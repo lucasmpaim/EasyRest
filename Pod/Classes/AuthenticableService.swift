@@ -31,7 +31,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         return builder
     }
     
-    override open func call<E: NodeInitializable>(_ routes: R, type: E.Type, onSuccess: @escaping (E?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws {
+    override open func call<E: NodeInitializable>(_ routes: R, type: E.Type, onSuccess: @escaping (Response<E>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws {
         
         let builder = try self.builder(routes, type: type)
         
@@ -44,7 +44,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
 
     override open func upload<E: NodeInitializable>(_ routes: R, type: E.Type,
                                         onProgress: @escaping (Float) -> Void,
-                                        onSuccess: @escaping (E?) -> Void,
+                                        onSuccess: @escaping (Response<E>?) -> Void,
                                         onError: @escaping (RestError?) -> Void,
                                         always: @escaping () -> Void) throws {
         let builder = try self.builder(routes, type: type)

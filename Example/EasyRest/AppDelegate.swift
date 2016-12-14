@@ -223,15 +223,15 @@ class ExampleOAuth2Service: OAuth2Service<OAuth2Authenticator> {
     
     func loginWithPassword(_ email: String, password: String, onSuccess: @escaping (Token) -> Void, onError: @escaping  (RestError?) -> Void, always: @escaping () -> Void) {
         
-        try! call(OAuth2Rotable.loginWithPassword(username: email, password: password), type: Token.self, onSuccess: { token in
-            self.getAuthenticator().saveToken(token!)
-            onSuccess(token!)
+        try! call(OAuth2Rotable.loginWithPassword(username: email, password: password), type: Token.self, onSuccess: { response in
+            self.getAuthenticator().saveToken(response!.body!)
+            onSuccess(response!.body!)
         }, onError: onError, always: always)
     }
     
     func refreshToken(_ token: String, onSuccess: @escaping () -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
-        try! call(OAuth2Rotable.refreshToken(token: token), type: Token.self, onSuccess: {token in
-            self.getAuthenticator().saveToken(token!)
+        try! call(OAuth2Rotable.refreshToken(token: token), type: Token.self, onSuccess: { response in
+            self.getAuthenticator().saveToken(response!.body!)
             onSuccess()
         }, onError: onError, always: always)
     }

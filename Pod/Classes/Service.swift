@@ -26,7 +26,7 @@ open class Service<R: Routable> {
     
     open func call<E: NodeInitializable>(_ routes: R,
                                       type: E.Type,
-                                      onSuccess: @escaping (E?) -> Void,
+                                      onSuccess: @escaping (Response<E>?) -> Void,
                                       onError: @escaping (RestError?) -> Void,
                                       always: @escaping () -> Void) throws {
         try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
@@ -34,7 +34,7 @@ open class Service<R: Routable> {
 
     open func upload<E: NodeInitializable>(_ routes: R, type: E.Type,
                                         onProgress: @escaping (Float) -> Void,
-                                        onSuccess: @escaping (E?) -> Void,
+                                        onSuccess: @escaping (Response<E>?) -> Void,
                                         onError: @escaping (RestError?) -> Void,
                                         always: @escaping () -> Void) throws {
         try builder(routes, type: type).build().upload(
