@@ -66,18 +66,21 @@ open class API <T where T: NodeInitializable> {
                 
                 switch response.result {
                 case .success:
-                    var instance: T? = nil // For empty results
-                    if let _ = response.result.value {
-                        
-                        if self.method == .delete {
-                            onSuccess(nil)
-                            return
+                    if Utils.isSuccessfulRequest(response: response) {
+                        var instance: T? = nil // For empty results
+                        if let _ = response.result.value {
+                            
+                            let node = try! response.data!.makeNode()
+                            instance = try! T(node: node)
                         }
-                        
-                        let node = try! response.data!.makeNode()
-                        instance = try! T(node: node)
+                        onSuccess(instance)
+                    } else {
+                        let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.unknow.rawValue,
+                                              rawIsHttpCode: true,
+                                              rawResponse: response.result.value,
+                                              rawResponseData: response.data)
+                        onError(error)
                     }
-                    onSuccess(instance)
                 case .failure(let _error):
                     
                     let errorType = response.response?.statusCode ?? RestErrorType.unknow.rawValue
