@@ -25,6 +25,14 @@ open class API <T where T: NodeInitializable> {
     
     var manager : Alamofire.SessionManager
     
+    let noNetWorkCodes = Set([
+        NSURLErrorCannotFindHost,
+        NSURLErrorCannotConnectToHost,
+        NSURLErrorNetworkConnectionLost,
+        NSURLErrorDNSLookupFailed,
+        NSURLErrorHTTPTooManyRedirects,
+        NSURLErrorNotConnectedToInternet
+        ])
     
     public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?) {
         
@@ -69,9 +77,9 @@ open class API <T where T: NodeInitializable> {
                     if Utils.isSuccessfulRequest(response: response) {
                         var instance: T? = nil // For empty results
                         if let _ = response.result.value {
-                            
-                            let node = try! response.data!.makeNode()
-                            instance = try! T(node: node)
+                            if let node = try? response.data!.makeNode() {
+                                instance = try! T(node: node)
+                            }
                         }
                         let responseBody = Response<T>(response.response?.statusCode, body: instance)
                         onSuccess(responseBody)
@@ -84,7 +92,7 @@ open class API <T where T: NodeInitializable> {
                     }
                 case .failure(let _error):
                     
-                    let errorType = response.response?.statusCode ?? RestErrorType.unknow.rawValue
+                    let errorType = response.response?.statusCode ?? (self.noNetWorkCodes.contains(_error._code) ? RestErrorType.noNetwork.rawValue :RestErrorType.unknow.rawValue)
                     
                     let error = RestError(rawValue: _error._code == NSURLErrorTimedOut ? RestErrorType.noNetwork.rawValue : errorType,
                                           rawIsHttpCode: true,
