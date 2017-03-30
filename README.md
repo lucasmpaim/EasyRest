@@ -26,7 +26,7 @@ For Swift 2.2 and 2.3 check the branches.
  ```
 
 ## Logger
-    The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger system
+The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger system
  ```swift
 
   // For log in XCode console
