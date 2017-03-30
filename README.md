@@ -13,7 +13,6 @@ This library was born from the need to simplify the communication between client
  
 ### For XCode
  - XCode 8
- - XCode Color Plugin: https://github.com/robbiehanson/XcodeColors
 
 For Swift 2.2 and 2.3 check the branches.
 
@@ -25,7 +24,29 @@ For Swift 2.2 and 2.3 check the branches.
  ```swift
  Logger.isAppCode = true
  ```
- 
+
+## Logger
+    The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger system
+ ```swift
+
+  // For log in XCode console
+  Logger.logInXCode = true
+
+  Logger.logToFile = false
+
+  // Cloud config
+  Logger.logToCloud = false
+  Logger.appId: String?
+  Logger.appSecret: String?
+  Logger.encryptationKey: String?
+
+  Logger.swiftyBeaverFormat = "$C$DHH:mm:ss$d $T $N.$F():$l $L: $M$c"
+
+  // SwiftyBeaver log reference
+  Logger.log = SwiftyBeaver.self
+
+ ```
+
 ## Usage
 To add EasyRest to your project, add the following in your podfile
 
