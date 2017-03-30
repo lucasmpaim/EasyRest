@@ -1,9 +1,3 @@
-# Warning
-This project is still under development. Feedback and suggestions are very welcome and I encourage you to use the Issues list on Github to provide that feedback.
-Feel free to fork this repo and to commit your additions.
-
-For production use it at your own risk.
-
 # Motivation
 After reviewing many REST clients for iOS , we realize that all are very verbose , which is unnecessary.
 This library was born from the need to simplify the communication between client and server.
