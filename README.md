@@ -5,21 +5,12 @@ This library was born from the need to simplify the communication between client
 ## Requirements
  - Swift 3
  
-### For XCode
+## For XCode
  - XCode 8
 
 For Swift 2.2 and 2.3 check the branches.
 
-### For AppCode
- - Grep Console
- - Enable ANSI colors in Grep Console
- - Add the following to your AppDelegate
- 
- ```swift
- Logger.isAppCode = true
- ```
-
-## Logger
+### Logger
 The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger system
  ```swift
 
@@ -39,6 +30,14 @@ The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger syste
   // SwiftyBeaver log reference
   Logger.log = SwiftyBeaver.self
 
+ ```
+ ### For AppCode
+ - Grep Console
+ - Enable ANSI colors in Grep Console
+ - Add the following to your AppDelegate
+ 
+ ```swift
+ Logger.isAppCode = true
  ```
 
 ## Usage
