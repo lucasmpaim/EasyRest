@@ -4,6 +4,7 @@ This library was born from the need to simplify the communication between client
 
 ## Requirements
  - Swift 3
+
 For Swift 2.2 and 2.3 check the branches.
 
 ## Logger
