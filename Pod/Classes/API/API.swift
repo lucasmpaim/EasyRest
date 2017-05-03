@@ -120,7 +120,7 @@ open class API <T where T: NodeInitializable> {
         
         self.beforeRequest()
         
-        Alamofire.upload(multipartFormData: { form in
+        Alamofire.upload(multipartFormData: {form in
             for (key,item) in self.bodyParams! {
                 assert(item is UIImage || item is Data)
                 if let _item = item as? UIImage {
@@ -131,8 +131,7 @@ open class API <T where T: NodeInitializable> {
                     form.append(data, withName: key)
                 }
             }
-        }, with: self.path, encodingCompletion: { result in
-            
+        }, usingThreshold: UInt64.init(), to: self.path.url!, method: .post, headers: self.headers, encodingCompletion: {result in
             switch (result) {
             case .success(let upload, _, _):
                 upload.uploadProgress(closure: { progress in
@@ -147,8 +146,8 @@ open class API <T where T: NodeInitializable> {
                                   rawResponseData: nil))
                 always()
             }
-            
         })
+        
     }
     
     open func execute( _ onSuccess: @escaping (Response<T>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
