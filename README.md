@@ -200,9 +200,9 @@ try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: 
 ```
 
 # TODO
+- [ ] Create a wiki
 - [ ] Retry call
 - [ ] Send request so connect the Internet
-- [ ] Use PureJSon serializer in request
 - [X] Add a repsonse model for send extra information like http status code
 - [X] File Upload
 - [X] Improve request Syntax
