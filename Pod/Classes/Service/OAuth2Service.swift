@@ -19,7 +19,7 @@ public enum OAuth2Rotable: Routable {
     public var rule: Rule {
         switch self {
             case let .loginWithPassword(username, password):
-                return Rule(method: .post, path: "", isAuthenticable: false, parameters: [
+                return Rule(method: .post, path: "/token/", isAuthenticable: false, parameters: [
                         ParametersType.query : [
                                 "username": username,
                                 "password": password,
@@ -27,10 +27,10 @@ public enum OAuth2Rotable: Routable {
                 ])
 
             case let .refreshToken(token):
-                return Rule(method: .post, path: "", isAuthenticable: false, parameters: [ParametersType.query: ["token": token]])
+                return Rule(method: .post, path: "/token/", isAuthenticable: false, parameters: [ParametersType.query: ["token": token]])
 
             case let .convertToken(token, backend):
-                return Rule(method: .post, path: "", isAuthenticable: false, parameters: [
+                return Rule(method: .post, path: "/convert-token/", isAuthenticable: false, parameters: [
                         ParametersType.query : [
                                 "token": token,
                                 "backend": backend,
