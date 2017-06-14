@@ -1,3 +1,5 @@
+# EasyRest [![Build Status](https://www.bitrise.io/app/26434cc1ea3414c5/status.svg?token=DtKIwnE_HhoEyWPnAF6nhw)](https://www.bitrise.io/app/26434cc1ea3414c5)
+
 # Motivation
 After reviewing many REST clients for iOS , we realize that all are very verbose , which is unnecessary.
 This library was born from the need to simplify the communication between client and server.
@@ -214,6 +216,7 @@ try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: 
 - Genome       https://github.com/LoganWright/Genome
 - Endpoint     https://github.com/devxoul/Endpoint
 - Reachability https://github.com/ashleymills/Reachability.swift
+- [SwiftyBeaver](http://swiftybeaver.com/)
 
 # LICENSE
 EasyRest is available under the MIT license. See the LICENSE file for more info.
