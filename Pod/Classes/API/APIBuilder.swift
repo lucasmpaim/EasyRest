@@ -10,7 +10,7 @@ import Foundation
 import Genome
 import Alamofire
 
-open class APIBuilder <T: NodeInitializable> {
+open class APIBuilder <T> where T: NodeInitializable {
     
     var path: String
     var queryParams: [String: String]?

@@ -11,7 +11,7 @@ import Genome
 import Alamofire
 import UIKit
 
-open class API <T where T: NodeInitializable> {
+open class API <T> where T: NodeInitializable {
     
     open var path: URLRequest
     open var queryParams: [String: String]?

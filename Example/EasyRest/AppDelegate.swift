@@ -220,6 +220,7 @@ class ExampleOAuth2Service: OAuth2Service<OAuth2Authenticator> {
     
     override var base: String {return "http://54.173.184.165/api/oauth/token/"}
     override var interceptors: [Interceptor]? {return [DefaultHeadersInterceptor()]}
+    override var loggerLevel: Logger.LogLevel { return .none }
     
     func loginWithPassword(_ email: String, password: String, onSuccess: @escaping (Token) -> Void, onError: @escaping  (RestError?) -> Void, always: @escaping () -> Void) {
         

@@ -13,6 +13,12 @@ open class Service<R: Routable> {
     
     open var interceptors: [Interceptor]? {return nil}
     
+    open var loggerLevel: Logger.LogLevel {
+        get {
+            return .verbose
+        }
+    }
+    
     open var base: String {
         get {
             fatalError("Override to provide baseUrl")
@@ -21,7 +27,9 @@ open class Service<R: Routable> {
     
     open func builder<T: NodeInitializable>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
-        return try routes.builder(base, type: type)
+        let builder = try routes.builder(base, type: type)
+        builder.logger?.logLevel = self.loggerLevel
+        return builder
     }
     
     open func call<E: NodeInitializable>(_ routes: R,
