@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.0.1)
-  - EasyRest (0.0.9):
+  - EasyRest (0.0.9.2):
     - Alamofire (~> 4.0.1)
     - Genome
     - ReachabilitySwift
@@ -27,11 +27,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
-  EasyRest: 7b617da40e6fe1afe742510337494fa5bd34e6ba
+  EasyRest: 9887a852a42f7eb1b1804ac84811954cff75bb67
   Genome: 44584c1e971899a5a4b20ee87faee452a5f1ac1a
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SwiftyBeaver: 9216b6e163c145628ccc7c0126df4287880d6e1e
 
 PODFILE CHECKSUM: 0866c9adaf4ded826888018fdb01ae15417d314c
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
