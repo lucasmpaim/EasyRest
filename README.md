@@ -1,4 +1,7 @@
-# EasyRest [![Build Status](https://www.bitrise.io/app/26434cc1ea3414c5/status.svg?token=DtKIwnE_HhoEyWPnAF6nhw)](https://www.bitrise.io/app/26434cc1ea3414c5)
+ ![](https://github.com/lucasmpaim/EasyRest/blob/master/Images/logo.png)
+ 
+ 
+ [![Build Status](https://www.bitrise.io/app/26434cc1ea3414c5/status.svg?token=DtKIwnE_HhoEyWPnAF6nhw)](https://www.bitrise.io/app/26434cc1ea3414c5)
 
 # Motivation
 After reviewing many REST clients for iOS , we realize that all are very verbose , which is unnecessary.
