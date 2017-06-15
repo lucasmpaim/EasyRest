@@ -42,6 +42,9 @@ The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger syste
  Logger.isAppCode = true
  ```
 
+## Documentation
+You can read the doc's in this [wiki](https://github.com/lucasmpaim/EasyRest/wiki)
+
 ## Usage
 To add EasyRest to your project, add the following in your podfile
 
@@ -141,28 +144,6 @@ class TestRouteService : OAuth2Service<TestRoute> {
 }
 ```
 
-## Service Call Example:
-```swift
-
-let service = TestRouteService()
-
-let postID = 23
-service.post(postID, { (result) in
-                print(result?.body?.title)
-            }, onError: { (error) in
-                
-            }, always: {
-            
-        })
- // OR
- try! service.call(.Post(postID), type: Post.self, onSuccess: { (result) in
-                print(result?.body?.title)
-            }, onError: { (error) in
-                
-            }, always: {
-            
-        })
-```
 
 ## Interceptor Example:
 
@@ -183,31 +164,12 @@ class CurlInterceptor: Interceptor {
 
 }
 ```
-## Authentication (OAuth, etc):
-```swift
-// Under development
-```
-
-## Using without creating a Service:
-```swift
-let oauth2Authenticator = OAuth2Authenticator()
-let BASE_URL = "http://jsonplaceholder.typicode.com"
-let postID = 23
-
-try! TestRoute.Post(postID).builder(BASE_URL, type: Post.self, authInterceptor: oauth2Authenticator)
-      .addInterceptor(DefaultHeadersInterceptor())
-      .build().execute({ (result) in
-               print(result?.title)
-            }, onError: { (error) in
-                
-            }, always: {
-        })
-```
 
 # TODO
-- [ ] Create a wiki
 - [ ] Retry call
 - [ ] Send request so connect the Internet
+- [ ] Create a Unit Tests
+- [X] Create a wiki
 - [X] Add a repsonse model for send extra information like http status code
 - [X] File Upload
 - [X] Improve request Syntax
