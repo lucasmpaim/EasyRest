@@ -12,36 +12,6 @@ This library was born from the need to simplify the communication between client
 
 For Swift 2.2 and 2.3 check the branches.
 
-## Logger
-The EasyRest integrate the [SwiftyBeaver](http://swiftybeaver.com/) Logger system
- ```swift
-
-  // For log in XCode console
-  Logger.logInXCode = true
-
-  Logger.logToFile = false
-
-  // Cloud config
-  Logger.logToCloud = false
-  Logger.appId: String?
-  Logger.appSecret: String?
-  Logger.encryptationKey: String?
-
-  Logger.swiftyBeaverFormat = "$C$DHH:mm:ss$d $T $N.$F():$l $L: $M$c"
-
-  // SwiftyBeaver log reference
-  Logger.log = SwiftyBeaver.self
-
- ```
- ### For AppCode
- - Grep Console
- - Enable ANSI colors in Grep Console
- - Add the following to your AppDelegate
- 
- ```swift
- Logger.isAppCode = true
- ```
-
 ## Documentation
 You can read the doc's in this [wiki](https://github.com/lucasmpaim/EasyRest/wiki)
 
@@ -54,25 +24,6 @@ pod 'EasyRest', :git => 'https://github.com/lucasmpaim/EasyRest.git'
 
 ## Model Example:
 ```swift
-class UserTest : BaseModel {
-
-    var id: String?
-    var firstName: String?
-    var lastName: String?
-    var email: String?
-    var photo: String?
-    var password: String?
-
-    override func sequence(map: Map) throws {
-        try self.id <~> map["id"]
-        try self.firstName <~> map["first_name"]
-        try self.lastName <~> map["last_name"]
-        try self.email <~> map["email"]
-        try self.photo <~> map["photo"]
-        try self.password ~> map["password"]
-    }
-
-}
 class Post : BaseModel {
 
     var id: String?
@@ -90,16 +41,16 @@ class Post : BaseModel {
 
 enum TestRoute: Routable{
 
-    case Me(String)
-    case Post(String)
+    case me(String)
+    case post(String)
 
     var rule: Rule {
         switch(self) {
-            case let .Me(name):
-                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.Query : ["name": name]])
-            case let .Post(id):
+            case let .me(name):
+                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.query : ["name": name]])
+            case let .post(id):
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .GET, path: "/api/v1/posts/\(id)/", isAuthenticable: true, parameters: parameters)
+                return Rule(method: .get, path: "/api/v1/posts/\(id)/", isAuthenticable: true, parameters: parameters)
             }
     }
 
@@ -119,11 +70,11 @@ class TestRouteService : OAuth2Service<TestRoute> {
     }
     
     func me(name: String, onSuccess: (result: Response<UserTest>?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
-        try! call(.Me(name), type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+        try! call(.me(name), type: UserTest.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
     func post(id: Int, onSuccess: (result: Response<Post>?) -> Void, onError: (ErrorType?) -> Void, always: () -> Void) {
-        try! call(.Post(id), type: Post.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
+        try! call(.post(id), type: Post.self, onSuccess: onSuccess, onError: defaultErrorHandler(onError), always: always)
     }
     
     func defaultErrorHandler(onError: (ErrorType?) -> Void) -> (ErrorType?) -> Void {
