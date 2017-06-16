@@ -10,7 +10,7 @@ import Foundation
 import SwiftyBeaver
 
 
-public struct LoggerBeaver {
+public struct LoggerBeaver : Loggable {
     
     public static var logInIDE = true
     public static var logToFile = false
@@ -24,7 +24,7 @@ public struct LoggerBeaver {
     
     public var logLevel: LogLevel = .verbose
     
-    init() {
+    public init() {
         if (LoggerBeaver.logInIDE) {
             let console = ConsoleDestination()
             console.format = LoggerBeaver.swiftyBeaverFormat
