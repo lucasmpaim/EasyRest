@@ -19,8 +19,8 @@ You can read the doc's in this [wiki](https://github.com/lucasmpaim/EasyRest/wik
 To add EasyRest to your project, add the following in your podfile
 
 ```Ruby
-pod 'EasyRest', :git => 'https://github.com/lucasmpaim/EasyRest.git'
-pod 'EasyRest/LoggerBeaver', :git => 'https://github.com/lucasmpaim/EasyRest.git' # add this if you want to use SwiftBeaver log library
+pod 'EasyRest'
+pod 'EasyRest/LoggerBeaver'
 ```
 
 ## Model Example:
