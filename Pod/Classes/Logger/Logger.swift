@@ -14,7 +14,7 @@ public struct Logger {
 
     public static var isAppCode: Bool = false
     
-    public static var logInXCode = true
+    public static var logInIDE = true
     
     public static var logToFile = false
     
@@ -24,9 +24,10 @@ public struct Logger {
     public static var encryptationKey: String?
     
     public static var swiftyBeaverFormat = "$C$DHH:mm:ss$d $T $N.$F():$l $L: $M$c"
-    
     public static let log = SwiftyBeaver.self
     
+    public var logLevel: LogLevel = .verbose
+
     
     public enum LogLevel {
         case none
@@ -37,7 +38,7 @@ public struct Logger {
     }
     
     init() {
-        if (Logger.logInXCode) {
+        if (Logger.logInIDE) {
             let console = ConsoleDestination()
             console.format = Logger.swiftyBeaverFormat
             Logger.log.addDestination(console)
@@ -56,15 +57,15 @@ public struct Logger {
         }
     }
     
-    public var logLevel: LogLevel = .verbose
 
     public func info<T>(_ object: T) {
 
         if logLevel == .verbose || logLevel == .info {
             if Logger.isAppCode {
                 print("\u{1b}[37m\(object)\u{1b}[39m")
+            } else {
+                Logger.log.info("\(object)")
             }
-            Logger.log.info("\(object)")
         }
     }
     
@@ -72,8 +73,9 @@ public struct Logger {
         if logLevel == .warning || logLevel == .verbose {
             if Logger.isAppCode {
                 print("\u{1b}[93m\(object)\u{1b}[39m")
+            } else {
+                Logger.log.warning("\(object)")
             }
-            Logger.log.warning("\(object)")
         }
     }
     
@@ -81,8 +83,10 @@ public struct Logger {
         if logLevel == .error || logLevel == .verbose {
             if Logger.isAppCode {
                 print("\u{1b}[31m\(object)\u{1b}[39m")
+            } else {
+                Logger.log.error("\(object)")
             }
-            Logger.log.error("\(object)")
+
         }
     }
 }

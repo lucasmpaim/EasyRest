@@ -9,9 +9,15 @@
 import Foundation
 import Genome
 
-open class Service<R: Routable> {
+open class Service<R> where R: Routable {
     
     open var interceptors: [Interceptor]? {return nil}
+    
+    open var loggerLevel: Logger.LogLevel {
+        get {
+            return .verbose
+        }
+    }
     
     open var base: String {
         get {
@@ -21,7 +27,9 @@ open class Service<R: Routable> {
     
     open func builder<T: NodeInitializable>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
-        return try routes.builder(base, type: type)
+        let builder = try routes.builder(base, type: type)
+        builder.logger?.logLevel = self.loggerLevel
+        return builder
     }
     
     open func call<E: NodeInitializable>(_ routes: R,

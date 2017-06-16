@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "EasyRest"
-  s.version          = "0.0.9.1"
+  s.version          = "0.0.9.2"
   s.summary          = "A simple RestClient for iOS."
 
 # This description is used to generate tags and improve search results.
@@ -37,6 +37,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Genome'
   s.dependency 'Alamofire', '~> 4.0.1'
-  s.dependency 'ReachabilitySwift'
   s.dependency 'SwiftyBeaver'
 end
