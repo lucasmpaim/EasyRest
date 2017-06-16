@@ -37,6 +37,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Genome'
   s.dependency 'Alamofire', '~> 4.0.1'
-  s.dependency 'ReachabilitySwift'
   s.dependency 'SwiftyBeaver'
 end

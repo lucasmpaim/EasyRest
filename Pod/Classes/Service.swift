@@ -9,7 +9,7 @@
 import Foundation
 import Genome
 
-open class Service<R: Routable> {
+open class Service<R> where R: Routable {
     
     open var interceptors: [Interceptor]? {return nil}
     
