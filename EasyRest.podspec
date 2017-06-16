@@ -28,14 +28,27 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '9.0'
   s.requires_arc = true
 
-  s.source_files = 'Pod/Classes/**/*'
+  s.default_subspec = 'Core'
+
+  s.source_files = 'EasyRest/Classes/**/*'
   s.resource_bundles = {
-    'EasyRest' => ['Pod/Assets/*.png']
+    'EasyRest' => ['EasyRest/Assets/*.png']
   }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  # s.public_header_files = 'EasyRest/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Genome'
   s.dependency 'Alamofire', '~> 4.0.1'
-  s.dependency 'SwiftyBeaver'
+
+
+  s.subspec 'Core' do |core|
+
+  end
+
+
+  s.subspec 'LoggerBeaver' do |beaver|
+    beaver.source_files = 'EasyRestSwiftBeaver/Classes/**/*'
+    beaver.dependency 'SwiftyBeaver'
+  end
+
 end

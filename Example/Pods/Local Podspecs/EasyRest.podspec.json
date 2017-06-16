@@ -1,0 +1,48 @@
+{
+  "name": "EasyRest",
+  "version": "0.0.9.2",
+  "summary": "A simple RestClient for iOS.",
+  "description": "A simple rest library",
+  "homepage": "https://github.com/lucasmpaim/EasyRest",
+  "license": "MIT",
+  "authors": {
+    "Lucas": "lucasmpaim1@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/lucasmpaim/EasyRest.git",
+    "tag": "0.0.9.2"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "requires_arc": true,
+  "default_subspecs": "Core",
+  "source_files": "EasyRest/Classes/**/*",
+  "resource_bundles": {
+    "EasyRest": [
+      "EasyRest/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "Genome": [
+
+    ],
+    "Alamofire": [
+      "~> 4.0.1"
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "Core"
+    },
+    {
+      "name": "LoggerBeaver",
+      "source_files": "EasyRestSwiftBeaver/Classes/**/*",
+      "dependencies": {
+        "SwiftyBeaver": [
+
+        ]
+      }
+    }
+  ]
+}

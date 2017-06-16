@@ -14,8 +14,6 @@ import Genome
 
 
 
-let oauth2Authenticator = ExampleOAuth2Service()
-let BASE_URL = "http://jsonplaceholder.typicode.com"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,50 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-                oauth2Authenticator.loginWithPassword("admin@hitgo.com", password: "abcd@1234", onSuccess: {
-                            token in
-                    
-                    print(token)
-                    
-                    }, onError: { error in
+        Logger.isAppCode = false
         
-                    }, always: {
-                })
-        
-        
-        
-//        try! Apis.Placeholder.postes.builder(BASE_URL, type: [Posts].self).build().execute({ result in
-//                print(result)
-//            }, onError: { (error) in
-//                
-//            }, always: {
-//        })
-        
-//        let service = PlaceholderService()
-
-        Logger.isAppCode = true
-
-//        try! service.call(.Me, type: UserTest.self, onSuccess: { (result) in
-//            result?.firstName
-//            }, onError: { (error) in
-//                
-//            }, always: {
-//        })
-        
-/*        service.me({ (result) in
-            result?.firstName
+        let service2 = Apis.Placeholder.OpenService()
+        try! service2.call(.post(id: 1), type: Posts.self, onSuccess: { (result) in
+            
             }, onError: { (error) in
                 
             }, always: {
-        }) */
-        
-//        let service2 = Apis.Placeholder.Service()
-//        try! service2.call(.Postes, type: UserTest.self, onSucess: { (result) in
-//            
-//            }, onError: { (error) in
-//                
-//            }, always: {
-//        })
+        })
         
         return true
     }
@@ -99,36 +62,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 final class Apis {
     enum Placeholder: Routable {
-        case me
-        case postes
         case post(id: Int)
         
         var rule: Rule {
             switch(self) {
-            case .me:
-                let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .get, path: "/api/v1/users/me/", isAuthenticable: true, parameters: parameters)
-            case .postes:
-                let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .get, path: "/posts/", isAuthenticable: false, parameters: parameters)
-            case let .post(id):
-                let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .get, path: "/posts/\(id)/", isAuthenticable: false, parameters: parameters)
-
+                case let .post(id):
+                    let parameters : [ParametersType: AnyObject] = [:]
+                    return Rule(method: .get, path: "/posts/\(id)/", isAuthenticable: false, parameters: parameters)
             }
         }
         
         // Alternative
-//        class Service : OAuth2Service<Apis.Placeholder> {
-//            override var base: String { return BASE_URL }
-//            override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
-//            
-//            override init() {
-//                super.init()
-//                authenticator.token = Token()
-//                authenticator.token?.accessToken = "MY TOKEN"
-//            }
-//        }
+        class OpenService : Service<Apis.Placeholder> {
+            override var base: String { return "https://jsonplaceholder.typicode.com" }
+            override var interceptors: [Interceptor] { return [DefaultHeadersInterceptor()] }
+        }
     }
 }
 
@@ -147,7 +95,7 @@ class Token : BaseModel {
     }
     
     override var description: String {
-        return "token: \(accessToken)\nrefresh token: \(self.refreshToken)"
+        return "token: \(String(describing: accessToken))\nrefresh token: \(String(describing: self.refreshToken))"
     }
     
 }
@@ -220,7 +168,7 @@ class ExampleOAuth2Service: OAuth2Service<OAuth2Authenticator> {
     
     override var base: String {return "http://54.173.184.165/api/oauth/token/"}
     override var interceptors: [Interceptor]? {return [DefaultHeadersInterceptor()]}
-    override var loggerLevel: Logger.LogLevel { return .none }
+    override var loggerLevel: LogLevel { return .none }
     
     func loginWithPassword(_ email: String, password: String, onSuccess: @escaping (Token) -> Void, onError: @escaping  (RestError?) -> Void, always: @escaping () -> Void) {
         
