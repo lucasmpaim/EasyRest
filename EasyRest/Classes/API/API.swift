@@ -99,12 +99,6 @@ open class API <T> where T: NodeInitializable {
                                           rawResponse: response.result.value,
                                           rawResponseData: response.data)
                     onError(error)
-                default:
-                    let error = RestError(rawValue: response.response?.statusCode ?? RestErrorType.unknow.rawValue,
-                                          rawIsHttpCode: true,
-                                          rawResponse: response.result.value,
-                                          rawResponseData: response.data)
-                    onError(error)
                 }
                 
                 always()

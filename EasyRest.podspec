@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "EasyRest"
-  s.version          = "0.0.9.3"
+  s.version          = "0.0.9.4"
   s.summary          = "A simple RestClient for iOS."
 
 # This description is used to generate tags and improve search results.
@@ -31,9 +31,9 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Core'
 
   s.source_files = 'EasyRest/Classes/**/*'
-  s.resource_bundles = {
-    'EasyRest' => ['EasyRest/Assets/*.png']
-  }
+# s.resource_bundles = {
+#    'EasyRest' => ['EasyRest/Assets/*.png']
+#  }
 
   # s.public_header_files = 'EasyRest/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
 
 
   s.subspec 'LoggerBeaver' do |beaver|
-    beaver.source_files = ['LoggerBeaver/Classes/**/*']
+    beaver.source_files = ['EasyRest/Classes/**/*', 'LoggerBeaver/Classes/**/*']
     beaver.dependency 'SwiftyBeaver'
   end
 
