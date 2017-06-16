@@ -14,6 +14,8 @@ open class EasyRest {
     open static let sharedInstance = EasyRest()
     fileprivate var kServerDefaultEndPoint: String?
     
+    open var globalLogClass : Loggable.Type = Logger.self
+    
 //    func setup(_ defaultServerEndPoint: String) {
 //        
 //        self.kServerDefaultEndPoint = defaultServerEndPoint

@@ -19,7 +19,7 @@ open class APIBuilder <T> where T: NodeInitializable {
     var headers: [String: String]?
     var method: HTTPMethod?
     
-    var logger: Logger?
+    var logger: Loggable?
     
     var interceptors: [Interceptor] = []
     

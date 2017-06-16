@@ -20,8 +20,6 @@ extension Routable {
     public func builder<T: NodeInitializable>(_ base: String, type: T.Type) throws -> APIBuilder<T> {
         let builder = APIBuilder<T>()
         
-        builder.logger = Logger()
-        
         try builder.addParameteres(self.rule.parameters)
         return builder.resource(base + self.rule.path, method: self.rule.method)
     }
@@ -36,9 +34,7 @@ extension Routable {
         if let auth = authInterceptor {
             _ = builder.addInterceptor(auth.interceptor)
         }
-        
-        builder.logger = Logger()
-        
+                
         try builder.addParameteres(self.rule.parameters)
         return builder.resource(base + self.rule.path, method: self.rule.method)
     }

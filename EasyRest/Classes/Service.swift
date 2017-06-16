@@ -11,12 +11,16 @@ import Genome
 
 open class Service<R> where R: Routable {
     
+    public init() { }
+    
     open var interceptors: [Interceptor]? {return nil}
     
-    open var loggerLevel: Logger.LogLevel {
-        get {
-            return .verbose
-        }
+    open var loggerLevel: LogLevel {
+        return .verbose
+    }
+    
+    open var loggerClass: Loggable.Type {
+        return EasyRest.sharedInstance.globalLogClass
     }
     
     open var base: String {
@@ -28,6 +32,7 @@ open class Service<R> where R: Routable {
     open func builder<T: NodeInitializable>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
         let builder = try routes.builder(base, type: type)
+        builder.logger = self.loggerClass.init()
         builder.logger?.logLevel = self.loggerLevel
         return builder
     }

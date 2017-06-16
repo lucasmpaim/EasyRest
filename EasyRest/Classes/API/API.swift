@@ -19,7 +19,7 @@ open class API <T> where T: NodeInitializable {
     open var method: HTTPMethod
     open var headers: [String: String] = [:]
     open var interceptors: [Interceptor] = []
-    open var logger: Logger?
+    open var logger: Loggable?
     
     var curl: String?
     

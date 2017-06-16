@@ -39,7 +39,7 @@ class LoggerInterceptor : Interceptor {
 
     func logSucess<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>){
         api.logger?.info("==============================================================================")
-        api.logger?.info("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
+        api.logger?.info("request URI: \(response.request!.httpMethod!) \(String(describing: response.request!.url))")
         api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         
         if let bodyParams = self.bodyParams {
@@ -57,7 +57,7 @@ class LoggerInterceptor : Interceptor {
     
     func logError<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>) {
         api.logger?.error("==============================================================================")
-        api.logger?.error("request URI: \(response.request!.httpMethod!) \(response.request!.url)")
+        api.logger?.error("request URI: \(response.request!.httpMethod!) \(String(describing: response.request!.url))")
         api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
         if let bodyParams = self.bodyParams {
             api.logger?.info("request body:\n\(bodyParams)")
