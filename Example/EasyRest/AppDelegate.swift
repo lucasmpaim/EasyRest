@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Logger.isAppCode = false
         
+        EasyRest.sharedInstance.globalLogClass = LoggerBeaver.self
+        
         let service2 = Apis.Placeholder.OpenService()
         try! service2.call(.post(id: 1), type: Posts.self, onSuccess: { (result) in
             
