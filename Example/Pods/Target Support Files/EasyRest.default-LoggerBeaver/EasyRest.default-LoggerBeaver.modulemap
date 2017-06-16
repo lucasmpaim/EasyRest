@@ -1,6 +1,0 @@
-framework module EasyRest {
-  umbrella header "EasyRest.default-LoggerBeaver-umbrella.h"
-
-  export *
-  module * { export * }
-}
