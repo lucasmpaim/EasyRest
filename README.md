@@ -2,6 +2,9 @@
  
  
  [![Build Status](https://www.bitrise.io/app/26434cc1ea3414c5/status.svg?token=DtKIwnE_HhoEyWPnAF6nhw)](https://www.bitrise.io/app/26434cc1ea3414c5)
+ ![](https://cocoapod-badges.herokuapp.com/v/EasyRest/badge.png)
+ ![](https://cocoapod-badges.herokuapp.com/p/EasyRest/badge.png)
+ ![](https://cocoapod-badges.herokuapp.com/l/EasyRest/badge.(png|svg))
 
 # Motivation
 After reviewing many REST clients for iOS , we realize that all are very verbose , which is unnecessary.
@@ -19,8 +22,8 @@ You can read the doc's in this [wiki](https://github.com/lucasmpaim/EasyRest/wik
 To add EasyRest to your project, add the following in your podfile
 
 ```Ruby
-pod 'EasyRest', :git => 'https://github.com/lucasmpaim/EasyRest.git'
-pod 'EasyRest/LoggerBeaver', :git => 'https://github.com/lucasmpaim/EasyRest.git' # use this if you want to use SwiftBeaver log library
+pod 'EasyRest'
+pod 'EasyRest/LoggerBeaver'
 ```
 
 ## Model Example:
