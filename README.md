@@ -138,6 +138,7 @@ class CurlInterceptor: Interceptor {
 ```
 
 # TODO
+- [ ] Remove Genome and use a Swift 4 Codable
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Create a Unit Tests
