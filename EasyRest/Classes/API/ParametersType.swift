@@ -13,4 +13,5 @@ public enum ParametersType {
     case path
     case body
     case multiPart
+    case header
 }

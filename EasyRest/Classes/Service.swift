@@ -34,6 +34,9 @@ open class Service<R> where R: Routable {
         let builder = try routes.builder(base, type: type)
         builder.logger = self.loggerClass.init()
         builder.logger?.logLevel = self.loggerLevel
+        if (interceptors != nil) {
+            _ = builder.addInterceptors(interceptors!)
+        }
         return builder
     }
     

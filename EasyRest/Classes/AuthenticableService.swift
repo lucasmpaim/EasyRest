@@ -24,10 +24,6 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         
         _ = builder.addInterceptor(authenticator.interceptor)
         
-        if (interceptors != nil) {
-            _ = builder.addInterceptors(interceptors!)
-        }
-        
         return builder
     }
     

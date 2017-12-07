@@ -99,8 +99,10 @@ open class APIBuilder <T> where T: NodeInitializable {
                 if let queryParameters = params as? [String: String] {
                     _ = addQueryParams(queryParameters)
                 }
+            case .header:
+                guard let headers = params as? [String: String] else { return }
+                _ = self.addHeaders(headers)
             }
-            
         }
     }
     
