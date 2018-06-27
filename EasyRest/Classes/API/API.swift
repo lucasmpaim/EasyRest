@@ -122,7 +122,7 @@ open class API <T> where T: NodeInitializable {
                     form.append(data, withName: key, fileName: key, mimeType: "image/png")
                 } else {
                     let data = item as! Data
-                    form.append(data, withName: key)
+                    form.append(data, withName: key, fileName: key, mimeType: "")
                 }
             }
         }, usingThreshold: UInt64.init(), to: self.path.url!, method: .post, headers: self.headers, encodingCompletion: {result in
