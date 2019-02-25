@@ -171,7 +171,6 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				39640F1357C2E4EC839DB91A /* [CP] Embed Pods Frameworks */,
-				ECA31B56FF2E6E590AFAACBD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,7 +190,6 @@
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
 				EB502DCDDE780E6AAA21906A /* [CP] Embed Pods Frameworks */,
-				F0B7B08860077CF276291A45 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -344,36 +342,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ECA31B56FF2E6E590AFAACBD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F0B7B08860077CF276291A45 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
