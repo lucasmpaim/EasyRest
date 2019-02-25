@@ -115,7 +115,7 @@ open class API <T> where T: Codable {
             for (key,item) in self.bodyParams! {
                 assert(item is UIImage || item is Data)
                 if let _item = item as? UIImage {
-                    let data = UIImagePNGRepresentation(_item)!
+                    let data = _item.pngData()!
                     form.append(data, withName: key, fileName: key, mimeType: "image/png")
                 } else {
                     let data = item as! Data
