@@ -7,7 +7,6 @@
 //
 //
 import Foundation
-import Genome
 
 open class Service<R> where R: Routable {
     
@@ -29,7 +28,7 @@ open class Service<R> where R: Routable {
         }
     }
     
-    open func builder<T: NodeInitializable>(_ routes: R,
+    open func builder<T: Codable>(_ routes: R,
                                          type: T.Type) throws -> APIBuilder<T> {
         let builder = try routes.builder(base, type: type)
         builder.logger = self.loggerClass.init()
@@ -40,7 +39,7 @@ open class Service<R> where R: Routable {
         return builder
     }
     
-    open func call<E: NodeInitializable>(_ routes: R,
+    open func call<E: Codable>(_ routes: R,
                                       type: E.Type,
                                       onSuccess: @escaping (Response<E>?) -> Void,
                                       onError: @escaping (RestError?) -> Void,
@@ -48,7 +47,7 @@ open class Service<R> where R: Routable {
         try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
     }
 
-    open func upload<E: NodeInitializable>(_ routes: R, type: E.Type,
+    open func upload<E: Codable>(_ routes: R, type: E.Type,
                                         onProgress: @escaping (Float) -> Void,
                                         onSuccess: @escaping (Response<E>?) -> Void,
                                         onError: @escaping (RestError?) -> Void,

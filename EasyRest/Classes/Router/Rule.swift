@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-import Genome
 
 open class Rule {
     open let isAuthenticable: Bool

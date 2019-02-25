@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Genome
 
 open class EasyRest {
     

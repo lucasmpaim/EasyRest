@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Genome
 
 public protocol OAuth2 : Authentication {
     

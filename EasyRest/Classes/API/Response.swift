@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import Genome
 
-open class Response<T> where T: NodeInitializable {
+open class Response<T> where T: Codable {
     open let httpStatusCode: Int?
     open let body: T?
     

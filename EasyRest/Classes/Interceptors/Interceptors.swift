@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import Genome
 import Alamofire
 
 public protocol Interceptor{
     
     init()
     
-    func requestInterceptor<T: NodeInitializable>(_ api: API<T>)
-    func responseInterceptor<T: NodeInitializable>(_ api: API<T>, response: DataResponse<Any>)
+    func requestInterceptor<T: Codable>(_ api: API<T>)
+    func responseInterceptor<T: Codable>(_ api: API<T>, response: DataResponse<Any>)
 }

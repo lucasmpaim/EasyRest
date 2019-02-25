@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import Genome
 import Alamofire
 import UIKit
 
-open class API <T> where T: NodeInitializable {
+open class API <T> where T: Codable {
     
     open var path: URLRequest
     open var queryParams: [String: String]?
@@ -77,9 +76,7 @@ open class API <T> where T: NodeInitializable {
                     if Utils.isSuccessfulRequest(response: response) {
                         var instance: T? = nil // For empty results
                         if let _ = response.result.value {
-                            if let node = try? response.data!.makeNode() {
-                                instance = try! T(node: node)
-                            }
+                            instance = try? JSONDecoder().decode(T.self, from: response.data!)
                         }
                         let responseBody = Response<T>(response.response?.statusCode, body: instance)
                         onSuccess(responseBody)

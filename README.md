@@ -11,9 +11,9 @@ After reviewing many REST clients for iOS , we realize that all are very verbose
 This library was born from the need to simplify the communication between client and server.
 
 ## Requirements
- - Swift 3+
+ - Swift 4+
 
-For Swift 2.2 and 2.3 check the branches.
+For Swift 2.2, 2.3 and 3 check the branches.
 
 ## Documentation
 You can read the doc's in this [wiki](https://github.com/lucasmpaim/EasyRest/wiki)
@@ -26,34 +26,14 @@ pod 'EasyRest'
 pod 'EasyRest/LoggerBeaver'
 ```
 
-### Swift 4
-If you are using Swift 4 add this to end of your podfile
-
-```
-post_install do |installer|
-    installer.pods_project.targets.each do |target|
-    compatibility_pods = ['Genome']
-        if compatibility_pods.include? target.name
-            target.build_configurations.each do |config|
-                config.build_settings['SWIFT_VERSION'] = '3.2'
-            end
-        end
-    end
-end
-
-```
 
 ## Model Example:
 ```swift
-class Post : BaseModel {
+class Post : Codable {
 
     var id: String?
     var title: String?
-
-    override func sequence(map: Map) throws {
-        try self.id <~> map["id"]
-        try self.title <~> map["title"]
-    }
+    
 }
 ```
 
@@ -138,7 +118,7 @@ class CurlInterceptor: Interceptor {
 ```
 
 # TODO
-- [ ] Remove Genome and use a Swift 4 Codable
+- [X] Remove Genome and use a Swift 4 Codable
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Create a Unit Tests

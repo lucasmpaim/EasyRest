@@ -7,10 +7,9 @@
 //
 
 import Foundation
-import Genome
 import Alamofire
 
-open class APIBuilder <T> where T: NodeInitializable {
+open class APIBuilder <T> where T: Codable {
     
     var path: String
     var queryParams: [String: String]?
@@ -106,8 +105,8 @@ open class APIBuilder <T> where T: NodeInitializable {
         }
     }
     
-    open func addBodyParameters(bodyParam: MappableBase) throws -> Self {
-        bodyParams = try bodyParam.foundationDictionary()
+    open func addBodyParameters<T: Encodable>(bodyParam: T) -> Self {
+        bodyParams = bodyParam.dictionary
         return self
     }
     
@@ -116,7 +115,7 @@ open class APIBuilder <T> where T: NodeInitializable {
             self.bodyParams = bodyParams
             return self
         }
-        
+
         for (key, value) in bodyParams {
             self.bodyParams![key] = value
         }
@@ -146,8 +145,8 @@ open class APIBuilder <T> where T: NodeInitializable {
     open func convertParameters(_ obj: Any) throws -> [String: Any]{
         if let _obj = obj as? [String: AnyObject] {
             return _obj
-        } else if let _obj = obj as? MappableBase {
-            return try! _obj.foundationDictionary()!
+        } else if let _obj = obj as? Encodable {
+            return _obj.dictionary!
         }
         throw RestError(rawValue: RestErrorType.invalidType.rawValue)
     }

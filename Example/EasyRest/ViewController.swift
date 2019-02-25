@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import EasyRest
+//import EasyRest
 
 class ViewController: UIViewController {
 

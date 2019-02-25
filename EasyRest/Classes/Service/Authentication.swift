@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-import Genome
 
 
 
@@ -25,7 +24,7 @@ public extension HasToken {
 
 
 public protocol Authentication : HasToken{
-    associatedtype tokenType: NodeInitializable
+    associatedtype tokenType: Codable
     
     var interceptor: AuthenticatorInterceptor {get}
     
