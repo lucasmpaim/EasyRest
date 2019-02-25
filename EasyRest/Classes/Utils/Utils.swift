@@ -26,10 +26,6 @@ public func ~=<I : Comparable>(pattern: Range<I>, value: I?) -> Bool where I : C
 
 
 extension String {
-    func removeLastCharacter() -> String {
-        return self.substring(to: self.characters.index(before: self.endIndex))
-    }
-    
     func replacePathLabels(_ dictionary : Dictionary<String, String>) -> String {
         var replacedString = self
         

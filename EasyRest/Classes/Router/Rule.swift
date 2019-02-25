@@ -10,12 +10,12 @@ import Foundation
 import Alamofire
 
 open class Rule {
-    open let isAuthenticable: Bool
+    public let isAuthenticable: Bool
     let path: String
     let method: HTTPMethod
-    let parameters: [ParametersType:  Any]
+    let parameters: [ParametersType:  Any?]
     
-    public init(method: HTTPMethod, path: String, isAuthenticable: Bool, parameters: [ParametersType:  Any]){
+    public init(method: HTTPMethod, path: String, isAuthenticable: Bool, parameters: [ParametersType:  Any?]){
         self.isAuthenticable = isAuthenticable
         self.path = path
         self.method = method

@@ -11,18 +11,19 @@ import Foundation
 
 public enum OAuth2Rotable: Routable {
     
-    case loginWithPassword(username: String, password: String)
+    case loginWithPassword(username: String, password: String, scopes: [String]?)
     case refreshToken(token: String)
     case convertToken(token: String, backend: String)
 
     public var rule: Rule {
         switch self {
-            case let .loginWithPassword(username, password):
+            case let .loginWithPassword(username, password, scopes):
                 return Rule(method: .post, path: "/token/", isAuthenticable: false, parameters: [
                         ParametersType.query : [
                                 "username": username,
                                 "password": password,
-                                "grant_type": "password"]
+                                "grant_type": "password",
+                                "scopes": scopes?.joined(separator: " ")]
                 ])
 
             case let .refreshToken(token):

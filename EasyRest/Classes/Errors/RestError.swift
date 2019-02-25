@@ -10,10 +10,10 @@ import Foundation
 
 open class RestError: Error {
     
-    open let cause: RestErrorType
-    open let httpResponseCode: Int?
-    open let rawResponse: Any?
-    open let rawResponseData: Data?
+    public let cause: RestErrorType
+    public let httpResponseCode: Int?
+    public let rawResponse: Any?
+    public let rawResponseData: Data?
     
     public init(rawValue: Int, rawIsHttpCode: Bool = false, rawResponse: Any? = nil, rawResponseData: Data? = nil) {
         if let _cause = RestErrorType(rawValue: rawValue) {
