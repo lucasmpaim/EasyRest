@@ -142,7 +142,7 @@ open class APIBuilder <T> where T: Codable {
         return api
     }
     
-    open func convertParameters(_ obj: Any) throws -> [String: Any]{
+    open func convertParameters(_ obj: Any?) throws -> [String: Any]{
         if let _obj = obj as? [String: AnyObject] {
             return _obj
         } else if let _obj = obj as? Encodable {

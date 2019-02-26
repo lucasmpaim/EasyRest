@@ -23,7 +23,7 @@ public enum OAuth2Rotable: Routable {
                                 "username": username,
                                 "password": password,
                                 "grant_type": "password",
-                                "scopes": scopes?.joined(separator: " ")]
+                                "scope": scopes?.joined(separator: " ")]
                 ])
 
             case let .refreshToken(token):
