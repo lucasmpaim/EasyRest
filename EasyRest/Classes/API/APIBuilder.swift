@@ -83,7 +83,7 @@ open class APIBuilder <T> where T: Codable {
         return self
     }
     
-    open func addParameteres(_ parameters: [ParametersType : Any]) throws {
+    open func addParameteres(_ parameters: [ParametersType : Any?]) throws {
         
         for (type, obj) in parameters {
             
@@ -115,7 +115,7 @@ open class APIBuilder <T> where T: Codable {
             self.bodyParams = bodyParams
             return self
         }
-
+        
         for (key, value) in bodyParams {
             self.bodyParams![key] = value
         }
