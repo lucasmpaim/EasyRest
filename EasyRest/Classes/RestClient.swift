@@ -10,7 +10,7 @@ import Foundation
 
 open class EasyRest {
     
-    open static let sharedInstance = EasyRest()
+    public static let sharedInstance = EasyRest()
     fileprivate var kServerDefaultEndPoint: String?
     
     open var globalLogClass : Loggable.Type = Logger.self

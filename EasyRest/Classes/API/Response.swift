@@ -9,8 +9,8 @@
 import Foundation
 
 open class Response<T> where T: Codable {
-    open let httpStatusCode: Int?
-    open let body: T?
+    public let httpStatusCode: Int?
+    public let body: T?
     
     init(_ statusCode: Int?, body: T?) {
         self.httpStatusCode = statusCode
