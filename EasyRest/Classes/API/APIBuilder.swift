@@ -58,14 +58,15 @@ open class APIBuilder <T> where T: Codable {
         return self
     }
     
-    open func addQueryParams(_ queryParams : [String: String]) ->  Self {
+    open func addQueryParams(_ queryParams : [String: CustomStringConvertible?]) ->  Self {
         if self.queryParams == nil{
-            self.queryParams = queryParams
-            return self
+            self.queryParams = [:]            
         }
         
-        for (key, value) in queryParams {
-            self.queryParams![key] = value
+        queryParams.forEach {
+            if let value = $1 {
+                self.queryParams![$0] = "\(value)"
+            }
         }
         
         return self

@@ -75,8 +75,13 @@ open class API <T> where T: Codable {
                 case .success:
                     if Utils.isSuccessfulRequest(response: response) {
                         var instance: T? = nil // For empty results
-                        if let _ = response.result.value {
-                            instance = try? JSONDecoder().decode(T.self, from: response.data!)
+                        do {
+                            if let _ = response.result.value {
+                                instance = try JSONDecoder().decode(T.self, from: response.data!)
+                            }
+                        } catch {
+                            self.logger?.error(error.localizedDescription)
+                            self.logger?.error(error)
                         }
                         let responseBody = Response<T>(response.response?.statusCode, body: instance)
                         onSuccess(responseBody)
