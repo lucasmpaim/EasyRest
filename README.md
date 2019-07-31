@@ -48,7 +48,7 @@ enum TestRoute: Routable{
     var rule: Rule {
         switch(self) {
             case let .me(name):
-                return Rule(method: .GET, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.query : ["name": name]])
+                return Rule(method: .get, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.query : ["name": name]])
             case let .post(id):
                 let parameters : [ParametersType: AnyObject] = [:]
                 return Rule(method: .get, path: "/api/v1/posts/\(id)/", isAuthenticable: true, parameters: parameters)
