@@ -13,7 +13,7 @@ open class CancelationToken <T> where T: Codable {
     weak var request: Request?
     weak var api: API<T>?
     
-    func cancel() {
+    open func cancel() {
         api?.cancelled = true
         request?.cancel()
     }

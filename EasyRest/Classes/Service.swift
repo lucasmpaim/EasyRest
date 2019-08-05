@@ -43,7 +43,7 @@ open class Service<R> where R: Routable {
                                       type: E.Type,
                                       onSuccess: @escaping (Response<E>?) -> Void,
                                       onError: @escaping (RestError?) -> Void,
-                                      always: @escaping () -> Void) throws -> CancelationToken<E>? {
+                                      always: @escaping () -> Void) throws -> CancelationToken<E> {
         let token = CancelationToken<E>()
         try builder(routes, type: type)
             .cancelToken(token: token)

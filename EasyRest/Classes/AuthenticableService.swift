@@ -27,7 +27,7 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         return builder
     }
     
-    override open func call<E: Codable>(_ routes: R, type: E.Type, onSuccess: @escaping (Response<E>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws -> CancelationToken<E>? {
+    override open func call<E: Codable>(_ routes: R, type: E.Type, onSuccess: @escaping (Response<E>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws -> CancelationToken<E> {
         
         let builder = try self.builder(routes, type: type)
         
