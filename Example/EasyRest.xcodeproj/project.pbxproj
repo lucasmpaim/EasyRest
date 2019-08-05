@@ -41,7 +41,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		60F5E3851D779943990D4850 /* Pods-EasyRest_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyRest_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example.release.xcconfig"; sourceTree = "<group>"; };
-		676C9091D1FCC9DCC2CF15BE /* EasyRest.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = EasyRest.podspec; path = ../EasyRest.podspec; sourceTree = "<group>"; };
+		676C9091D1FCC9DCC2CF15BE /* EasyRest.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = EasyRest.podspec; path = ../EasyRest.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		759647F06BD0CC0FCB5B79E9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		7A02B8560472A0196444D057 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		8B329A14E13DC163500D5D51 /* Pods_EasyRest_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyRest_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
