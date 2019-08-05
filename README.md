@@ -122,6 +122,7 @@ class CurlInterceptor: Interceptor {
 - [ ] Retry call
 - [ ] Send request so connect the Internet
 - [ ] Create a Unit Tests
+- [X] Cancel request
 - [X] Create a wiki
 - [X] Add a repsonse model for send extra information like http status code
 - [X] File Upload
