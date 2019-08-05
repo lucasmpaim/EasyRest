@@ -48,7 +48,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'LoggerBeaver' do |beaver|
     beaver.source_files = ['EasyRest/Classes/**/*', 'LoggerBeaver/Classes/**/*']
-    beaver.dependency 'SwiftyBeaver', '~> 1.6.2'
+    beaver.dependency 'SwiftyBeaver', '~> 1.7.0'
   end
 
 end

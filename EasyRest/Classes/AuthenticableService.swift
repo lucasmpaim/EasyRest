@@ -27,15 +27,16 @@ open class AuthenticableService<Auth: Authentication, R: Routable> : Service<R>,
         return builder
     }
     
-    override open func call<E: Codable>(_ routes: R, type: E.Type, onSuccess: @escaping (Response<E>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws {
+    override open func call<E: Codable>(_ routes: R, type: E.Type, onSuccess: @escaping (Response<E>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) throws -> CancelationToken<E>? {
         
         let builder = try self.builder(routes, type: type)
         
         if routes.rule.isAuthenticable && authenticator.getToken() == nil {
             throw RestError(rawValue: RestErrorType.authenticationRequired.rawValue)
         }
-        
-        builder.build().execute(onSuccess, onError: onError, always: always)
+        let token = CancelationToken<E>()
+        builder.cancelToken(token: token).build().execute(onSuccess, onError: onError, always: always)
+        return token
     }
 
     override open func upload<E: Codable>(_ routes: R, type: E.Type,

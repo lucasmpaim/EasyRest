@@ -43,8 +43,13 @@ open class Service<R> where R: Routable {
                                       type: E.Type,
                                       onSuccess: @escaping (Response<E>?) -> Void,
                                       onError: @escaping (RestError?) -> Void,
-                                      always: @escaping () -> Void) throws {
-        try builder(routes, type: type).build().execute(onSuccess, onError: onError, always: always)
+                                      always: @escaping () -> Void) throws -> CancelationToken<E>? {
+        let token = CancelationToken<E>()
+        try builder(routes, type: type)
+            .cancelToken(token: token)
+            .build()
+            .execute(onSuccess, onError: onError, always: always)
+        return token
     }
 
     open func upload<E: Codable>(_ routes: R, type: E.Type,
@@ -52,10 +57,13 @@ open class Service<R> where R: Routable {
                                         onSuccess: @escaping (Response<E>?) -> Void,
                                         onError: @escaping (RestError?) -> Void,
                                         always: @escaping () -> Void) throws {
-        try builder(routes, type: type).build().upload(
+        try builder(routes, type: type)
+            .build()
+            .upload(
                 onProgress,
                 onSuccess: onSuccess,
                 onError: onError,
-                always: always)
+                always: always
+        )
     }
 }

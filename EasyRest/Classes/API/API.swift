@@ -12,6 +12,8 @@ import UIKit
 
 open class API <T> where T: Codable {
     
+    var curl: String?
+    
     open var path: URLRequest
     open var queryParams: [String: String]?
     open var bodyParams: [String: Any]?
@@ -20,11 +22,12 @@ open class API <T> where T: Codable {
     open var interceptors: [Interceptor] = []
     open var logger: Loggable?
     
-    var curl: String?
+    var cancelled = false
     
-    var manager : Alamofire.SessionManager
+    fileprivate var cancelToken: CancelationToken<T>?
+    fileprivate var manager : Alamofire.SessionManager
     
-    let noNetWorkCodes = Set([
+    fileprivate let noNetWorkCodes = Set([
         NSURLErrorCannotFindHost,
         NSURLErrorCannotConnectToHost,
         NSURLErrorNetworkConnectionLost,
@@ -33,13 +36,15 @@ open class API <T> where T: Codable {
         NSURLErrorNotConnectedToInternet
         ])
     
-    public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?) {
+    public init(path: URL, method: HTTPMethod, queryParams: [String: String]?, bodyParams: [String: Any]?, headers: [String: String]?, interceptors: [Interceptor]?, cancelToken: CancelationToken<T>?) {
         
         self.path = try! URLRequest(url: path, method: method)
         
         self.queryParams = queryParams
         self.bodyParams = bodyParams
         self.method = method
+        self.cancelToken = cancelToken
+        
         if headers != nil {
             self.headers = headers!
         }
@@ -49,6 +54,8 @@ open class API <T> where T: Codable {
         manager = Alamofire.SessionManager(configuration: configuration)
         
         if interceptors != nil {self.interceptors.append(contentsOf: interceptors!)}
+
+        self.cancelToken?.api = self
     }
     
     func beforeRequest() {
@@ -65,6 +72,11 @@ open class API <T> where T: Codable {
         -> ((_ response: DataResponse<Any>) -> Void) {
             
             return { (response: DataResponse<Any>) -> Void in
+                
+                if self.cancelled {
+                    // Ignore the result if the request are canceled
+                    return
+                }
                 
                 for interceptor in self.interceptors {
                     interceptor.responseInterceptor(self, response: response)
@@ -116,7 +128,9 @@ open class API <T> where T: Codable {
         
         self.beforeRequest()
         
-        Alamofire.upload(multipartFormData: {form in
+//        let request = manager.requ
+        
+        Alamofire.upload(multipartFormData: { form in
             for (key,item) in self.bodyParams! {
                 assert(item is UIImage || item is Data)
                 if let _item = item as? UIImage {
@@ -127,7 +141,7 @@ open class API <T> where T: Codable {
                     form.append(data, withName: key, fileName: key, mimeType: "")
                 }
             }
-        }, usingThreshold: UInt64.init(), to: self.path.url!, method: .post, headers: self.headers, encodingCompletion: {result in
+        }, usingThreshold: UInt64.init(), to: self.path.url!, method: .post, headers: self.headers, encodingCompletion: { result in
             switch (result) {
             case .success(let upload, _, _):
                 upload.uploadProgress(closure: { progress in
@@ -153,6 +167,8 @@ open class API <T> where T: Codable {
         
         self.curl = request.debugDescription
         request.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
+        
+        cancelToken?.request = request
     }
     
 }

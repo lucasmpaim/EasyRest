@@ -17,7 +17,7 @@ open class APIBuilder <T> where T: Codable {
     var bodyParams: [String: Any]?
     var headers: [String: String]?
     var method: HTTPMethod?
-    
+    var cancelToken: CancelationToken<T>?
     var logger: Loggable?
     
     var interceptors: [Interceptor] = []
@@ -41,12 +41,17 @@ open class APIBuilder <T> where T: Codable {
         return self
     }
     
-    open func addInterceptor(_ interceptor: Interceptor) -> Self{
+    open func cancelToken(token: CancelationToken<T>) -> Self {
+        cancelToken = token
+        return self
+    }
+    
+    open func addInterceptor(_ interceptor: Interceptor) -> Self {
         interceptors.append(interceptor)
         return self
     }
     
-    open func addInterceptors(_ interceptors: [Interceptor]) -> Self{
+    open func addInterceptors(_ interceptors: [Interceptor]) -> Self {
         for interceptor in interceptors {
             self.interceptors.append(interceptor)
         }
@@ -138,7 +143,7 @@ open class APIBuilder <T> where T: Codable {
             self.interceptors.insert(interceptorType.init(), at: 0)
         }
         
-        let api = API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors)
+        let api = API<T>(path: path!, method: self.method!, queryParams: queryParams, bodyParams: bodyParams, headers: headers, interceptors: self.interceptors, cancelToken: cancelToken)
         api.logger = self.logger
         return api
     }
