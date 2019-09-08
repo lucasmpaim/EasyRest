@@ -287,7 +287,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyRest.default-LoggerBeaver/EasyRest.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
@@ -300,7 +300,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A63EB98E4F8124DACBFAD4AB /* [CP] Check Pods Manifest.lock */ = {
@@ -327,7 +327,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyRest/EasyRest.framework",
 			);
@@ -338,7 +338,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
