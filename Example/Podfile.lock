@@ -1,22 +1,36 @@
 PODS:
   - Alamofire (4.8.2)
-  - EasyRest (1.1.2):
+  - EasyRest (1.1.3):
     - Alamofire (~> 4.8.1)
-    - EasyRest/Core (= 1.1.2)
-  - EasyRest/Core (1.1.2):
+    - EasyRest/Core (= 1.1.3)
+  - EasyRest/Core (1.1.3):
     - Alamofire (~> 4.8.1)
-  - EasyRest/LoggerBeaver (1.1.2):
+  - EasyRest/LoggerBeaver (1.1.3):
     - Alamofire (~> 4.8.1)
     - SwiftyBeaver (~> 1.7.0)
+  - EasyRest/PromiseKit (1.1.3):
+    - Alamofire (~> 4.8.1)
+    - PromiseKit (~> 6.8)
+  - PromiseKit (6.11.0):
+    - PromiseKit/CorePromise (= 6.11.0)
+    - PromiseKit/Foundation (= 6.11.0)
+    - PromiseKit/UIKit (= 6.11.0)
+  - PromiseKit/CorePromise (6.11.0)
+  - PromiseKit/Foundation (6.11.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.11.0):
+    - PromiseKit/CorePromise
   - SwiftyBeaver (1.7.1)
 
 DEPENDENCIES:
   - EasyRest (from `../`)
   - EasyRest/LoggerBeaver (from `../`)
+  - EasyRest/PromiseKit (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - PromiseKit
     - SwiftyBeaver
 
 EXTERNAL SOURCES:
@@ -25,9 +39,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  EasyRest: 0d2cee49b6205fc353159eca108fe1c52bf87a4e
+  EasyRest: e8115acd2cf100b8f87caaca6dd80a57d9f53edf
+  PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
   SwiftyBeaver: da5e573ad583586c18236324c36900990afe1733
 
-PODFILE CHECKSUM: 56f17dea7e3a2db789913e7085354d7b0c86ecc9
+PODFILE CHECKSUM: 6be4a693ce99752e117bd76f25bfd994794c8ef7
 
 COCOAPODS: 1.7.5
