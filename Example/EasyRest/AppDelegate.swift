@@ -25,12 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         EasyRest.sharedInstance.globalLogClass = LoggerBeaver.self
         
         let service2 = Apis.Placeholder.OpenService()
-        try! service2.call(.post(id: 1), type: Posts.self, onSuccess: { (result) in
-
-            }, onError: { (error) in
-
-            }, always: {
-        })
+        try! service2.call(.post(id: 1), type: Posts.self)
+            .promise
+            .done { result in
+                print("RESPONSE ITEM ID: \(result?.body?.id)")
+            }.catch { error in
+                print("Error : \(error)")
+            }.finally {
+                print("This code will be called all the times")
+            }
         
         return true
     }

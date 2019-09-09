@@ -9,6 +9,6 @@ import Foundation
 import PromiseKit
 
 public struct PromiseResponse <T> where T: Codable {
-    let promise: Promise<Response<T>?>
-    let cancelToken: CancelationToken<T>?
+    public let promise: Promise<Response<T>?>
+    public let cancelToken: CancelationToken<T>?
 }
