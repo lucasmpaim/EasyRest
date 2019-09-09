@@ -24,6 +24,7 @@ To add EasyRest to your project, add the following in your podfile
 ```Ruby
 pod 'EasyRest'
 pod 'EasyRest/LoggerBeaver'
+pod 'EasyRest/PromiseKit'
 ```
 
 
