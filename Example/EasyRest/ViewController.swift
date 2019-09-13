@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     
     // Download image saving gradually to a file and use
     // Use this if you care about memory optimization
+    // It can fail if a file with same name already exists
     func downloadImageToStorage() {
         try! service.download(.documentDirectory, .bigImage, onProgress: {p in
             print("Progress: \(p)")

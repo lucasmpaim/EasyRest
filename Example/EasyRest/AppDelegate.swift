@@ -58,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //}
 
 class DefaultHeadersInterceptor : Interceptor {
-
     required init() {}
 
     func requestInterceptor<T: Codable>(_ api: API<T>) {
@@ -72,8 +71,6 @@ class DefaultHeadersInterceptor : Interceptor {
     func responseInterceptor<T: Codable, U>(_ api: API<T>, response: DataResponse<U>) {
 
     }
-
-
 }
 
 
