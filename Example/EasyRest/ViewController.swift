@@ -16,14 +16,15 @@ import ZIPFoundation
 
 class ViewController: UIViewController {
     @IBOutlet weak var image: UIImageView!
+    let service = DownloadUrlService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        downloadImage()
+        downloadImageToStorage()
     }
     
+    // Downloads image to memory and use
     func downloadImage() {
-        let service = DownloadUrlService()
         try! service.download(.bigImage, onProgress: {p in
             print("Progress: \(p)")
         }).promise
@@ -33,5 +34,19 @@ class ViewController: UIViewController {
             }.catch { error in
                 print("Error : \(error.localizedDescription)")
             }
+    }
+    
+    // Download image saving gradually to a file and use
+    // Use this if you care about memory optimization
+    func downloadImageToStorage() {
+        try! service.download(.documentDirectory, .bigImage, onProgress: {p in
+            print("Progress: \(p)")
+        }).promise
+            .done {[weak self] result in
+                guard let data = result?.body else { return }
+                self?.image.image = UIImage(data: data)
+            }.catch { error in
+                print("Error : \(error.localizedDescription)")
+        }
     }
 }

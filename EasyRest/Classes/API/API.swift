@@ -188,19 +188,44 @@ open class API <T> where T: Codable {
         cancelToken?.request = request
     }
     
-    // TODO: Download to file
-    //        Alamofire.download(
-    //            path.url!,
-    //            method: self.method,
-    //            parameters: self.bodyParams,
-    //            encoding: JSONEncoding.default,
-    //            headers: headers)
-    //            .responseData(completionHandler:
-    //                self.processResponse(onSuccess, onError: onError, always: always))
-    //            .downloadProgress(closure: {handler in
-    //                onProgress(Float(handler.fractionCompleted))
-    //            })
-    
+    open func download(
+        _ destination: FileManager.SearchPathDirectory,
+        _ onProgress: @escaping (_ progress: Float) -> Void,
+        onSuccess: @escaping (_ result: Response<Data>?) -> Void,
+        onError: @escaping (RestError?) -> Void,
+        always: @escaping () -> Void)
+    {
+        assert(self.method == .get)
+        self.beforeRequest()
+        
+        let destination = DownloadRequest.suggestedDownloadDestination(for: destination)
+        Alamofire.download(
+            path.url!,
+            method: self.method,
+            parameters: self.bodyParams,
+            encoding: JSONEncoding.default,
+            headers: headers,
+            to: destination)
+            .responseData(completionHandler: {response in
+                switch response.result {
+                case .success(_):
+                    let responseBody = Response(
+                        response.response?.statusCode,
+                        body: response.result.value)
+                    onSuccess(responseBody)
+                case .failure(_):
+                    onError(RestError(rawValue: RestErrorType.formEncodeError.rawValue,
+                                      rawIsHttpCode: false,
+                                      rawResponse: nil,
+                                      rawResponseData: nil))
+                }
+                
+                always()
+            })
+            .downloadProgress(closure: {handler in
+                onProgress(Float(handler.fractionCompleted))
+            })
+    }
     
     open func execute(
         _ onSuccess: @escaping (Response<T>?) -> Void,

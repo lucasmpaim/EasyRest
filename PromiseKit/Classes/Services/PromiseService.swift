@@ -7,12 +7,14 @@
 
 import Foundation
 import PromiseKit
+import Alamofire
 
 
 public extension Service where R : Routable {
     
-    func call<E>(_ routes: R, type: E.Type) throws -> PromiseResponse<E> where E: Codable {
-        
+    func call<E>(_ routes: R, type: E.Type)
+        throws -> PromiseResponse<E> where E: Codable
+    {
         let token = CancelationToken<E>()
         let builder = try self.builder(routes, type: type)
                                 .cancelToken(token: token)
@@ -28,7 +30,8 @@ public extension Service where R : Routable {
         }, cancelToken: token)
     }
     
-    func upload<E>(_ routes: R, type: E.Type, onProgress: @escaping (Float) -> Void) throws -> PromiseResponse<E> where E : Decodable, E : Encodable
+    func upload<E>(_ routes: R, type: E.Type, onProgress: @escaping (Float) -> Void)
+        throws -> PromiseResponse<E> where E : Decodable, E : Encodable
     {
         let builder = try self.builder(routes, type: type).build()
         return PromiseResponse(promise: Promise { seal in
@@ -45,7 +48,9 @@ public extension Service where R : Routable {
         }, cancelToken: nil)
     }
     
-    func download(_ routes: R, onProgress: @escaping (Float) -> Void) throws -> PromiseResponse<Data>
+    func download(_ routes: R,
+                  onProgress: @escaping (Float) -> Void)
+        throws -> PromiseResponse<Data>
     {
         let builder = try self.builder(routes, type: Data.self).build()
         return PromiseResponse(promise: Promise { seal in
@@ -54,11 +59,32 @@ public extension Service where R : Routable {
                 onSuccess: { response in
                     seal.fulfill(response)
                 },
-                    onError: { error in
-                        seal.reject(error ?? RestError(rawValue: RestErrorType.unknow.hashValue))
+                onError: { error in
+                    seal.reject(error ?? RestError(rawValue: RestErrorType.unknow.hashValue))
                 },
-                    always: {}
-                )
+                always: {}
+            )
+        }, cancelToken: nil)
+    }
+    
+    func download(_ destination: FileManager.SearchPathDirectory,
+                  _ routes: R,
+                  onProgress: @escaping (Float) -> Void)
+        throws -> PromiseResponse<Data>
+    {
+        let builder = try self.builder(routes, type: Data.self).build()
+        return PromiseResponse(promise: Promise { seal in
+            builder.download(
+                destination,
+                onProgress,
+                onSuccess: { response in
+                    seal.fulfill(response)
+                },
+                onError: { error in
+                    seal.reject(error ?? RestError(rawValue: RestErrorType.unknow.hashValue))
+                },
+                always: {}
+            )
         }, cancelToken: nil)
     }
 }
