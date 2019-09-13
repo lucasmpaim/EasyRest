@@ -11,14 +11,14 @@ import Foundation
 
 public enum RestErrorType: Int {
     
-    //MARK: Librarie error's
+    // MARK: Library errors
     case unknow    = 0
     case noNetwork = 1
     case invalidType = 2
     case authenticationRequired = 3
     case formEncodeError = 4
 
-    //MARK: Client HTTP Errors
+    // MARK: Client HTTP errors
     case badRequest = 400
     case unauthorized = 401
     case paymentRequired = 402
@@ -48,7 +48,7 @@ public enum RestErrorType: Int {
     case requestHeaderFieldsTooLarge = 431
     case unavailableForLegalReasons = 451
     
-    //Mark: Server HTTP Errors
+    // Mark: Server HTTP errors
     case internalServerError = 500
     case notImplemented = 501
     case badGateway = 502

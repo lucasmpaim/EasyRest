@@ -29,7 +29,7 @@ open class Service<R> where R: Routable {
     }
     
     open func builder<T: Codable>(_ routes: R,
-                                         type: T.Type) throws -> APIBuilder<T> {
+                                  type: T.Type) throws -> APIBuilder<T> {
         let builder = try routes.builder(base, type: type)
         builder.logger = self.loggerClass.init()
         builder.logger?.logLevel = self.loggerLevel
@@ -40,10 +40,10 @@ open class Service<R> where R: Routable {
     }
     
     open func call<E: Codable>(_ routes: R,
-                                      type: E.Type,
-                                      onSuccess: @escaping (Response<E>?) -> Void,
-                                      onError: @escaping (RestError?) -> Void,
-                                      always: @escaping () -> Void) throws -> CancelationToken<E> {
+                               type: E.Type,
+                               onSuccess: @escaping (Response<E>?) -> Void,
+                               onError: @escaping (RestError?) -> Void,
+                               always: @escaping () -> Void) throws -> CancelationToken<E> {
         let token = CancelationToken<E>()
         try builder(routes, type: type)
             .cancelToken(token: token)
@@ -51,12 +51,12 @@ open class Service<R> where R: Routable {
             .execute(onSuccess, onError: onError, always: always)
         return token
     }
-
+    
     open func upload<E: Codable>(_ routes: R, type: E.Type,
-                                        onProgress: @escaping (Float) -> Void,
-                                        onSuccess: @escaping (Response<E>?) -> Void,
-                                        onError: @escaping (RestError?) -> Void,
-                                        always: @escaping () -> Void) throws {
+                                 onProgress: @escaping (Float) -> Void,
+                                 onSuccess: @escaping (Response<E>?) -> Void,
+                                 onError: @escaping (RestError?) -> Void,
+                                 always: @escaping () -> Void) throws {
         try builder(routes, type: type)
             .build()
             .upload(
@@ -66,4 +66,20 @@ open class Service<R> where R: Routable {
                 always: always
         )
     }
+    
+    open func download(_ routes: R,
+                       onProgress: @escaping (Float) -> Void,
+                       onSuccess: @escaping (Response<Data>?) -> Void,
+                       onError: @escaping (RestError?) -> Void,
+                       always: @escaping () -> Void) throws {
+        try builder(routes, type: Data.self)
+            .build()
+            .download(
+                onProgress,
+                onSuccess: onSuccess,
+                onError: onError,
+                always: always
+        )
+    }
 }
+

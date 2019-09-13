@@ -13,7 +13,7 @@ open class APIBuilder <T> where T: Codable {
     
     var path: String
     var queryParams: [String: String]?
-    var pathParams: [String: String]?
+    var pathParams: [String: Any]?
     var bodyParams: [String: Any]?
     var headers: [String: String]?
     var method: HTTPMethod?
@@ -23,8 +23,7 @@ open class APIBuilder <T> where T: Codable {
     var interceptors: [Interceptor] = []
     
     let defaultInterceptors: [Interceptor.Type] = [
-        CurlInterceptor.self,
-        LoggerInterceptor.self
+        CurlInterceptor.self
     ]
     
     public init(basePath: String) {
@@ -58,13 +57,13 @@ open class APIBuilder <T> where T: Codable {
         return self
     }
     
-    open func logger(_ logger: Logger) -> Self{
+    open func logger(_ logger: Logger) -> Self {
         self.logger = logger
         return self
     }
     
     open func addQueryParams(_ queryParams : [String: CustomStringConvertible?]) ->  Self {
-        if self.queryParams == nil{
+        if self.queryParams == nil {
             self.queryParams = [:]            
         }
         
@@ -78,7 +77,7 @@ open class APIBuilder <T> where T: Codable {
     }
     
     open func addHeaders(_ headers: [String: String]) -> Self{
-        if self.headers == nil{
+        if self.headers == nil {
             self.headers = headers
             return self
         }
@@ -90,16 +89,14 @@ open class APIBuilder <T> where T: Codable {
     }
     
     open func addParameteres(_ parameters: [ParametersType : Any?]) throws {
-        
         for (type, obj) in parameters {
-            
             let params = try convertParameters(obj)
             
             switch type {
             case .body, .multiPart:
                 _ = addBodyParameters(params)
             case .path:
-                self.pathParams = params as? [String: String]
+                self.pathParams = params
             case .query:
                 if let queryParameters = params as? [String: String] {
                     _ = addQueryParams(queryParameters)

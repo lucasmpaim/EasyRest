@@ -11,7 +11,14 @@ import Alamofire
 
 
 class Utils {
-    static func isSuccessfulRequest(response: DataResponse<Any>) -> Bool {
+    static func isSuccessfulRequest<T>(response: DataResponse<T>) -> Bool {
+        guard let resp = response.response else {
+            return false
+        }
+        return 200...299 ~= resp.statusCode
+    }
+    
+    static func isSuccessfulRequest<T>(response: DownloadResponse<T>) -> Bool {
         guard let resp = response.response else {
             return false
         }
@@ -26,11 +33,12 @@ public func ~=<I : Comparable>(pattern: Range<I>, value: I?) -> Bool where I : C
 
 
 extension String {
-    func replacePathLabels(_ dictionary : Dictionary<String, String>) -> String {
+    func replacePathLabels(_ dictionary: [String: Any]) -> String {
         var replacedString = self
         
         for (key, value) in dictionary {
-            replacedString = replacedString.replacingOccurrences(of: "{\(key)}", with: value, options: NSString.CompareOptions.literal, range: nil)
+            replacedString = replacedString.replacingOccurrences(
+                of: "{\(key)}", with: "\(value)", options: NSString.CompareOptions.literal, range: nil)
         }
         
         return replacedString

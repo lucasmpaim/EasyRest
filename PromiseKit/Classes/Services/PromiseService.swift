@@ -11,7 +11,7 @@ import PromiseKit
 
 public extension Service where R : Routable {
     
-    func call<E>(_ routes: R, type: E.Type) throws -> PromiseResponse<E> where E : Decodable, E : Encodable {
+    func call<E>(_ routes: R, type: E.Type) throws -> PromiseResponse<E> where E: Codable {
         
         let token = CancelationToken<E>()
         let builder = try self.builder(routes, type: type)
@@ -28,13 +28,10 @@ public extension Service where R : Routable {
         }, cancelToken: token)
     }
     
-    func upload<E>(_ routes: R, type: E.Type, onProgress: @escaping (Float) -> Void) throws -> PromiseResponse<E> where E : Decodable, E : Encodable {
-        
-        let builder = try self.builder(routes, type: type)
-            .build()
-        
+    func upload<E>(_ routes: R, type: E.Type, onProgress: @escaping (Float) -> Void) throws -> PromiseResponse<E> where E : Decodable, E : Encodable
+    {
+        let builder = try self.builder(routes, type: type).build()
         return PromiseResponse(promise: Promise { seal in
-            
             builder.upload(
                 onProgress,
                 onSuccess: { response in
@@ -45,8 +42,23 @@ public extension Service where R : Routable {
                 },
                 always: {}
             )
-            
         }, cancelToken: nil)
     }
     
+    func download(_ routes: R, onProgress: @escaping (Float) -> Void) throws -> PromiseResponse<Data>
+    {
+        let builder = try self.builder(routes, type: Data.self).build()
+        return PromiseResponse(promise: Promise { seal in
+            builder.download(
+                onProgress,
+                onSuccess: { response in
+                    seal.fulfill(response)
+                },
+                    onError: { error in
+                        seal.reject(error ?? RestError(rawValue: RestErrorType.unknow.hashValue))
+                },
+                    always: {}
+                )
+        }, cancelToken: nil)
+    }
 }

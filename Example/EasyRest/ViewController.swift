@@ -7,19 +7,31 @@
 //
 
 import UIKit
-//import EasyRest
+
+import EasyRest
+import PromiseKit
+import Alamofire
+import SwiftyJSON
+import ZIPFoundation
 
 class ViewController: UIViewController {
+    @IBOutlet weak var image: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        downloadImage()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func downloadImage() {
+        let service = DownloadUrlService()
+        try! service.download(.bigImage, onProgress: {p in
+            print("Progress: \(p)")
+        }).promise
+            .done {[weak self] result in
+                guard let data = result?.body else { return }
+                self?.image.image = UIImage(data: data)
+            }.catch { error in
+                print("Error : \(error.localizedDescription)")
+            }
     }
-
 }
-

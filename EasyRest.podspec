@@ -45,15 +45,9 @@ Pod::Spec.new do |s|
 
   end
 
-
-  s.subspec 'LoggerBeaver' do |beaver|
-    beaver.source_files = ['EasyRest/Classes/**/*', 'LoggerBeaver/Classes/**/*']
-    beaver.dependency 'SwiftyBeaver', '~> 1.7.0'
-  end
-
-  s.subspec 'PromiseKit' do |beaver|
-    beaver.source_files = ['EasyRest/Classes/**/*', 'PromiseKit/Classes/**/*']
-    beaver.dependency 'PromiseKit', '~> 6.8'
+  s.subspec 'PromiseKit' do |promiseKit|
+    promiseKit.source_files = ['EasyRest/Classes/**/*', 'PromiseKit/Classes/**/*']
+    promiseKit.dependency 'PromiseKit', '~> 6.8'
   end
 
 end

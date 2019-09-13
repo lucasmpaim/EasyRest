@@ -9,7 +9,6 @@
 import Foundation
 
 open class RestError: Error {
-    
     public let cause: RestErrorType
     public let httpResponseCode: Int?
     public let rawResponse: Any?
@@ -26,5 +25,4 @@ open class RestError: Error {
         self.rawResponse = rawResponse
         self.rawResponseData = rawResponseData
     }
-    
 }

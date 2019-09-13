@@ -67,12 +67,12 @@ open class API <T> where T: Codable {
         }
     }
     
-    
-    open func processJSONResponse(_ onSuccess: @escaping (_ result: Response<T>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void)
-        -> ((_ response: DataResponse<Any>) -> Void) {
-            
-            return { (response: DataResponse<Any>) -> Void in
-                
+    open func processResponse<U>(
+        _ onSuccess: @escaping (_ result: Response<T>?) -> Void,
+        onError: @escaping (RestError?) -> Void,
+        always: @escaping () -> Void) -> ((_ response: DataResponse<U>) -> Void)
+    {
+            return { (response: DataResponse<U>) -> Void in
                 if self.cancelled {
                     // Ignore the result if the request are canceled
                     return
@@ -81,15 +81,22 @@ open class API <T> where T: Codable {
                 for interceptor in self.interceptors {
                     interceptor.responseInterceptor(self, response: response)
                 }
-                
-                
+
                 switch response.result {
                 case .success:
                     if Utils.isSuccessfulRequest(response: response) {
                         var instance: T? = nil // For empty results
                         do {
                             if let _ = response.result.value {
-                                instance = try JSONDecoder().decode(T.self, from: response.data!)
+                                if response.result.value is Data {
+                                    if response.result.value is T {
+                                        instance = response.result.value as? T
+                                    } else {
+                                        self.logger?.error("When downloading raw data, please provide T as Data")
+                                    }
+                                } else {
+                                    instance = try JSONDecoder().decode(T.self, from: response.data!)
+                                }
                             }
                         } catch {
                             self.logger?.error(error.localizedDescription)
@@ -105,16 +112,16 @@ open class API <T> where T: Codable {
                         onError(error)
                     }
                 case .failure(let _error):
-                    
+
                     let errorType = response.response?.statusCode ?? (self.noNetWorkCodes.contains(_error._code) ? RestErrorType.noNetwork.rawValue :RestErrorType.unknow.rawValue)
-                    
+
                     let error = RestError(rawValue: _error._code == NSURLErrorTimedOut ? RestErrorType.noNetwork.rawValue : errorType,
                                           rawIsHttpCode: true,
                                           rawResponse: response.result.value,
                                           rawResponseData: response.data)
                     onError(error)
                 }
-                
+
                 always()
             }
     }
@@ -125,10 +132,7 @@ open class API <T> where T: Codable {
         
         assert(self.method == .post)
         assert((self.bodyParams?.count ?? 0) == 1)
-        
         self.beforeRequest()
-        
-//        let request = manager.requ
         
         Alamofire.upload(multipartFormData: { form in
             for (key,item) in self.bodyParams! {
@@ -148,7 +152,7 @@ open class API <T> where T: Codable {
                     onProgress(Float(progress.fractionCompleted))
                 })
                 
-                upload.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
+                upload.responseJSON(completionHandler: self.processResponse(onSuccess, onError: onError, always: always))
             case .failure(_):
                 onError(RestError(rawValue: RestErrorType.formEncodeError.rawValue,
                                   rawIsHttpCode: false,
@@ -157,16 +161,59 @@ open class API <T> where T: Codable {
                 always()
             }
         })
-        
     }
     
-    open func execute( _ onSuccess: @escaping (Response<T>?) -> Void, onError: @escaping (RestError?) -> Void, always: @escaping () -> Void) {
+    open func download(
+        _ onProgress: @escaping (_ progress: Float) -> Void,
+        onSuccess: @escaping (_ result: Response<T>?) -> Void,
+        onError: @escaping (RestError?) -> Void,
+        always: @escaping () -> Void)
+    {
+        assert(self.method == .get)
+        self.beforeRequest()
+        
+        let request = manager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
+
+        self.curl = request.debugDescription
+        
+        let callback: ((_ response: DataResponse<Data>) -> Void) =
+            self.processResponse(onSuccess, onError: onError, always: always)
+
+        request
+            .responseData(completionHandler: callback)
+            .downloadProgress(closure: {handler in
+                onProgress(Float(handler.fractionCompleted))
+            })
+
+        cancelToken?.request = request
+    }
+    
+    // TODO: Download to file
+    //        Alamofire.download(
+    //            path.url!,
+    //            method: self.method,
+    //            parameters: self.bodyParams,
+    //            encoding: JSONEncoding.default,
+    //            headers: headers)
+    //            .responseData(completionHandler:
+    //                self.processResponse(onSuccess, onError: onError, always: always))
+    //            .downloadProgress(closure: {handler in
+    //                onProgress(Float(handler.fractionCompleted))
+    //            })
+    
+    
+    open func execute(
+        _ onSuccess: @escaping (Response<T>?) -> Void,
+        onError: @escaping (RestError?) -> Void,
+        always: @escaping () -> Void)
+    {
         self.beforeRequest()
         
         let request = manager.request(path.url!, method: self.method, parameters: bodyParams, encoding: JSONEncoding.default, headers: headers)
         
         self.curl = request.debugDescription
-        request.responseJSON(completionHandler: self.processJSONResponse(onSuccess, onError: onError, always: always))
+        request.responseJSON(completionHandler: self.processResponse(
+            onSuccess, onError: onError, always: always))
         
         cancelToken?.request = request
     }
