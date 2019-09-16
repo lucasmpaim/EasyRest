@@ -15,7 +15,7 @@ open class CurlInterceptor: Interceptor {
     
     open func requestInterceptor<T: Codable>(_ api: API<T>) {}
     
-    open func responseInterceptor<T: Codable>(_ api: API<T>, response: DataResponse<Any>) {
+    open func responseInterceptor<T: Codable, U>(_ api: API<T>, response: DataResponse<U>) {
         switch response.result {
         case .success:
             if let curl = api.curl {

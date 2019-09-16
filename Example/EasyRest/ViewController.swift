@@ -7,19 +7,47 @@
 //
 
 import UIKit
-//import EasyRest
+
+import EasyRest
+import PromiseKit
+import Alamofire
+import SwiftyJSON
+import ZIPFoundation
 
 class ViewController: UIViewController {
+    @IBOutlet weak var image: UIImageView!
+    let service = DownloadUrlService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        downloadImageToStorage()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // Downloads image to memory and use
+    func downloadImage() {
+        try! service.download(.bigImage, onProgress: {p in
+            print("Progress: \(p)")
+        }).promise
+            .done {[weak self] result in
+                guard let data = result?.body else { return }
+                self?.image.image = UIImage(data: data)
+            }.catch { error in
+                print("Error : \(error.localizedDescription)")
+            }
     }
-
+    
+    // Download image saving gradually to a file and use
+    // Use this if you care about memory optimization
+    // It can fail if a file with same name already exists
+    func downloadImageToStorage() {
+        try! service.download(.documentDirectory, .bigImage, onProgress: {p in
+            print("Progress: \(p)")
+        }).promise
+            .done {[weak self] result in
+                guard let data = result?.body else { return }
+                self?.image.image = UIImage(data: data)
+            }.catch { error in
+                print("Error : \(error.localizedDescription)")
+        }
+    }
 }
-

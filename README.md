@@ -23,7 +23,6 @@ To add EasyRest to your project, add the following in your podfile
 
 ```Ruby
 pod 'EasyRest'
-pod 'EasyRest/LoggerBeaver'
 pod 'EasyRest/PromiseKit'
 ```
 
@@ -38,7 +37,81 @@ class Post : Codable {
 }
 ```
 
-## Route Example:
+## Route Examples:
+
+```swift
+
+// Maps API calls and infos, like method and query params
+enum JsonPlaceholderRoutable: Routable {
+    // Each API interaction is a case
+    case posts
+    // Using query params
+    case postsFilter(userId: Int)
+    // Example with path
+    case post(id: Int)
+    case deletePost(id: Int)
+    // Example with body
+    case makePost(body: PostModel)
+    // Example with path, body and header
+    case editPost(id: Int, body: PostModel)
+    case editTitle(id: Int, body: PostModel)
+    
+    // Now test every possibility in a fashion Swift syntax
+    var rule: Rule {
+        switch(self) {
+        case .posts:
+            return Rule(
+                method: .get, // HTTP verb
+                path: "/posts/", // Endpoint
+                isAuthenticable: false, // Uses EasyRest Authenticated Service?
+                parameters: [:]) // query/path/header params? Header Body? Multipart form data? Put here!
+        case let .postsFilter(userId):
+            return Rule(
+                method: .get,
+                path: "/posts/",
+                isAuthenticable: false,
+                parameters: [.query: ["userId": "\(userId)"]])
+        case let .post(id):
+            return Rule(
+                method: .get,
+                path: "/posts/{id}/",
+                isAuthenticable: false,
+                parameters: [.path: ["id": id]])
+        case let .deletePost(id):
+            return Rule(
+                method: .delete,
+                path: "/posts/{id}/",
+                isAuthenticable: false,
+                parameters: [.path: ["id": id]])
+        case let .makePost(body):
+            return Rule(
+                method: .post,
+                path: "/posts/",
+                isAuthenticable: false,
+                parameters: [.body: body])
+        case let .editPost(id, body):
+            return Rule(
+                method: .put,
+                path: "/posts/{id}",
+                isAuthenticable: false,
+                parameters: [
+                    .path: ["id": id],
+                    .body: body,
+                    .header: ["Content-type": "application/json; charset=UTF-8"]])
+        case let .editTitle(id, body):
+            return Rule(
+                method: .patch,
+                path: "/posts/{id}",
+                isAuthenticable: false,
+                parameters: [
+                    .path: ["id": id],
+                    .body: body,
+                    .header: ["Content-type": "application/json; charset=UTF-8"]])
+        }
+    }
+}
+```
+
 ```swift
 
 enum TestRoute: Routable{
@@ -52,7 +125,7 @@ enum TestRoute: Routable{
                 return Rule(method: .get, path: "/api/v1/users/me/", isAuthenticable: true, parameters: [.query : ["name": name]])
             case let .post(id):
                 let parameters : [ParametersType: AnyObject] = [:]
-                return Rule(method: .get, path: "/api/v1/posts/\(id)/", isAuthenticable: true, parameters: parameters)
+                return Rule(method: .get, path: "/api/v1/posts/\(id)/",   isAuthenticable: true, parameters: parameters)
             }
     }
 
@@ -60,7 +133,7 @@ enum TestRoute: Routable{
 
 ```
 
-## Service Example
+## Service Examples
 ```swift
 
 class TestRouteService : OAuth2Service<TestRoute> {
@@ -97,24 +170,45 @@ class TestRouteService : OAuth2Service<TestRoute> {
 }
 ```
 
+We also suport PromiseKit calls:
+
+```swift
+class JsonPlaceholderService : Service<JsonPlaceholderRoutable> {
+    override public var base: String { return "https://jsonplaceholder.typicode.com" }
+}
+```
+
+And then:
+
+```swift
+let service = JsonPlaceholderService()
+try! service.call(.post(id: 1), type: PostModel.self).promise
+    .done { result in
+        print("RESPONSE ITEM ID: \(result!.body!.id!)")
+    }.catch { error in
+        print("Error : \(error.localizedDescription)")
+    }.finally {
+        print("This code will be called all the time")
+    }
+```
 
 ## Interceptor Example:
 
 ```swift
-class CurlInterceptor: Interceptor {
-
+class DefaultHeadersInterceptor : Interceptor {
     required init() {}
 
-    func requestInterceptor<T: MappableBase>(api: API<T>) {}
-
-    func responseInterceptor<T: MappableBase>(api: API<T>, response: Alamofire.Response<AnyObject, NSError>) {
-        if Utils.isSuccessfulRequest(response) {
-            api.logger.info("\(api.curl!)")
-        }else{
-            api.logger.error("\(api.curl!)")
-        }
+    func requestInterceptor<T: Codable>(_ api: API<T>) {
+        api.headers["Content-Type"] = "application/json"
+        api.headers["Accept"] = "application/json"
+        api.headers["Device-Token"] = "8ec3bba7de23cda5e8a2726c081be79204faede67529e617b625c984d61cf5c1"
+        api.headers["Device-Agent"] = "iOS_SANDBOX"
+        api.headers["Accept-Language"] = "pt-br"
     }
 
+    func responseInterceptor<T: Codable, U>(_ api: API<T>, response: DataResponse<U>) {
+
+    }
 }
 ```
 
@@ -122,7 +216,9 @@ class CurlInterceptor: Interceptor {
 - [X] Remove Genome and use a Swift 4 Codable
 - [ ] Retry call
 - [ ] Send request so connect the Internet
-- [ ] Create a Unit Tests
+- [X] Create Unit Tests for main functionalities
+- [ ] Create Unit Tests for authenticable services
+- [ ] Create Unit Tests for multpart-data uploads
 - [X] Cancel request
 - [X] Create a wiki
 - [X] Add a repsonse model for send extra information like http status code
@@ -130,13 +226,14 @@ class CurlInterceptor: Interceptor {
 - [X] Improve request Syntax
 - [X] Error Handler
 - [X] Add support for coloring in AppCode
+- [X] Download files in memory
+- [X] Download files directily to storage (memory optimal)
 
 # Third party libraries and references
-- Alamofire    https://github.com/Alamofire/Alamofire
-- Genome       https://github.com/LoganWright/Genome
-- Endpoint     https://github.com/devxoul/Endpoint
-- Reachability https://github.com/ashleymills/Reachability.swift
-- [SwiftyBeaver](http://swiftybeaver.com/)
+- [Alamofire](https://github.com/Alamofire/Alamofire)
+- [Endpoint](https://github.com/devxoul/Endpoint)
+- [Reachability](https://github.com/ashleymills/Reachability.swift)
+- [PromiseKit](https://github.com/mxcl/PromiseKit)
 
 # LICENSE
 EasyRest is available under the MIT license. See the LICENSE file for more info.

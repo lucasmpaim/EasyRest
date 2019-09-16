@@ -8,12 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		21F2A349AB96C9758F9903BA /* Pods_EasyRest_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B329A14E13DC163500D5D51 /* Pods_EasyRest_Tests.framework */; };
+		2632854223296F9200FC7339 /* JsonPlaceholderRoutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2632854123296F9200FC7339 /* JsonPlaceholderRoutable.swift */; };
+		263285452329704600FC7339 /* JsonPlaceholderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263285442329704600FC7339 /* JsonPlaceholderService.swift */; };
+		263285482329792500FC7339 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263285472329792500FC7339 /* PostModel.swift */; };
+		2632854923297CBB00FC7339 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263285472329792500FC7339 /* PostModel.swift */; };
+		2632854A23297CBF00FC7339 /* JsonPlaceholderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263285442329704600FC7339 /* JsonPlaceholderService.swift */; };
+		2632854B23297CC100FC7339 /* JsonPlaceholderRoutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2632854123296F9200FC7339 /* JsonPlaceholderRoutable.swift */; };
+		26328552232ADCD300FC7339 /* DownloadUrlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26328551232ADCD300FC7339 /* DownloadUrlService.swift */; };
+		26328556232ADDFB00FC7339 /* DownloadUrlRoutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26328555232ADDFB00FC7339 /* DownloadUrlRoutable.swift */; };
+		26328559232ADFFC00FC7339 /* DownloadTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26328557232ADF3C00FC7339 /* DownloadTest.swift */; };
+		2632855A232AE00600FC7339 /* DownloadUrlRoutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26328555232ADDFB00FC7339 /* DownloadUrlRoutable.swift */; };
+		2632855B232AE00800FC7339 /* DownloadUrlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26328551232ADCD300FC7339 /* DownloadUrlService.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		607FACEC1AFB9204008FA782 /* HelloWorldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* HelloWorldTest.swift */; };
 		9DD6002898A1D38506F38EC3 /* Pods_EasyRest_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16531207D5B3F31E80ED918B /* Pods_EasyRest_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +41,12 @@
 /* Begin PBXFileReference section */
 		16531207D5B3F31E80ED918B /* Pods_EasyRest_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyRest_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E830AD09BD38562025132DF /* Pods-EasyRest_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyRest_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		2632854123296F9200FC7339 /* JsonPlaceholderRoutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPlaceholderRoutable.swift; sourceTree = "<group>"; };
+		263285442329704600FC7339 /* JsonPlaceholderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonPlaceholderService.swift; sourceTree = "<group>"; };
+		263285472329792500FC7339 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		26328551232ADCD300FC7339 /* DownloadUrlService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadUrlService.swift; sourceTree = "<group>"; };
+		26328555232ADDFB00FC7339 /* DownloadUrlRoutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadUrlRoutable.swift; sourceTree = "<group>"; };
+		26328557232ADF3C00FC7339 /* DownloadTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTest.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* EasyRest_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyRest_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,7 +56,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* EasyRest_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyRest_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* HelloWorldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloWorldTest.swift; sourceTree = "<group>"; };
 		60F5E3851D779943990D4850 /* Pods-EasyRest_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyRest_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example.release.xcconfig"; sourceTree = "<group>"; };
 		676C9091D1FCC9DCC2CF15BE /* EasyRest.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = EasyRest.podspec; path = ../EasyRest.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		759647F06BD0CC0FCB5B79E9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -78,6 +95,80 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2632853D23296ED100FC7339 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				2632853F23296EF500FC7339 /* model */,
+				2632853E23296EEC00FC7339 /* service */,
+				2632854123296F9200FC7339 /* JsonPlaceholderRoutable.swift */,
+			);
+			name = api;
+			sourceTree = "<group>";
+		};
+		2632853E23296EEC00FC7339 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				263285442329704600FC7339 /* JsonPlaceholderService.swift */,
+			);
+			name = service;
+			sourceTree = "<group>";
+		};
+		2632853F23296EF500FC7339 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				263285472329792500FC7339 /* PostModel.swift */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		2632854323296FD600FC7339 /* util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		263285462329706400FC7339 /* Hello World Example */ = {
+			isa = PBXGroup;
+			children = (
+				2632853D23296ED100FC7339 /* api */,
+			);
+			name = "Hello World Example";
+			sourceTree = "<group>";
+		};
+		2632854F232ADC8D00FC7339 /* Download Example */ = {
+			isa = PBXGroup;
+			children = (
+				26328550232ADCB500FC7339 /* api */,
+			);
+			name = "Download Example";
+			sourceTree = "<group>";
+		};
+		26328550232ADCB500FC7339 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				26328553232ADDCA00FC7339 /* model */,
+				26328554232ADDD000FC7339 /* service */,
+				26328555232ADDFB00FC7339 /* DownloadUrlRoutable.swift */,
+			);
+			name = api;
+			sourceTree = "<group>";
+		};
+		26328553232ADDCA00FC7339 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		26328554232ADDD000FC7339 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				26328551232ADCD300FC7339 /* DownloadUrlService.swift */,
+			);
+			name = service;
+			sourceTree = "<group>";
+		};
 		2834AEAEACCA50B98EAE8FD8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,12 +204,15 @@
 		607FACD21AFB9204008FA782 /* Example for EasyRest */ = {
 			isa = PBXGroup;
 			children = (
+				607FACD31AFB9204008FA782 /* Supporting Files */,
+				263285462329706400FC7339 /* Hello World Example */,
+				2632854F232ADC8D00FC7339 /* Download Example */,
+				2632854323296FD600FC7339 /* util */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
-				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for EasyRest";
 			path = EasyRest;
@@ -135,8 +229,9 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				607FACEB1AFB9204008FA782 /* HelloWorldTest.swift */,
+				26328557232ADF3C00FC7339 /* DownloadTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -213,6 +308,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = Z2AQRMWEPF;
 						LastSwiftMigration = 0810;
 					};
 					607FACE41AFB9204008FA782 = {
@@ -289,16 +385,18 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Example/Pods-EasyRest_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/EasyRest.default-LoggerBeaver-PromiseKit/EasyRest.framework",
+				"${BUILT_PRODUCTS_DIR}/EasyRest/EasyRest.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyRest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -332,11 +430,17 @@
 				"${PODS_ROOT}/Target Support Files/Pods-EasyRest_Tests/Pods-EasyRest_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyRest/EasyRest.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyRest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -350,8 +454,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2632854223296F9200FC7339 /* JsonPlaceholderRoutable.swift in Sources */,
+				263285482329792500FC7339 /* PostModel.swift in Sources */,
+				263285452329704600FC7339 /* JsonPlaceholderService.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				26328556232ADDFB00FC7339 /* DownloadUrlRoutable.swift in Sources */,
+				26328552232ADCD300FC7339 /* DownloadUrlService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +468,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				26328559232ADFFC00FC7339 /* DownloadTest.swift in Sources */,
+				607FACEC1AFB9204008FA782 /* HelloWorldTest.swift in Sources */,
+				2632854923297CBB00FC7339 /* PostModel.swift in Sources */,
+				2632855B232AE00800FC7339 /* DownloadUrlService.swift in Sources */,
+				2632854A23297CBF00FC7339 /* JsonPlaceholderService.swift in Sources */,
+				2632854B23297CC100FC7339 /* JsonPlaceholderRoutable.swift in Sources */,
+				2632855A232AE00600FC7339 /* DownloadUrlRoutable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,7 +545,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -469,7 +584,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -482,7 +597,7 @@
 			baseConfigurationReference = FFD0B60AF7618BCC45500846 /* Pods-EasyRest_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z2AQRMWEPF;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -504,7 +619,7 @@
 			baseConfigurationReference = 60F5E3851D779943990D4850 /* Pods-EasyRest_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z2AQRMWEPF;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",

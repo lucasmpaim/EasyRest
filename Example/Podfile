@@ -4,11 +4,13 @@ use_frameworks!
 
 target 'EasyRest_Example' do
   pod 'EasyRest', :path => '../'
-  pod 'EasyRest/LoggerBeaver', :path => '../'
   pod 'EasyRest/PromiseKit', :path => '../'
 end
 
 target 'EasyRest_Tests' do
   pod 'EasyRest', :path => '../'
+  pod 'EasyRest/PromiseKit', :path => '../'
+  pod 'SwiftyJSON'
+  pod 'ZIPFoundation'
 end
 

@@ -11,7 +11,6 @@ import Alamofire
 
 
 class LoggerInterceptor : Interceptor {
-    
     weak var bodyParams: AnyObject?
     
     required init() {}
@@ -20,7 +19,7 @@ class LoggerInterceptor : Interceptor {
         self.bodyParams = api.bodyParams as AnyObject?
     }
     
-    func responseInterceptor<T: Codable>(_ api: API<T>, response: DataResponse<Any>) {
+    func responseInterceptor<T: Codable, U>(_ api: API<T>, response: DataResponse<U>) {
         
         if let _ = response.result.value {
             
@@ -29,14 +28,14 @@ class LoggerInterceptor : Interceptor {
             }else{
                 self.logError(api, response: response)
             }
-        
+            
         }else{
             self.logError(api, response: response)
         }
         
     }
-
-    func logSucess<T: Codable>(_ api: API<T>, response: DataResponse<Any>){
+    
+    func logSucess<T: Codable, U>(_ api: API<T>, response: DataResponse<U>){
         api.logger?.info("==============================================================================")
         api.logger?.info("request URI: \(response.request!.httpMethod!) \(String(describing: response.request!.url))")
         api.logger?.info("request headers:\n\(response.request!.allHTTPHeaderFields!)")
@@ -54,7 +53,7 @@ class LoggerInterceptor : Interceptor {
         api.logger?.info("==============================================================================")
     }
     
-    func logError<T: Codable>(_ api: API<T>, response: DataResponse<Any>) {
+    func logError<T: Codable, U>(_ api: API<T>, response: DataResponse<U>) {
         api.logger?.error("==============================================================================")
         api.logger?.error("request URI: \(response.request!.httpMethod!) \(String(describing: response.request!.url))")
         api.logger?.error("request headers:\n\(response.request!.allHTTPHeaderFields!)")
