@@ -170,7 +170,7 @@ class TestRouteService : OAuth2Service<TestRoute> {
 }
 ```
 
-We also suport PromiseKit calls:
+We also support PromiseKit calls:
 
 ```swift
 class JsonPlaceholderService : Service<JsonPlaceholderRoutable> {
