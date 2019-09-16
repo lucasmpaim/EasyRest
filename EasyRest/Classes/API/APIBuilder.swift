@@ -23,7 +23,8 @@ open class APIBuilder <T> where T: Codable {
     var interceptors: [Interceptor] = []
     
     let defaultInterceptors: [Interceptor.Type] = [
-        CurlInterceptor.self
+        CurlInterceptor.self,
+        LoggerInterceptor.self
     ]
     
     public init(basePath: String) {
