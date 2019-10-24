@@ -228,6 +228,7 @@ class DefaultHeadersInterceptor : Interceptor {
 - [X] Add support for coloring in AppCode
 - [X] Download files in memory
 - [X] Download files directily to storage (memory optimal)
+- [ ] Cache system based on NSCache
 
 # Third party libraries and references
 - [Alamofire](https://github.com/Alamofire/Alamofire)
