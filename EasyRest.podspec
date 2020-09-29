@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.default_subspec = 'Core'
 
-  s.source_files = 'EasyRest/Classes/**/*'
+  s.source_files = 'Sources/EasyRest/Classes/**/*'
 # s.resource_bundles = {
 #    'EasyRest' => ['EasyRest/Assets/*.png']
 #  }
@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'PromiseKit' do |promiseKit|
-    promiseKit.source_files = ['EasyRest/Classes/**/*', 'PromiseKit/Classes/**/*']
+    promiseKit.source_files = ['Sources/EasyRest/Classes/**/*', 'Sources/PromiseKit/Classes/**/*']
     promiseKit.dependency 'PromiseKit', '~> 6.8'
   end
 

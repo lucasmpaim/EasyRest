@@ -11,8 +11,6 @@ import UIKit
 import EasyRest
 import PromiseKit
 import Alamofire
-import SwiftyJSON
-import ZIPFoundation
 
 class ViewController: UIViewController {
     @IBOutlet weak var image: UIImageView!
