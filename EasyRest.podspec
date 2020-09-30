@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "EasyRest"
-  s.version          = "1.2.3"
+  s.version          = "1.2.4"
   s.summary          = "A simple RestClient for iOS."
 
 # This description is used to generate tags and improve search results.
@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'PromiseKit' do |promiseKit|
-    promiseKit.source_files = ['Sources/EasyRest/Classes/**/*', 'Sources/PromiseKit/Classes/**/*']
+    promiseKit.source_files = ['Sources/EasyRest/Classes/**/*', 'Sources/EasyRest/PromiseKit/Classes/**/*']
     promiseKit.dependency 'PromiseKit', '~> 6.8'
   end
 
