@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "EasyRest"
-  s.version          = "1.2.0"
+  s.version          = "1.2.3"
   s.summary          = "A simple RestClient for iOS."
 
 # This description is used to generate tags and improve search results.
