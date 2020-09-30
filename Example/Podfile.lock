@@ -1,11 +1,11 @@
 PODS:
   - Alamofire (4.8.2)
-  - EasyRest (1.1.2):
+  - EasyRest (1.2.0):
     - Alamofire (~> 4.8.1)
-    - EasyRest/Core (= 1.1.2)
-  - EasyRest/Core (1.1.2):
+    - EasyRest/Core (= 1.2.0)
+  - EasyRest/Core (1.2.0):
     - Alamofire (~> 4.8.1)
-  - EasyRest/PromiseKit (1.1.2):
+  - EasyRest/PromiseKit (1.2.0):
     - Alamofire (~> 4.8.1)
     - PromiseKit (~> 6.8)
   - PromiseKit (6.11.0):
@@ -27,7 +27,7 @@ DEPENDENCIES:
   - ZIPFoundation
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - PromiseKit
     - SwiftyJSON
@@ -39,11 +39,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  EasyRest: 2e416c3c3bf32244cd2dcb511ec2466fd1f0d48f
+  EasyRest: 197e4afb6299f7ba0e096a4a9de5e9e0e56822d4
   PromiseKit: e4863d06976e7dee5e41c04fc7371c16b3600292
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   ZIPFoundation: 89df685c971926b0323087952320bdfee9f0b6ef
 
-PODFILE CHECKSUM: 0b718ecaf07828967095eef9904e27a6eb71c47e
+PODFILE CHECKSUM: 81140fd3d29f87f3fe8bdf1664e9fc1db667cde7
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.3
